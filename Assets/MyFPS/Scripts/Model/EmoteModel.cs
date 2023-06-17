@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Model : MonoBehaviour
+public class EmoteModel : MonoBehaviour
 {
-    public PlayerModel playerModel;
-    public EmoteModel emoteModel;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -18,4 +15,6 @@ public class Model : MonoBehaviour
     {
         
     }
+
+
 }
