@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
+using UnityEngine.UI;
+using System;
 
 public class PlayerModel : MonoBehaviour
 {
@@ -13,10 +15,11 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private float runAnimatonSpeed = 1f;
     [SerializeField] private float rotateSpeed = 0.7f;
     [SerializeField] private float walkInputRange = 0.65f;
-    [SerializeField] private float jumpForce;
+    [SerializeField] private float jumpForce = 200f;
 
     [SerializeField] private Joystick moveJoystick;
     [SerializeField] private Joystick rotateJoystick;
+    [SerializeField] private Button jumpButton;
     [SerializeField] private Camera cam;
 
 
@@ -37,7 +40,7 @@ public class PlayerModel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        jumpButton.OnClickAsObservable().Subscribe(_=> OnClickJumpButton()).AddTo(this);
     }
 
     private void FixedUpdate()
@@ -96,5 +99,12 @@ public class PlayerModel : MonoBehaviour
     void Update()
     {
     }
+
+    private void OnClickJumpButton()
+    {
+        rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        Debug.Log("dddffs");
+    }
+
 
 }
