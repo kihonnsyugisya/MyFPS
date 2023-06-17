@@ -15,8 +15,10 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private float walkInputRange = 0.65f;
     [SerializeField] private float jumpForce;
 
+    [SerializeField] private Joystick moveJoystick;
+    [SerializeField] private Joystick rotateJoystick;
+    [SerializeField] private Camera cam;
 
-    public FloatingJoystick joystick;
 
     [HideInInspector] Animator animator;
     [HideInInspector] public new Rigidbody rigidbody;
@@ -40,11 +42,11 @@ public class PlayerModel : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float vertical = joystick.Vertical;
-        float horizontal = joystick.Horizontal;
+        float vertical = moveJoystick.Vertical;
+        float horizontal = moveJoystick.Horizontal;
         float tilt = Mathf.Abs(vertical) > Mathf.Abs(horizontal) ? Mathf.Abs(vertical) : Mathf.Abs(horizontal);
         var translation = transform.forward * (vertical * Time.fixedDeltaTime);
-        Quaternion rotation = transform.rotation * Quaternion.Euler(0, horizontal * rotateSpeed, 0);
+        Quaternion rotation = transform.rotation * Quaternion.Euler(0, rotateJoystick.Horizontal * rotateSpeed, 0);
         float moveSpeed;
         float animSpeed;
 
@@ -73,11 +75,20 @@ public class PlayerModel : MonoBehaviour
         animator.SetFloat("WalkSpeed", animSpeed);
 
         rigidbody.MovePosition(translation);
+        rigidbody.rotation = rotation;
+
+
+        cam.transform.Rotate(-rotateJoystick.Vertical * rotateSpeed, 0, 0);
+        float camAngle = cam.transform.localEulerAngles.x;
+        if (camAngle < 5f) camAngle = 5f;
+        if (camAngle > 20f) camAngle = 20f;
+        cam.transform.localEulerAngles = new Vector3(camAngle,0f,0f);
+
+        //Debug.Log(cam.transform.localEulerAngles.x);
         //Debug.Log("vert " + joystick.Vertical);
         //Debug.Log("horizon " + joystick.Horizontal);
 
         //Debug.Log(tilt);
-
 
     }
 
