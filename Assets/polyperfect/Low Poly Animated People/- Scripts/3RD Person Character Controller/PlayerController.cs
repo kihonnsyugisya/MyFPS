@@ -71,7 +71,7 @@ namespace Polyperfect.People
 
         bool Grounded()
         {
-            return true;
+            //return true;
             return Physics.Raycast(transform.position, -Vector3.up, distToGround, 9);
         }
     }

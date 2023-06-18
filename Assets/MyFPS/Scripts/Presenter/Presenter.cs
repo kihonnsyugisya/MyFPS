@@ -10,7 +10,7 @@ public class Presenter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        model.emoteModel.MakeEmoteButtonList(model.playerModel.animator);
     }
 
     // Update is called once per frame

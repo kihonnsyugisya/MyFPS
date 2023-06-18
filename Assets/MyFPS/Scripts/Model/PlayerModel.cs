@@ -21,10 +21,9 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private Joystick rotateJoystick;
     [SerializeField] private Button jumpButton;
     [SerializeField] private Camera cam;
+    [HideInInspector] private new Rigidbody rigidbody;
 
-
-    [HideInInspector] Animator animator;
-    [HideInInspector] public new Rigidbody rigidbody;
+    [HideInInspector] public Animator animator;
 
     public float distToGround;
     public bool isGrounded; 
@@ -57,7 +56,7 @@ public class PlayerModel : MonoBehaviour
         {
             animSpeed = walkAnimationSpeed;
             moveSpeed = walkSpeed;
-            Debug.Log("walkspeed適用中");
+            //Debug.Log("walkspeed適用中");
         }
         else
         {
@@ -65,7 +64,7 @@ public class PlayerModel : MonoBehaviour
             horizontal *= 1.2f;
             animSpeed = runAnimatonSpeed;
             moveSpeed = runSpeed;
-            Debug.Log("runspeed適用中");
+            //Debug.Log("runspeed適用中");
         }
 
         translation += transform.right * (horizontal * Time.fixedDeltaTime);
