@@ -36,7 +36,8 @@ public class EmoteModel : MonoBehaviour
     private void OnclickEmoteButon(Animator animator, string emoteName)
     {
         Debug.Log(emoteName);        
-        animator.CrossFadeInFixedTime(emoteName, 0.1f);
+        //animator.CrossFadeInFixedTime(emoteName, 0);
+        animator.Play(emoteName);
     }
 
 
