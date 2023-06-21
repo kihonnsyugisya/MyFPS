@@ -4,5 +4,15 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
-  m_configObjects: {}
+  m_Scenes:
+  - enabled: 1
+    path: Assets/MyFPS/Scenes/SampleScene.unity
+    guid: b1215c0342c83f942855244282d05625
+  - enabled: 0
+    path: Assets/polyperfect/Low Poly Animated People/Character Viewer.unity
+    guid: 3df87ca332c2c3443bfffd899df5da06
+  m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: f7c9aa698d2cc48bd84e4ad3f69d8af3,
+      type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
+      guid: c8b485c21c20648a392fe76b10ffa40d, type: 2}
