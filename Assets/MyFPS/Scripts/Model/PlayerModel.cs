@@ -8,7 +8,7 @@ using System;
 
 public class PlayerModel : MonoBehaviour
 {
-
+    
     [SerializeField] private float walkSpeed = 1.5f;
     [SerializeField] private float walkAnimationSpeed = 2.2f;
     [SerializeField] private float runSpeed = 3.5f;
@@ -26,7 +26,9 @@ public class PlayerModel : MonoBehaviour
     [HideInInspector] public Animator animator;
 
     public float distToGround;
-    public bool isGrounded; 
+    public bool isGrounded;
+
+    public ItemManager itemManager;
 
 
     private void Awake()

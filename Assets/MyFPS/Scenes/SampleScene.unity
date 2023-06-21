@@ -1156,6 +1156,7 @@ GameObject:
   - component: {fileID: 589126594}
   - component: {fileID: 589126593}
   - component: {fileID: 589126595}
+  - component: {fileID: 589126596}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -1205,6 +1206,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollContent: {fileID: 1090374299}
+--- !u!114 &589126596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589126592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74d855053f5c4e448c37e55e089fdce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gunItemDataBase:
+  - {fileID: 11400000, guid: 25e93f4c706d7bb49a81c6ff8076577f, type: 2}
 --- !u!1 &630771478
 GameObject:
   m_ObjectHideFlags: 0
@@ -1985,6 +2000,20 @@ MonoBehaviour:
   animator: {fileID: 0}
   distToGround: 0
   isGrounded: 0
+  itemManager: {fileID: 1376927223}
+--- !u!114 &1376927223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051131466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bf4dea7480222c42910aeda336588d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemDataBase: {fileID: 589126596}
 --- !u!1 &1419592581
 GameObject:
   m_ObjectHideFlags: 0
@@ -2930,6 +2959,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1376927219}
+    - targetCorrespondingSourceObject: {fileID: 6656097000227532582, guid: 45fda48861dbd464d86471f1c1e79872,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1376927223}
   m_SourcePrefab: {fileID: 100100000, guid: 45fda48861dbd464d86471f1c1e79872, type: 3}
 --- !u!1001 &2119590556
 PrefabInstance:

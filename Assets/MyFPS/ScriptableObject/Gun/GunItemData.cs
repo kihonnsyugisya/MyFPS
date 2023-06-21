@@ -1,10 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-[CreateAssetMenu(menuName = "ScriptableObject/GunItemData")]
+[CreateAssetMenu(menuName = "ScriptableObject/ItemDataBase")]
 public class GunItemData : ItemSourceData
 {
     public float atkPoint;
