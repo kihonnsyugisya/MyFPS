@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemManager : MonoBehaviour
+public class GunItem : Item
 {
-    public ItemDataBase itemDataBase;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,4 +15,10 @@ public class ItemManager : MonoBehaviour
     {
         
     }
+
+    public void FullAutoShot()
+    { }
+
+    public void SemiAutoShot()
+    { }
 }
