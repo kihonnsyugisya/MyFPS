@@ -19,21 +19,7 @@ public class ItemInfoPlate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CustumLookAt();
+        transform.LookAt(Camera.main.transform);
     }
-    [SerializeField] Vector3 f;
-    private void CustumLookAt()
-    {
-        // ターゲットへの向きベクトル計算
-        var dir = Camera.main.transform.position - transform.position;
-
-        // ターゲットの方向への回転
-        var lookAtRotation = Quaternion.LookRotation(dir, Vector3.up);
-        // 回転補正
-        var offsetRotation = Quaternion.FromToRotation(f, Vector3.forward);
-
-        // 回転補正→ターゲット方向への回転の順に、自身の向きを操作する
-        transform.rotation = lookAtRotation * offsetRotation;
-    }
-    
+ 
 }
