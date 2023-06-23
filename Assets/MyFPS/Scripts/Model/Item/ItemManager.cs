@@ -72,12 +72,15 @@ public class ItemManager : MonoBehaviour
     public void UseItem()
     { }
 
+    private int? currentDispItemInfoPlateID;
+
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
         if (!other.CompareTag("Item")) return;
         if (other.TryGetComponent(out Item item))
         {
+            if (currentDispItemInfoPlateID == other.GetInstanceID()) return;
+            currentDispItemInfoPlateID = other.GetInstanceID();
             DispItemInfoPlate(other.transform,item);
         }
     }
@@ -85,6 +88,7 @@ public class ItemManager : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag("Item")) return;
+        currentDispItemInfoPlateID = null;
         UnDispItemInfoPlate();
 
     }
