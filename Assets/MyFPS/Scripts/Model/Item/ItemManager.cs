@@ -22,42 +22,44 @@ public class ItemManager : MonoBehaviour
         
     }
 
-    private ItemSourceData GetItemSourceData(ItemType itemType,int itemID)
+    private ItemSourceData GetItemSourceData(Item item)
     {
-        List<ItemSourceData> result = itemType switch
+        List<ItemSourceData> result = item.itemType switch
         {
             ItemType.GUN => new(itemDataBase.gunItemDataBase),
             _ => new(),
         };
-        return result[itemID];
+        return result[item.itemId];
     }
 
 
     private GunItemData GetGunItemData(int itemID)
     {
+        Debug.Log("get item");
         return itemDataBase.gunItemDataBase[itemID];
     }
 
-    public void GetItem(ItemType itemType, int itemID)
+    public void GetItem(Item item)
     {
-        switch (itemType)
+        switch (item.itemType)
         {
             case ItemType.GUN:
-                gunItemSlot[currentGunItem] = GetGunItemData(itemID);
+                gunItemSlot[currentGunItem] = GetGunItemData(item.itemId);
                 break;
         }
     }
 
-    public void DispItemInfoPlate(Transform item,ItemSourceData itemData)
+    public void DispItemInfoPlate(Transform parent,Item item)
     {
-        Vector3 pos = item.position;
+        Vector3 pos = parent.position;
         pos.y += 0.7f; 
-        GameObject instance = Instantiate(itemInfoPlateObj,pos,Quaternion.identity,item);
+        GameObject instance = Instantiate(itemInfoPlateObj,pos,Quaternion.identity,parent);
         dispItemPlates.Add(instance);
         if (instance.TryGetComponent(out ItemInfoPlate iip))
         {
-            iip.itemIcon.sprite = itemData.itemeIcon;
-            iip.itemName.text = itemData.itemName;
+            iip.itemIcon.sprite = GetItemSourceData(item).itemeIcon;
+            iip.itemName.text = item.name;
+            iip.pickUpButton.onClick.AddListener(()=> GetItem(item));
         }
 
     }
@@ -76,8 +78,7 @@ public class ItemManager : MonoBehaviour
         if (!other.CompareTag("Item")) return;
         if (other.TryGetComponent(out Item item))
         {
-            ItemSourceData i = GetItemSourceData(item.itemType,item.itemId);
-            DispItemInfoPlate(other.transform,i);
+            DispItemInfoPlate(other.transform,item);
         }
     }
 
