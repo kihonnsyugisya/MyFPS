@@ -47,6 +47,7 @@ public class ItemManager : MonoBehaviour
                 gunItemSlot[currentGunItem] = GetGunItemData(item.itemId);
                 break;
         }
+        Destroy(item.gameObject);
     }
 
     public void DispItemInfoPlate(Transform parent,Item item)
