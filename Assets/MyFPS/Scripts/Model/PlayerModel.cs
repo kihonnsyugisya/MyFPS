@@ -20,7 +20,7 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private Joystick moveJoystick;
     [SerializeField] private Joystick rotateJoystick;
     [SerializeField] private Button jumpButton;
-    [SerializeField] private Camera cam;
+    [SerializeField] private Transform eye;
     [HideInInspector] private new Rigidbody rigidbody;
 
     [HideInInspector] public Animator animator;
@@ -49,7 +49,7 @@ public class PlayerModel : MonoBehaviour
         float vertical = moveJoystick.Vertical;
         float horizontal = moveJoystick.Horizontal;
         float tilt = Mathf.Abs(vertical) > Mathf.Abs(horizontal) ? Mathf.Abs(vertical) : Mathf.Abs(horizontal);
-        var translation = transform.forward * (vertical * Time.fixedDeltaTime);
+        var translation = transform.forward * (vertical * Time.deltaTime);
         Quaternion rotation = transform.rotation * Quaternion.Euler(0, rotateJoystick.Horizontal * rotateSpeed, 0);
         float moveSpeed;
         float animSpeed;
@@ -58,35 +58,36 @@ public class PlayerModel : MonoBehaviour
         {
             animSpeed = walkAnimationSpeed;
             moveSpeed = walkSpeed;
-            //Debug.Log("walkspeed適用中");
+            Debug.Log("walkspeed適用中");
         }
         else
         {
             vertical *= 2f;
-            horizontal *= 1.2f;
+            horizontal *= 1.2f; 
             animSpeed = runAnimatonSpeed;
             moveSpeed = runSpeed;
-            //Debug.Log("runspeed適用中");
+            Debug.Log("runspeed適用中");
         }
 
-        translation += transform.right * (horizontal * Time.fixedDeltaTime);
+        translation += transform.right * (horizontal * Time.deltaTime);
         translation *= moveSpeed;
         translation += rigidbody.position;
 
-        animator.SetFloat("Vertical", vertical, 0.1f, Time.fixedDeltaTime);
-        animator.SetFloat("Horizontal", horizontal, 0.1f, Time.fixedDeltaTime);
+        animator.SetFloat("Vertical", vertical,0.1f,Time.deltaTime);
+        animator.SetFloat("Horizontal", horizontal,0.1f,Time.deltaTime);
 
         animator.SetFloat("WalkSpeed", animSpeed);
 
         rigidbody.MovePosition(translation);
         rigidbody.rotation = rotation;
 
+        const float ROTATE_LIMIT = 0.1f;
+        eye.transform.Translate(0,rotateJoystick.Vertical * rotateSpeed * ROTATE_LIMIT,0);
+        Vector3 camAngle = eye.position;
+        if(camAngle.y > 2.5f) camAngle.y = 2.5f;
+        if(camAngle.y < 1.5f) camAngle.y = 1.5f;
+        eye.transform.position = camAngle;
 
-        cam.transform.Rotate(-rotateJoystick.Vertical * rotateSpeed, 0, 0);
-        float camAngle = cam.transform.localEulerAngles.x;
-        if (camAngle < 5f) camAngle = 5f;
-        if (camAngle > 20f) camAngle = 20f;
-        cam.transform.localEulerAngles = new Vector3(camAngle,0f,0f);
 
         //Debug.Log(cam.transform.localEulerAngles.x);
         //Debug.Log("vert " + joystick.Vertical);
