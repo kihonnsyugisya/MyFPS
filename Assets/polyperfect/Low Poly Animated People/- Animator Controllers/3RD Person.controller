@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1107 &-9115207054596865945
+AnimatorStateMachine:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Gun Aiming Layer
+  m_ChildStates: []
+  m_ChildStateMachines: []
+  m_AnyStateTransitions: []
+  m_EntryTransitions: []
+  m_StateMachineTransitions: {}
+  m_StateMachineBehaviours: []
+  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_EntryPosition: {x: 50, y: 120, z: 0}
+  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
+  m_DefaultState: {fileID: 0}
 --- !u!1107 &-8854903543756116320
 AnimatorStateMachine:
   serializedVersion: 6
@@ -124,7 +143,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gun Layer
+  m_Name: Gun Idle Layer
   m_ChildStates: []
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
@@ -359,13 +378,28 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: Gun Layer
+    m_Name: Gun Idle Layer
     m_StateMachine: {fileID: -5069653188168246467}
     m_Mask: {fileID: 31900000, guid: 948d9e4ca3b121b41b31d1cea042e69b, type: 2}
     m_Motions:
     - serializedVersion: 2
       m_State: {fileID: 1102678183168865642}
       m_Motion: {fileID: 7400000, guid: 06a1ab69bbf9c954f96ffae69ec1556a, type: 2}
+    m_Behaviours: []
+    m_BlendingMode: 0
+    m_SyncedLayerIndex: 0
+    m_DefaultWeight: 0
+    m_IKPass: 0
+    m_SyncedLayerAffectsTiming: 0
+    m_Controller: {fileID: 9100000}
+  - serializedVersion: 5
+    m_Name: Gun Aiming Layer
+    m_StateMachine: {fileID: -9115207054596865945}
+    m_Mask: {fileID: 31900000, guid: 948d9e4ca3b121b41b31d1cea042e69b, type: 2}
+    m_Motions:
+    - serializedVersion: 2
+      m_State: {fileID: 1102678183168865642}
+      m_Motion: {fileID: 7400000, guid: 55296cbcd81b7a94da043d86721a30f3, type: 2}
     m_Behaviours: []
     m_BlendingMode: 0
     m_SyncedLayerIndex: 0

@@ -71,7 +71,7 @@ public class PlayerModel : MonoBehaviour
         translation += transform.right * (horizontal * Time.deltaTime);
         translation *= moveSpeed;
         translation += rigidbody.position;
-
+        
         animator.SetFloat("Vertical", vertical,0.1f,Time.deltaTime);
         animator.SetFloat("Horizontal", horizontal,0.1f,Time.deltaTime);
 
@@ -106,10 +106,20 @@ public class PlayerModel : MonoBehaviour
         //rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         //Debug.Log("dddffs");
 
-        //ジャンプ、エイム、ジョイスティック等の操作系UIはviewにわけること
-        float w = animator.GetLayerWeight(1) == 0 ? 1f : 0; 
-        animator.SetLayerWeight(1, w);
+        //ジャンプ、エイム、ジョイスティック等の操作系UIはviewにわけること        
+        PlayHasGun();
     }
 
+    private void PlayAiming()
+    {
+        float w = animator.GetLayerWeight(2) == 0 ? 1f : 0;
+        animator.SetLayerWeight(2, w);
+    }
+
+    private void PlayHasGun()
+    {
+        float w = animator.GetLayerWeight(1) == 0 ? 1f : 0;
+        animator.SetLayerWeight(1, w);
+    }
 
 }
