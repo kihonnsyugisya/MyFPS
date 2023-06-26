@@ -30,7 +30,6 @@ public class PlayerModel : MonoBehaviour
 
     public ItemManager itemManager;
 
-
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -104,8 +103,12 @@ public class PlayerModel : MonoBehaviour
 
     private void OnClickJumpButton()
     {
-        rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        Debug.Log("dddffs");
+        //rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        //Debug.Log("dddffs");
+
+        //ジャンプ、エイム、ジョイスティック等の操作系UIはviewにわけること
+        float w = animator.GetLayerWeight(1) == 0 ? 1f : 0; 
+        animator.SetLayerWeight(1, w);
     }
 
 
