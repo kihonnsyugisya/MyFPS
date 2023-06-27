@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 public class ItemManager : MonoBehaviour
 {
     public ItemDataBase itemDataBase;
-    public GunItemData[] gunItemSlot = new GunItemData[2];
+    public ReactiveCollection<GunItemData> gunItemSlot = new();
     public int currentGunItem = 0;
     private List<GameObject> dispItemPlates = new();
 
@@ -43,11 +44,20 @@ public class ItemManager : MonoBehaviour
     {
         switch (item.itemType)
         {
-            case ItemType.GUN:
-                gunItemSlot[currentGunItem] = GetGunItemData(item.itemId);
+            case ItemType.GUN:                
+                gunItemSlot[GetGunItemSlotIndex()] = GetGunItemData(item.itemId);
                 break;
         }
         Destroy(item.gameObject);
+    }
+
+    private int GetGunItemSlotIndex()
+    {
+        int result;
+        if (!gunItemSlot[0]) result = 0;
+        else if (!gunItemSlot[1]) result = 1;
+        else result = currentGunItem;
+        return result;
     }
 
     public void DispItemInfoPlate(Transform parent,Item item)
