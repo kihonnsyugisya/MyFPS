@@ -8,8 +8,10 @@ public class ItemManager : MonoBehaviour
     public ItemDataBase itemDataBase;
     public ReactiveCollection<GunItemData> gunItemSlot = new();
     public int currentGunItem = 0;
-    private List<GameObject> dispItemPlates = new();
-
+    public List<GameObject> dispItemPlates = new();
+    public Transform shoulderWeaponPoint;
+    public Transform handWeaponPoint;
+ 
     [SerializeField] private GameObject itemInfoPlateObj;
     // Start is called before the first frame update
     void Start()
@@ -103,4 +105,12 @@ public class ItemManager : MonoBehaviour
         UnDispItemInfoPlate();
 
     }
+
+    public void ShowShoulderWeapon()
+    {
+        if(shoulderWeaponPoint)
+    }
+
+    public void ShowHandWeapon()
+    { }
 }
