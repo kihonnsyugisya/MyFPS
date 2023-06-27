@@ -107,7 +107,13 @@ public class PlayerModel : MonoBehaviour
         //Debug.Log("dddffs");
 
         //ジャンプ、エイム、ジョイスティック等の操作系UIはviewにわけること        
-        PlayHasGun();
+        PlaySwitchWeapon();
+    }
+
+    private void PlaySwitchWeapon()
+    {
+        animator.SetTrigger("SwitchWeapon");
+
     }
 
     private void PlayAiming()
