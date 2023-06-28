@@ -293,7 +293,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Switch Weapon
-  m_Speed: 3
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 4151492048205846520}
@@ -306,7 +306,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 9e2486c0efbbc6341a203c7eba2e4d6d, type: 2}
+  m_Motion: {fileID: 7400000, guid: 88aa97d98ce57d34bb2bd1fd5e8ad51d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -445,7 +445,7 @@ AnimatorController:
       m_Motion: {fileID: 7400000, guid: 39e784873c6242c4e8477f7fd8f10576, type: 2}
     - serializedVersion: 2
       m_State: {fileID: -1943770858792954520}
-      m_Motion: {fileID: 7400000, guid: 9e2486c0efbbc6341a203c7eba2e4d6d, type: 2}
+      m_Motion: {fileID: 7400000, guid: 88aa97d98ce57d34bb2bd1fd5e8ad51d, type: 2}
     m_Behaviours: []
     m_BlendingMode: 0
     m_SyncedLayerIndex: 0
@@ -460,10 +460,10 @@ AnimatorController:
     m_Motions:
     - serializedVersion: 2
       m_State: {fileID: 1102678183168865642}
-      m_Motion: {fileID: 7400000, guid: 55296cbcd81b7a94da043d86721a30f3, type: 2}
+      m_Motion: {fileID: 7400000, guid: 49a7aaf515fc4834da16bd64768dc29d, type: 2}
     - serializedVersion: 2
       m_State: {fileID: -1943770858792954520}
-      m_Motion: {fileID: 7400000, guid: 9e2486c0efbbc6341a203c7eba2e4d6d, type: 2}
+      m_Motion: {fileID: 7400000, guid: 88aa97d98ce57d34bb2bd1fd5e8ad51d, type: 2}
     m_Behaviours: []
     m_BlendingMode: 0
     m_SyncedLayerIndex: 0
@@ -534,7 +534,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: cfa835ec428fbc04487000a50aa4cf1b, type: 3}
+    m_Motion: {fileID: 7400000, guid: 8d9da227cf21f4f4f87cc1e0ec76c3db, type: 2}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1

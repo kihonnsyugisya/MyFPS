@@ -15,4 +15,14 @@ public class WeaponView : MonoBehaviour
     {
         
     }
+
+    public void EquipmentWeapon()
+    { 
+        
+    }
+
+    public void CarryWeapon()
+    { 
+        
+    }
 }

@@ -6,13 +6,14 @@ using UniRx;
 public class ItemManager : MonoBehaviour
 {
     public ItemDataBase itemDataBase;
-    public ReactiveCollection<GunItemData> gunItemSlot = new();
-    public int currentGunItem = 0;
+    public List<GunItemData> gunItemSlot = new();
     public List<GameObject> dispItemPlates = new();
     public Transform shoulderWeaponPoint;
     public Transform handWeaponPoint;
- 
+
     [SerializeField] private GameObject itemInfoPlateObj;
+
+    [HideInInspector] public int currentGunItemSlotIndex = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -46,20 +47,34 @@ public class ItemManager : MonoBehaviour
     {
         switch (item.itemType)
         {
-            case ItemType.GUN:                
-                gunItemSlot[GetGunItemSlotIndex()] = GetGunItemData(item.itemId);
+            case ItemType.GUN:
+                if (gunItemSlot.Count == 2)
+                {
+                    gunItemSlot[currentGunItemSlotIndex] = GetGunItemData(item.itemId);
+                    ShowWeapon(item.transform, true);
+                }
+                else {
+                    gunItemSlot.Add(GetGunItemData(item.itemId));
+                    ShowWeapon(item.transform, false);
+                }
                 break;
         }
-        Destroy(item.gameObject);
+        UnDispItemInfoPlate();
     }
 
-    private int GetGunItemSlotIndex()
+    private (int index,bool isOverRide) GetGunItemSlotState()
     {
-        int result;
-        if (!gunItemSlot[0]) result = 0;
-        else if (!gunItemSlot[1]) result = 1;
-        else result = currentGunItem;
-        return result;
+        int index;
+        bool isOverRide = false;
+        Debug.Log(gunItemSlot[0]);
+        if (gunItemSlot.Count == 0) index = 0;
+        else if (!gunItemSlot[1]) index = 1;
+        else {
+            index = currentGunItemSlotIndex;
+            isOverRide = true;
+        }
+        Debug.Log(index);
+        return (index,isOverRide);
     }
 
     public void DispItemInfoPlate(Item item)
@@ -80,6 +95,7 @@ public class ItemManager : MonoBehaviour
 
     public void UnDispItemInfoPlate()
     {
+        currentDispItemInfoPlateID = null;
         foreach (var itemPlate in dispItemPlates) Destroy(itemPlate);
     }
 
@@ -101,17 +117,27 @@ public class ItemManager : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Item")) return;
-        currentDispItemInfoPlateID = null;
+        if (!other.CompareTag("Item")) return;       
         UnDispItemInfoPlate();
 
     }
 
-    public void ShowShoulderWeapon()
+
+    public void ShowWeapon(Transform getItem,bool isCarry)
     {
-        if(shoulderWeaponPoint) 
+        Transform targetPoint;
+        if (isCarry) targetPoint = shoulderWeaponPoint;
+        else targetPoint = handWeaponPoint;
+
+        if (targetPoint.childCount != 0) 
+        {
+            Transform hasWeapon;
+            hasWeapon = targetPoint.GetChild(0).transform;
+            hasWeapon.position = getItem.position;
+            hasWeapon.parent = null;
+        }
+        getItem.SetParent(targetPoint);
+        getItem.position = targetPoint.position;
     }
 
-    public void ShowHandWeapon()
-    { }
 }
