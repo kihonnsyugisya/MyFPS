@@ -14,6 +14,7 @@ public class ItemManager : MonoBehaviour
     [SerializeField] private GameObject itemInfoPlateObj;
 
     [HideInInspector] public int currentGunItemSlotIndex = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,7 +54,13 @@ public class ItemManager : MonoBehaviour
                     gunItemSlot[currentGunItemSlotIndex] = GetGunItemData(item.itemId);
                     ShowWeapon(item.transform, true);
                 }
-                else {
+                else if(gunItemSlot.Count == 1)
+                {
+                    gunItemSlot.Add(GetGunItemData(item.itemId));
+                    ShowWeapon(item.transform, true);
+                }
+                else
+                {
                     gunItemSlot.Add(GetGunItemData(item.itemId));
                     ShowWeapon(item.transform, false);
                 }
@@ -66,8 +73,7 @@ public class ItemManager : MonoBehaviour
     {
         int index;
         bool isOverRide = false;
-        Debug.Log(gunItemSlot[0]);
-        if (gunItemSlot.Count == 0) index = 0;
+        if (gunItemSlot.Count == 2) index = 0;
         else if (!gunItemSlot[1]) index = 1;
         else {
             index = currentGunItemSlotIndex;
@@ -137,7 +143,8 @@ public class ItemManager : MonoBehaviour
             hasWeapon.parent = null;
         }
         getItem.SetParent(targetPoint);
-        getItem.position = targetPoint.position;
+        getItem.localPosition = getItem.localEulerAngles = Vector3.zero;
+        
     }
 
 }
