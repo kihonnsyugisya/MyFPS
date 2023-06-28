@@ -62,8 +62,9 @@ public class ItemManager : MonoBehaviour
         return result;
     }
 
-    public void DispItemInfoPlate(Transform parent,Item item)
+    public void DispItemInfoPlate(Item item)
     {
+        Transform parent = item.transform;
         Vector3 pos = parent.position;
         pos.y += 0.7f; 
         GameObject instance = Instantiate(itemInfoPlateObj,pos,Quaternion.identity,parent);
@@ -94,7 +95,7 @@ public class ItemManager : MonoBehaviour
         {
             if (currentDispItemInfoPlateID == other.GetInstanceID()) return;
             currentDispItemInfoPlateID = other.GetInstanceID();
-            DispItemInfoPlate(other.transform,item);
+            DispItemInfoPlate(item);
         }
     }
 
@@ -108,7 +109,7 @@ public class ItemManager : MonoBehaviour
 
     public void ShowShoulderWeapon()
     {
-        if(shoulderWeaponPoint)
+        if(shoulderWeaponPoint) 
     }
 
     public void ShowHandWeapon()
