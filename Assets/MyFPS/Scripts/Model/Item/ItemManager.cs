@@ -6,14 +6,17 @@ using UniRx;
 public class ItemManager : MonoBehaviour
 {
     public ItemDataBase itemDataBase;
-    public List<GunItemData> gunItemSlot = new();
-    public List<GameObject> dispItemPlates = new();
     public Transform shoulderWeaponPoint;
     public Transform handWeaponPoint;
+    public BoolReactiveProperty hasHandWeapon = new(false);
 
     [SerializeField] private GameObject itemInfoPlateObj;
 
+    [HideInInspector] public List<GunItemData> gunItemSlot = new();
+    [HideInInspector] public List<GameObject> dispItemPlates = new();
     [HideInInspector] public int currentGunItemSlotIndex = 0;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +67,7 @@ public class ItemManager : MonoBehaviour
                     gunItemSlot.Add(GetGunItemData(item.itemId));
                     ShowWeapon(item.transform, false);
                 }
+                hasHandWeapon.Value = true;
                 break;
         }
         UnDispItemInfoPlate();

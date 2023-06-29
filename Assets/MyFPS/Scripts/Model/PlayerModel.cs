@@ -110,22 +110,29 @@ public class PlayerModel : MonoBehaviour
         PlaySwitchWeapon();
     }
 
-    private void PlaySwitchWeapon()
+    public void PlaySwitchWeapon()
     {
         animator.SetTrigger("SwitchWeapon");
 
     }
 
-    private void PlayAiming()
+    public void PlayAiming(bool play)
     {
-        float w = animator.GetLayerWeight(2) == 0 ? 1f : 0;
-        animator.SetLayerWeight(2, w);
+        if (play)
+        {
+            animator.SetLayerWeight(1, 0);
+            float w = animator.GetLayerWeight(2) == 0 ? 1f : 0;
+            animator.SetLayerWeight(2, w);
+        }
+        else { 
+            animator.SetLayerWeight(2, 0);
+            animator.SetLayerWeight(1, 1f);
+        }
     }
 
-    private void PlayHasGun()
+    public void PlayHasGun()
     {
-        float w = animator.GetLayerWeight(1) == 0 ? 1f : 0;
-        animator.SetLayerWeight(1, w);
+        animator.SetLayerWeight(1, 1f);
     }
 
 }
