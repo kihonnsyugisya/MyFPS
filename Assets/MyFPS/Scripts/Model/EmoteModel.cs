@@ -35,9 +35,11 @@ public class EmoteModel : MonoBehaviour
 
     private void OnclickEmoteButon(Animator animator, string emoteName)
     {
-        Debug.Log(emoteName);        
+        Debug.Log(emoteName);
         //animator.CrossFadeInFixedTime(emoteName, 0);
+        animator.SetLayerWeight(3,1f);
         animator.Play(emoteName);
+        Debug.Log("エモートレイヤーのwight入ったままになってるから、終了時のコールバックで０にすること");
     }
 
 

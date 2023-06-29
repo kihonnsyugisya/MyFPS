@@ -30,7 +30,6 @@ public class PlayerModel : MonoBehaviour
 
     public ItemManager itemManager;
 
-
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -72,7 +71,7 @@ public class PlayerModel : MonoBehaviour
         translation += transform.right * (horizontal * Time.deltaTime);
         translation *= moveSpeed;
         translation += rigidbody.position;
-
+        
         animator.SetFloat("Vertical", vertical,0.1f,Time.deltaTime);
         animator.SetFloat("Horizontal", horizontal,0.1f,Time.deltaTime);
 
@@ -104,9 +103,36 @@ public class PlayerModel : MonoBehaviour
 
     private void OnClickJumpButton()
     {
-        rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        Debug.Log("dddffs");
+        //rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        //Debug.Log("dddffs");
+
+        //ジャンプ、エイム、ジョイスティック等の操作系UIはviewにわけること        
+        PlaySwitchWeapon();
     }
 
+    public void PlaySwitchWeapon()
+    {
+        animator.SetTrigger("SwitchWeapon");
+
+    }
+
+    public void PlayAiming(bool play)
+    {
+        if (play)
+        {
+            animator.SetLayerWeight(1, 0);
+            float w = animator.GetLayerWeight(2) == 0 ? 1f : 0;
+            animator.SetLayerWeight(2, w);
+        }
+        else { 
+            animator.SetLayerWeight(2, 0);
+            animator.SetLayerWeight(1, 1f);
+        }
+    }
+
+    public void PlayHasGun()
+    {
+        animator.SetLayerWeight(1, 1f);
+    }
 
 }
