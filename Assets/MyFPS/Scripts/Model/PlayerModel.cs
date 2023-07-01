@@ -149,10 +149,4 @@ public class PlayerModel : MonoBehaviour
         animator.SetLayerWeight(1, 1f);
     }
 
-    //public void PlayAiming()
-    //{
-    //    isAiming = !isAiming;
-    //    animator.SetBool("Aiming",isAiming);
-    //}
-
 }
