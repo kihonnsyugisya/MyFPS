@@ -21,6 +21,7 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private Joystick rotateJoystick;
     [SerializeField] private Button jumpButton;
     [SerializeField] private Transform eye;
+    [SerializeField] private Transform Aim;
     [HideInInspector] private new Rigidbody rigidbody;
 
     [HideInInspector] public Animator animator;
@@ -57,7 +58,7 @@ public class PlayerModel : MonoBehaviour
         {
             animSpeed = walkAnimationSpeed;
             moveSpeed = walkSpeed;
-            Debug.Log("walkspeed適用中");
+            //Debug.Log("walkspeed適用中");
         }
         else
         {
@@ -65,7 +66,7 @@ public class PlayerModel : MonoBehaviour
             horizontal *= 1.2f; 
             animSpeed = runAnimatonSpeed;
             moveSpeed = runSpeed;
-            Debug.Log("runspeed適用中");
+            //Debug.Log("runspeed適用中");
         }
 
         translation += transform.right * (horizontal * Time.deltaTime);
@@ -101,14 +102,22 @@ public class PlayerModel : MonoBehaviour
     {
     }
 
+    private void OnAnimatorIK(int layerIndex)
+    {
+        animator.SetLookAtWeight(1f, 1f, 1f, 0f, 0.5f);     // LookAtの調整
+        animator.SetLookAtPosition(Aim.position);
+    }
+
     private void OnClickJumpButton()
     {
         //rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         //Debug.Log("dddffs");
 
         //ジャンプ、エイム、ジョイスティック等の操作系UIはviewにわけること        
-        PlaySwitchWeapon();
+        //PlaySwitchWeapon();
+        PlayAiming();
     }
+
 
     public void PlaySwitchWeapon()
     {
@@ -116,17 +125,21 @@ public class PlayerModel : MonoBehaviour
 
     }
 
-    public void PlayAiming(bool play)
+    public void PlayAiming()
     {
-        if (play)
+        isAiming = !isAiming;
+        if (isAiming)
         {
-            animator.SetLayerWeight(1, 0);
-            float w = animator.GetLayerWeight(2) == 0 ? 1f : 0;
-            animator.SetLayerWeight(2, w);
+            animator.SetLayerWeight(1, 0f);
+            animator.SetLayerWeight(2, 1f);
+            animator.SetBool("Aiming",isAiming);
+
         }
-        else { 
-            animator.SetLayerWeight(2, 0);
+        else
+        {
+            animator.SetLayerWeight(2, 0f);
             animator.SetLayerWeight(1, 1f);
+            animator.SetBool("Aiming", isAiming);
         }
     }
 
@@ -134,5 +147,12 @@ public class PlayerModel : MonoBehaviour
     {
         animator.SetLayerWeight(1, 1f);
     }
+
+    private bool isAiming = false;
+    //public void PlayAiming()
+    //{
+    //    isAiming = !isAiming;
+    //    animator.SetBool("Aiming",isAiming);
+    //}
 
 }
