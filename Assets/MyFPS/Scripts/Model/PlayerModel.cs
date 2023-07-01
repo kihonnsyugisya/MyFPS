@@ -22,9 +22,11 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private Button jumpButton;
     [SerializeField] private Transform eye;
     [SerializeField] private Transform Aim;
-    [HideInInspector] private new Rigidbody rigidbody;
 
     [HideInInspector] public Animator animator;
+
+    private new Rigidbody rigidbody;
+    private bool isAiming = false;
 
     public float distToGround;
     public bool isGrounded;
@@ -54,7 +56,13 @@ public class PlayerModel : MonoBehaviour
         float moveSpeed;
         float animSpeed;
 
-        if (tilt < walkInputRange)
+        if (isAiming)
+        {
+            const float SPEED_LIMIT = 0.45f;
+            animSpeed = walkAnimationSpeed * SPEED_LIMIT;
+            moveSpeed = walkSpeed * SPEED_LIMIT;
+        }
+        else if (tilt < walkInputRange)
         {
             animSpeed = walkAnimationSpeed;
             moveSpeed = walkSpeed;
@@ -84,8 +92,11 @@ public class PlayerModel : MonoBehaviour
         const float ROTATE_LIMIT = 0.1f;
         eye.transform.Translate(0,rotateJoystick.Vertical * rotateSpeed * ROTATE_LIMIT,0);
         Vector3 camAngle = eye.position;
-        if(camAngle.y > 2.5f) camAngle.y = 2.5f;
-        if(camAngle.y < 1.5f) camAngle.y = 1.5f;
+
+        float upLange = isAiming ?4.5f :2.5f;
+        float downLange = isAiming ?-3.5f :1.5f;        
+        if(camAngle.y > upLange) camAngle.y = upLange;
+        if(camAngle.y < downLange) camAngle.y = downLange;
         eye.transform.position = camAngle;
 
 
@@ -128,19 +139,9 @@ public class PlayerModel : MonoBehaviour
     public void PlayAiming()
     {
         isAiming = !isAiming;
-        if (isAiming)
-        {
-            animator.SetLayerWeight(1, 0f);
-            animator.SetLayerWeight(2, 1f);
-            animator.SetBool("Aiming",isAiming);
-
-        }
-        else
-        {
-            animator.SetLayerWeight(2, 0f);
-            animator.SetLayerWeight(1, 1f);
-            animator.SetBool("Aiming", isAiming);
-        }
+        float w = isAiming ? 1f : 0f;
+        animator.SetLayerWeight(2,w);
+        animator.SetBool("Aiming", isAiming);
     }
 
     public void PlayHasGun()
@@ -148,7 +149,6 @@ public class PlayerModel : MonoBehaviour
         animator.SetLayerWeight(1, 1f);
     }
 
-    private bool isAiming = false;
     //public void PlayAiming()
     //{
     //    isAiming = !isAiming;
