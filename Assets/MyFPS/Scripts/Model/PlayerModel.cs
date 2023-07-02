@@ -126,7 +126,7 @@ public class PlayerModel : MonoBehaviour
 
         //ジャンプ、エイム、ジョイスティック等の操作系UIはviewにわけること        
         //PlaySwitchWeapon();
-        PlayAiming();
+        PlayAiming();        
     }
 
 
@@ -147,6 +147,13 @@ public class PlayerModel : MonoBehaviour
     public void PlayHasGun()
     {
         animator.SetLayerWeight(1, 1f);
+    }
+
+    public void OnclickGunShoot(GunItemData gunItemData,GunItem gunItem)
+    {
+        GameObject bullet = Instantiate(gunItem.bulletObj,gunItem.gunPoint.position,Quaternion.identity);
+        //bullet.GetComponent<Bullet>().playerID =
+        bullet.GetComponent<Rigidbody>().AddForce(gunItem.gunPoint.forward * gunItemData.atkPoint);
     }
 
 }

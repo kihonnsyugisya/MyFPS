@@ -22,5 +22,5 @@ public class Item : MonoBehaviour
 
 public enum ItemType 
 { 
-    GUN,
+    GUN,BULLET
 }

@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GunItem : Item
+public class OparetionView : MonoBehaviour
 {
-    [HideInInspector] public int? magazineSize;
-    public GameObject bulletObj;
-    public Transform gunPoint;
+    public Button gunShootingButton;
     // Start is called before the first frame update
     void Start()
     {
