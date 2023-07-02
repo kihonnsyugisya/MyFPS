@@ -21,9 +21,12 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private Joystick rotateJoystick;
     [SerializeField] private Button jumpButton;
     [SerializeField] private Transform eye;
-    [HideInInspector] private new Rigidbody rigidbody;
+    [SerializeField] private Transform Aim;
 
     [HideInInspector] public Animator animator;
+
+    private new Rigidbody rigidbody;
+    private bool isAiming = false;
 
     public float distToGround;
     public bool isGrounded;
@@ -53,11 +56,17 @@ public class PlayerModel : MonoBehaviour
         float moveSpeed;
         float animSpeed;
 
-        if (tilt < walkInputRange)
+        if (isAiming)
+        {
+            const float SPEED_LIMIT = 0.45f;
+            animSpeed = walkAnimationSpeed * SPEED_LIMIT;
+            moveSpeed = walkSpeed * SPEED_LIMIT;
+        }
+        else if (tilt < walkInputRange)
         {
             animSpeed = walkAnimationSpeed;
             moveSpeed = walkSpeed;
-            Debug.Log("walkspeed適用中");
+            //Debug.Log("walkspeed適用中");
         }
         else
         {
@@ -65,7 +74,7 @@ public class PlayerModel : MonoBehaviour
             horizontal *= 1.2f; 
             animSpeed = runAnimatonSpeed;
             moveSpeed = runSpeed;
-            Debug.Log("runspeed適用中");
+            //Debug.Log("runspeed適用中");
         }
 
         translation += transform.right * (horizontal * Time.deltaTime);
@@ -83,8 +92,11 @@ public class PlayerModel : MonoBehaviour
         const float ROTATE_LIMIT = 0.1f;
         eye.transform.Translate(0,rotateJoystick.Vertical * rotateSpeed * ROTATE_LIMIT,0);
         Vector3 camAngle = eye.position;
-        if(camAngle.y > 2.5f) camAngle.y = 2.5f;
-        if(camAngle.y < 1.5f) camAngle.y = 1.5f;
+
+        float upLange = isAiming ?4.5f :2.5f;
+        float downLange = isAiming ?-3.5f :1.5f;        
+        if(camAngle.y > upLange) camAngle.y = upLange;
+        if(camAngle.y < downLange) camAngle.y = downLange;
         eye.transform.position = camAngle;
 
 
@@ -101,14 +113,22 @@ public class PlayerModel : MonoBehaviour
     {
     }
 
+    private void OnAnimatorIK(int layerIndex)
+    {
+        animator.SetLookAtWeight(1f, 1f, 1f, 0f, 0.5f);     // LookAtの調整
+        animator.SetLookAtPosition(Aim.position);
+    }
+
     private void OnClickJumpButton()
     {
         //rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         //Debug.Log("dddffs");
 
         //ジャンプ、エイム、ジョイスティック等の操作系UIはviewにわけること        
-        PlaySwitchWeapon();
+        //PlaySwitchWeapon();
+        PlayAiming();
     }
+
 
     public void PlaySwitchWeapon()
     {
@@ -116,18 +136,12 @@ public class PlayerModel : MonoBehaviour
 
     }
 
-    public void PlayAiming(bool play)
+    public void PlayAiming()
     {
-        if (play)
-        {
-            animator.SetLayerWeight(1, 0);
-            float w = animator.GetLayerWeight(2) == 0 ? 1f : 0;
-            animator.SetLayerWeight(2, w);
-        }
-        else { 
-            animator.SetLayerWeight(2, 0);
-            animator.SetLayerWeight(1, 1f);
-        }
+        isAiming = !isAiming;
+        float w = isAiming ? 1f : 0f;
+        animator.SetLayerWeight(2,w);
+        animator.SetBool("Aiming", isAiming);
     }
 
     public void PlayHasGun()
