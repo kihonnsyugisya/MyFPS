@@ -16,6 +16,7 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private float rotateSpeed = 0.7f;
     [SerializeField] private float walkInputRange = 0.65f;
     [SerializeField] private float jumpForce = 200f;
+    [SerializeField] private int bullerFlyingDistance = 500;
 
     [SerializeField] private Joystick moveJoystick;
     [SerializeField] private Joystick rotateJoystick;
@@ -116,7 +117,8 @@ public class PlayerModel : MonoBehaviour
     private void OnAnimatorIK(int layerIndex)
     {
         animator.SetLookAtWeight(1f, 1f, 1f, 0f, 0.5f);     // LookAtの調整
-        animator.SetLookAtPosition(Aim.position);
+        if (isAiming) animator.SetLookAtPosition(new Vector3(Aim.position.x, Aim.position.y - 1.7f, Aim.position.z));
+        else animator.SetLookAtPosition(Aim.position);
     }
 
     private void OnClickJumpButton()
@@ -148,13 +150,12 @@ public class PlayerModel : MonoBehaviour
     {
         animator.SetLayerWeight(1, 1f);
     }
-    [SerializeField] int foreward = 100;
     public void OnclickGunShoot(GunItemData gunItemData,GunItem gunItem)
     {
         if (gunItem.magazineSize <= 0) return;
         GameObject bullet = Instantiate(gunItem.bulletObj,gunItem.gunPoint.position,Quaternion.identity);
         //bullet.GetComponent<Bullet>().playerID =
-        bullet.GetComponent<Rigidbody>().AddForce(gunItem.gunPoint.forward * gunItemData.atkPoint * foreward);
+        bullet.GetComponent<Rigidbody>().AddForce(gunItem.gunPoint.forward * gunItemData.atkPoint * bullerFlyingDistance);
         gunItem.magazineSize--;        
     }
 
