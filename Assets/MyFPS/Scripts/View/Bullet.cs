@@ -23,7 +23,7 @@ public class Bullet : Item
     {
         DispBulletHole(collision.transform.position);
         Debug.Log(collision.gameObject.name);
-        Destroy(gameObject);
+        Destroy(gameObject,4f);
     }
 
     private void DispBulletHole(Vector3 dispPoint)

@@ -148,12 +148,15 @@ public class PlayerModel : MonoBehaviour
     {
         animator.SetLayerWeight(1, 1f);
     }
-
+    [SerializeField] int foreward = 100;
     public void OnclickGunShoot(GunItemData gunItemData,GunItem gunItem)
     {
+        if (gunItem.magazineSize <= 0) return;
         GameObject bullet = Instantiate(gunItem.bulletObj,gunItem.gunPoint.position,Quaternion.identity);
         //bullet.GetComponent<Bullet>().playerID =
-        bullet.GetComponent<Rigidbody>().AddForce(gunItem.gunPoint.forward * gunItemData.atkPoint);
+        bullet.GetComponent<Rigidbody>().AddForce(gunItem.gunPoint.forward * gunItemData.atkPoint * foreward);
+        gunItem.magazineSize--;        
     }
+
 
 }

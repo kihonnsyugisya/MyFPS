@@ -17,6 +17,7 @@ public class Presenter : MonoBehaviour
         view.oparetionView.gunShootingButton.OnPointerDownAsObservable()
                 .SelectMany(_ => view.oparetionView.gunShootingButton.UpdateAsObservable())
                 .TakeUntil(view.oparetionView.gunShootingButton.OnPointerUpAsObservable())
+                .ThrottleFirst(System.TimeSpan.FromSeconds(0.1))
                 .DoOnCompleted(() =>
                 {
                     Debug.Log("released!");
