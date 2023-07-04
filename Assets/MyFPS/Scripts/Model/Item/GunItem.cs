@@ -7,6 +7,7 @@ public class GunItem : Item
     [HideInInspector] public int? magazineSize;
     public GameObject bulletObj;
     public Transform gunPoint;
+    public GameObject gunEffect;
     // Start is called before the first frame update
     void Start()
     {

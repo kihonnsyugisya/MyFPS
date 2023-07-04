@@ -21,6 +21,7 @@ public class Presenter : MonoBehaviour
                 .DoOnCompleted(() =>
                 {
                     Debug.Log("released!");
+                    model.playerModel.OnpointerUpGunShoot(model.itemManager.currentGunItem);
                 })
                 .RepeatUntilDestroy(view.oparetionView.gunShootingButton)
                 .Subscribe(unit =>

@@ -153,10 +153,16 @@ public class PlayerModel : MonoBehaviour
     public void OnclickGunShoot(GunItemData gunItemData,GunItem gunItem)
     {
         if (gunItem.magazineSize <= 0) return;
+        if (!gunItem.gunEffect.activeSelf) gunItem.gunEffect.SetActive(true);
         GameObject bullet = Instantiate(gunItem.bulletObj,gunItem.gunPoint.position,Quaternion.identity);
         //bullet.GetComponent<Bullet>().playerID =
         bullet.GetComponent<Rigidbody>().AddForce(gunItem.gunPoint.forward * gunItemData.atkPoint * bullerFlyingDistance);
         gunItem.magazineSize--;        
+    }
+
+    public void OnpointerUpGunShoot(GunItem gunItem)
+    {
+        gunItem.gunEffect.SetActive(false);
     }
 
 
