@@ -165,8 +165,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.68, z: 1.4}
-  m_Center: {x: 0, y: 0, z: 0.33}
+  m_Size: {x: 3, y: 2.04, z: 4.2}
+  m_Center: {x: 0, y: 0.8, z: 0.33}
 --- !u!114 &5103986474737618034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,10 +181,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 1
   itemType: 0
-  magazineSize: 0
   bulletObj: {fileID: 3851796576372689554, guid: bb6818a2966f64782ad5f2f63029bd0e,
     type: 3}
   gunPoint: {fileID: 2780414436934065178}
+  gunEffect: {fileID: 0}
 --- !u!1 &1456922113744416724
 GameObject:
   m_ObjectHideFlags: 0

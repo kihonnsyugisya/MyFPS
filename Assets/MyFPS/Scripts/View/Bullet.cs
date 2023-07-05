@@ -7,23 +7,30 @@ public class Bullet : Item
     [HideInInspector] public float power;
     [HideInInspector] public int playerID;
     [SerializeField] private GameObject bulletHoleEffect;
+    private float lifeTime = 0;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        lifeTime += Time.fixedDeltaTime;
+        if (lifeTime > 7)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        DispBulletHole(collision.transform.position);
+        if (collision.gameObject.CompareTag("Item") || collision.gameObject.name == "3RD Person") return;
+        DispBulletHole(transform.position);
         Debug.Log(collision.gameObject.name);
-        Destroy(gameObject,4f);
+        Destroy(gameObject, 0.5f);
     }
 
     private void DispBulletHole(Vector3 dispPoint)
