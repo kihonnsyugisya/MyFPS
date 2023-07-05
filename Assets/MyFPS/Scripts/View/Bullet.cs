@@ -6,7 +6,7 @@ public class Bullet : Item
 {
     [HideInInspector] public float power;
     [HideInInspector] public int playerID;
-    [SerializeField] private Transform bulletHoleEffect;
+    [SerializeField] private GameObject bulletHoleEffect;
     // Start is called before the first frame update
     void Start()
     {
