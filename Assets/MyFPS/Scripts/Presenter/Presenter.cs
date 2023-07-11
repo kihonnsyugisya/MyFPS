@@ -29,11 +29,17 @@ public class Presenter : MonoBehaviour
                     Debug.Log("pressing...");
                     model.playerModel.OnclickGunShoot(model.itemManager.gunItemSlot[model.itemManager.currentGunItemSlotIndex], model.itemManager.currentGunItem);
                 });
-    }
 
+    }
+    [SerializeField] bool set;
     // Update is called once per frame
     void Update()
     {
-        
+        //if (model.playerModel.isAiming)
+        //{
+        //    model.itemManager.currentGunItem.gunPoint.LookAt(model.playerModel.GetWorldPositionFromAimPoint());
+        //    model.playerModel.OnclickGunShoot(model.itemManager.gunItemSlot[model.itemManager.currentGunItemSlotIndex], model.itemManager.currentGunItem);
+
+        //}
     }
 }

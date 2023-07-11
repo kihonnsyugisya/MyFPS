@@ -23,11 +23,12 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private Button jumpButton;
     [SerializeField] private Transform eye;
     [SerializeField] private Transform Aim;
+    public RectTransform AimPoint;
 
     [HideInInspector] public Animator animator;
 
     private new Rigidbody rigidbody;
-    private bool isAiming = false;
+    public bool isAiming = false;
 
     public float distToGround;
     public bool isGrounded;
@@ -116,9 +117,10 @@ public class PlayerModel : MonoBehaviour
 
     private void OnAnimatorIK(int layerIndex)
     {
-        animator.SetLookAtWeight(1f, 1f, 1f, 0f, 0.5f);     // LookAtの調整
+        animator.SetLookAtWeight(1f, 1f, 1f, 0f, 0f);     // LookAtの調整
         if (isAiming) animator.SetLookAtPosition(new Vector3(Aim.position.x, Aim.position.y - 1.7f, Aim.position.z));
         else animator.SetLookAtPosition(Aim.position);
+
     }
 
     private void OnClickJumpButton()
@@ -144,6 +146,7 @@ public class PlayerModel : MonoBehaviour
         float w = isAiming ? 1f : 0f;
         animator.SetLayerWeight(2,w);
         animator.SetBool("Aiming", isAiming);
+
     }
 
     public void PlayHasGun()
@@ -161,8 +164,8 @@ public class PlayerModel : MonoBehaviour
             if (!gunItem.gunEffect.activeSelf) gunItem.gunEffect.SetActive(true);
             GameObject bullet = Instantiate(gunItem.bulletObj, gunItem.gunPoint.position, Quaternion.identity);
             //bullet.GetComponent<Bullet>().playerID =
-            bullet.GetComponent<Rigidbody>().AddForce(gunItem.gunPoint.forward * gunItemData.atkPoint * bullerFlyingDistance);
-            gunItem.magazineSize--;
+            bullet.GetComponent<Rigidbody>().AddForce(bullerFlyingDistance * gunItemData.atkPoint * (GetAimPoint() - gunItem.gunPoint.position).normalized);
+            //gunItem.magazineSize--;
         }               
     }
 
@@ -171,5 +174,33 @@ public class PlayerModel : MonoBehaviour
         gunItem.gunEffect.SetActive(false);
     }
 
+    public Vector3 GetWorldPositionFromAimPoint()
+    {
+        //UI座標からスクリーン座標に変換
+            Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, AimPoint.position);
+
+        //ワールド座標
+        Vector3 result = Vector3.zero;
+
+        //スクリーン座標→ワールド座標に変換
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(AimPoint, screenPos, Camera.main, out result);
+
+        return result;
+    }
+
+    private Vector3 GetAimPoint()
+    {
+        Ray ray = new Ray(Camera.main.transform.position,(GetWorldPositionFromAimPoint() - Camera.main.transform.position).normalized);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit)) // もしRayを投射して何らかのコライダーに衝突したら
+        {
+            if (hit.collider.CompareTag("Item")) return GetWorldPositionFromAimPoint();
+            string name = hit.collider.gameObject.name; // 衝突した相手オブジェクトの名前を取得
+            Debug.Log(name); // コンソールに表示
+        }
+        Debug.DrawRay(ray.origin,ray.direction * 30,Color.blue,10f);
+        Debug.Log(hit.point);
+        return hit.point;
+    }
 
 }

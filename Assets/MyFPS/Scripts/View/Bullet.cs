@@ -30,7 +30,7 @@ public class Bullet : Item
         if (collision.gameObject.CompareTag("Item") || collision.gameObject.name == "3RD Person") return;
         DispBulletHole(transform.position);
         Debug.Log(collision.gameObject.name);
-        Destroy(gameObject, 0.5f);
+        Destroy(gameObject);
     }
 
     private void DispBulletHole(Vector3 dispPoint)

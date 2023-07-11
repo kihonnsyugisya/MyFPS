@@ -126,7 +126,6 @@ MonoBehaviour:
   playerID: 0
   bulletHoleEffect: {fileID: 5947612808105206249, guid: 02ddfd41a15147c459c72beb818ae4e4,
     type: 3}
-  rigidbody: {fileID: 2554940458514709078}
 --- !u!54 &2554940458514709078
 Rigidbody:
   m_ObjectHideFlags: 0
