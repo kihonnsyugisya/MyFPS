@@ -2925,6 +2925,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3448316135258523845, guid: a83a805c4cc2a6146a831744060ed258,
+        type: 3}
+      propertyPath: bulletObj
+      value: 
+      objectReference: {fileID: 7158560429425753788, guid: 7bcd4c39f6772416a92d5ccd95ea6465,
+        type: 3}
     - target: {fileID: 3553762451914582025, guid: a83a805c4cc2a6146a831744060ed258,
         type: 3}
       propertyPath: m_Name
@@ -3607,6 +3613,8 @@ MonoBehaviour:
   distToGround: 0
   isGrounded: 0
   itemManager: {fileID: 1376927223}
+  bulletHoleEffect: {fileID: 5947612808105206249, guid: 02ddfd41a15147c459c72beb818ae4e4,
+    type: 3}
 --- !u!114 &1376927223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5103,7 +5111,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832555135}
-  m_LocalRotation: {x: 0.04365198, y: -0.04304827, z: 0.0018826874, w: 0.99811715}
+  m_LocalRotation: {x: 0.043652, y: -0.043048307, z: 0.0018826898, w: 0.99811715}
   m_LocalPosition: {x: 0.56, y: -1.54, z: 2.6299996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

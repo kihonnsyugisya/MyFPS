@@ -164,7 +164,7 @@ public class PlayerModel : MonoBehaviour
             if (!gunItem.gunEffect.activeSelf) gunItem.gunEffect.SetActive(true);
             GameObject bullet = Instantiate(gunItem.bulletObj, gunItem.gunPoint.position, Quaternion.identity);
             //bullet.GetComponent<Bullet>().playerID =
-            bullet.GetComponent<Rigidbody>().AddForce(bullerFlyingDistance * gunItemData.atkPoint * (GetAimPoint() - gunItem.gunPoint.position).normalized);
+            bullet.GetComponent<Rigidbody>().AddForce(bullerFlyingDistance * gunItemData.atkPoint * ((GetAimPoint() - gunItem.gunPoint.position).normalized));
             //gunItem.magazineSize--;
         }               
     }
@@ -187,20 +187,22 @@ public class PlayerModel : MonoBehaviour
 
         return result;
     }
-
+    public GameObject bulletHoleEffect;
     private Vector3 GetAimPoint()
     {
+        Debug.Log("0000");
         Ray ray = new Ray(Camera.main.transform.position,(GetWorldPositionFromAimPoint() - Camera.main.transform.position).normalized);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit)) // もしRayを投射して何らかのコライダーに衝突したら
+        if (Physics.Raycast(ray, out hit,6)) // もしRayを投射して何らかのコライダーに衝突したら
         {
-            if (hit.collider.CompareTag("Item")) return GetWorldPositionFromAimPoint();
-            string name = hit.collider.gameObject.name; // 衝突した相手オブジェクトの名前を取得
-            Debug.Log(name); // コンソールに表示
+            Debug.Log(hit.collider.name);
+            Debug.DrawRay(ray.origin, ray.direction * 30, Color.blue, 10f);
+            Instantiate(bulletHoleEffect, hit.point, Quaternion.identity);
+            return hit.point;
         }
+        Debug.Log("2222");
         Debug.DrawRay(ray.origin,ray.direction * 30,Color.blue,10f);
-        Debug.Log(hit.point);
-        return hit.point;
+        return GetWorldPositionFromAimPoint();
     }
 
 }
