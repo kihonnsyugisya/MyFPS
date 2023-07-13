@@ -21,6 +21,7 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private Joystick moveJoystick;
     [SerializeField] private Joystick rotateJoystick;
     [SerializeField] private Button jumpButton;
+    [SerializeField] private Button reLoadButton;
     [SerializeField] private Transform eye;
     [SerializeField] private Transform Aim;
     public RectTransform AimPoint;
@@ -46,6 +47,7 @@ public class PlayerModel : MonoBehaviour
     void Start()
     {
         jumpButton.OnClickAsObservable().Subscribe(_=> OnClickJumpButton()).AddTo(this);
+        reLoadButton.OnClickAsObservable().Subscribe(_=> ReloadGun()).AddTo(this);
     }
 
     private void FixedUpdate()
@@ -165,8 +167,8 @@ public class PlayerModel : MonoBehaviour
             GameObject bullet = Instantiate(gunItem.bulletObj, gunItem.gunPoint.position, Quaternion.identity);
             //bullet.GetComponent<Bullet>().playerID =
             bullet.GetComponent<Rigidbody>().AddForce(bullerFlyingDistance * gunItemData.atkPoint * ((GetAimPoint() - gunItem.gunPoint.position).normalized));
-            //gunItem.magazineSize--;
-        }               
+            gunItem.magazineSize--;
+        }
     }
 
     public void OnpointerUpGunShoot(GunItem gunItem)
@@ -200,6 +202,11 @@ public class PlayerModel : MonoBehaviour
         }
         Debug.DrawRay(ray.origin,ray.direction * 30,Color.blue,10f);
         return GetWorldPositionFromAimPoint();
+    }
+
+    public void ReloadGun()
+    {
+        animator.SetTrigger("Reload");
     }
 
 }
