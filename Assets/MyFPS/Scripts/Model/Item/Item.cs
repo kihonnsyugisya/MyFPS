@@ -11,7 +11,7 @@ public class Item : MonoBehaviour
     virtual protected void Start()
     {
         gameObject.tag = "Item";
-        gameObject.layer = 6;
+        gameObject.layer = 2;        
     }
 
     // Update is called once per frame

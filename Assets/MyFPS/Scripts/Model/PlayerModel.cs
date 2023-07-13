@@ -28,7 +28,7 @@ public class PlayerModel : MonoBehaviour
     [HideInInspector] public Animator animator;
 
     private new Rigidbody rigidbody;
-    public bool isAiming = false;
+    public BoolReactiveProperty isAiming = new(false);
 
     public float distToGround;
     public bool isGrounded;
@@ -58,7 +58,7 @@ public class PlayerModel : MonoBehaviour
         float moveSpeed;
         float animSpeed;
 
-        if (isAiming)
+        if (isAiming.Value)
         {
             const float SPEED_LIMIT = 0.45f;
             animSpeed = walkAnimationSpeed * SPEED_LIMIT;
@@ -95,8 +95,8 @@ public class PlayerModel : MonoBehaviour
         eye.transform.Translate(0,rotateJoystick.Vertical * rotateSpeed * ROTATE_LIMIT,0);
         Vector3 camAngle = eye.position;
 
-        float upLange = isAiming ?4.5f :2.5f;
-        float downLange = isAiming ?-3.5f :1.5f;        
+        float upLange = isAiming.Value ?4.5f :2.5f;
+        float downLange = isAiming.Value ?-3.5f :1.5f;        
         if(camAngle.y > upLange) camAngle.y = upLange;
         if(camAngle.y < downLange) camAngle.y = downLange;
         eye.transform.position = camAngle;
@@ -118,7 +118,7 @@ public class PlayerModel : MonoBehaviour
     private void OnAnimatorIK(int layerIndex)
     {
         animator.SetLookAtWeight(1f, 1f, 1f, 0f, 0f);     // LookAtの調整
-        if (isAiming) animator.SetLookAtPosition(new Vector3(Aim.position.x, Aim.position.y - 1.7f, Aim.position.z));
+        if (isAiming.Value) animator.SetLookAtPosition(new Vector3(Aim.position.x, Aim.position.y - 1.7f, Aim.position.z));
         else animator.SetLookAtPosition(Aim.position);
 
     }
@@ -142,10 +142,10 @@ public class PlayerModel : MonoBehaviour
 
     public void PlayAiming()
     {
-        isAiming = !isAiming;
-        float w = isAiming ? 1f : 0f;
+        isAiming.Value = !isAiming.Value;
+        float w = isAiming.Value ? 1f : 0f;
         animator.SetLayerWeight(2,w);
-        animator.SetBool("Aiming", isAiming);
+        animator.SetBool("Aiming", isAiming.Value);
 
     }
 
@@ -187,20 +187,17 @@ public class PlayerModel : MonoBehaviour
 
         return result;
     }
-    public GameObject bulletHoleEffect;
+
     private Vector3 GetAimPoint()
     {
-        Debug.Log("0000");
         Ray ray = new Ray(Camera.main.transform.position,(GetWorldPositionFromAimPoint() - Camera.main.transform.position).normalized);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit,6)) // もしRayを投射して何らかのコライダーに衝突したら
+        if (Physics.Raycast(ray, out hit)) // もしRayを投射して何らかのコライダーに衝突したら
         {
-            Debug.Log(hit.collider.name);
+            Debug.Log(hit.collider.name + " " + hit.collider.gameObject.layer);
             Debug.DrawRay(ray.origin, ray.direction * 30, Color.blue, 10f);
-            Instantiate(bulletHoleEffect, hit.point, Quaternion.identity);
             return hit.point;
         }
-        Debug.Log("2222");
         Debug.DrawRay(ray.origin,ray.direction * 30,Color.blue,10f);
         return GetWorldPositionFromAimPoint();
     }
