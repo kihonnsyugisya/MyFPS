@@ -22,20 +22,25 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private Joystick rotateJoystick;
     [SerializeField] private Transform eye;
     [SerializeField] private Transform Aim;
-    public RectTransform AimPoint;
 
     [HideInInspector] public Animator animator;
+    [HideInInspector] public BoolReactiveProperty isAiming = new(false);
 
     private new Rigidbody rigidbody;
-    public BoolReactiveProperty isAiming = new(false);
+    private AudioSource audioSource;
+
+    public RectTransform AimPoint;
 
     public float distToGround;
     public bool isGrounded;
 
     public ItemManager itemManager;
+    public List<AudioClip> audioClips = new();
+   
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         rigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         distToGround = GetComponent<Collider>().bounds.extents.y;
@@ -201,6 +206,7 @@ public class PlayerModel : MonoBehaviour
 
     public void ReloadGun()
     {
+        audioSource.PlayOneShot(audioClips[0]);
         animator.SetTrigger("Reload");
     }
 

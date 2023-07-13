@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571337, b: 0.3069219, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1618,12 +1618,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 452426137}
   m_SourcePrefab: {fileID: 100100000, guid: 1d1e9c1df49b59a4d97d4c7f878511ed, type: 3}
---- !u!4 &387627195 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2780414436934065178, guid: 1d1e9c1df49b59a4d97d4c7f878511ed,
-    type: 3}
-  m_PrefabInstance: {fileID: 387627194}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &413264443
 GameObject:
   m_ObjectHideFlags: 0
@@ -1834,9 +1828,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 1
   itemType: 0
-  bulletObj: {fileID: 3851796576372689554, guid: bb6818a2966f64782ad5f2f63029bd0e,
-    type: 3}
-  gunPoint: {fileID: 387627195}
+  bulletObj: {fileID: 0}
+  gunPoint: {fileID: 0}
   gunEffect: {fileID: 0}
 --- !u!224 &461219398 stripped
 RectTransform:
@@ -3868,13 +3861,15 @@ MonoBehaviour:
   rotateJoystick: {fileID: 461219399}
   eye: {fileID: 864615229}
   Aim: {fileID: 1698333663}
-  AimPoint: {fileID: 1350090158}
   animator: {fileID: 0}
   isAiming:
     value: 0
+  AimPoint: {fileID: 1350090158}
   distToGround: 0
   isGrounded: 0
   itemManager: {fileID: 1376927223}
+  audioClips:
+  - {fileID: 8300000, guid: 873fceb7d7f224521810ee00484c6c42, type: 3}
 --- !u!114 &1376927223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19170,6 +19165,7 @@ GameObject:
   - component: {fileID: 1376927219}
   - component: {fileID: 1376927223}
   - component: {fileID: 6656097000458928144}
+  - component: {fileID: 6656097000458928145}
   m_Layer: 0
   m_Name: 3RD Person
   m_TagString: Untagged
@@ -24990,6 +24986,102 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1123ebeabf4204ab81686e9d338b89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &6656097000458928145
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6656096999855777092}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 1
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6656097000772704144
 GameObject:
   m_ObjectHideFlags: 0
@@ -25001,6 +25093,7 @@ GameObject:
   - component: {fileID: 6656097000772704145}
   - component: {fileID: 6656097000772704150}
   - component: {fileID: 6656097000772704151}
+  - component: {fileID: 6656097000772704152}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -25109,3 +25202,11 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!81 &6656097000772704152
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6656097000772704144}
+  m_Enabled: 1
