@@ -15,7 +15,9 @@ public class ItemManager : MonoBehaviour
     [HideInInspector] public List<GunItemData> gunItemSlot = new();
     [HideInInspector] public List<GameObject> dispItemPlates = new();
     [HideInInspector] public int currentGunItemSlotIndex = 0;
+    [HideInInspector] public GunItem currentGunItem;
 
+    //???????????0?hand?1?shoulder?????
 
 
     // Start is called before the first frame update
@@ -66,6 +68,7 @@ public class ItemManager : MonoBehaviour
                 {
                     gunItemSlot.Add(GetGunItemData(item.itemId));
                     ShowWeapon(item.transform, false);
+                    SetCurrentGunItemData();
                 }
                 hasHandWeapon.Value = true;
                 break;
@@ -149,6 +152,12 @@ public class ItemManager : MonoBehaviour
         getItem.SetParent(targetPoint);
         getItem.localPosition = getItem.localEulerAngles = Vector3.zero;
         
+    }
+
+    public void SetCurrentGunItemData()
+    {
+        currentGunItem = handWeaponPoint.GetComponentInChildren<GunItem>();
+        currentGunItem.magazineSize ??= gunItemSlot[0].magazineSize;
     }
 
 }
