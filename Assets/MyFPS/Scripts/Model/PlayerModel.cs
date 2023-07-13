@@ -20,8 +20,6 @@ public class PlayerModel : MonoBehaviour
 
     [SerializeField] private Joystick moveJoystick;
     [SerializeField] private Joystick rotateJoystick;
-    [SerializeField] private Button jumpButton;
-    [SerializeField] private Button reLoadButton;
     [SerializeField] private Transform eye;
     [SerializeField] private Transform Aim;
     public RectTransform AimPoint;
@@ -46,8 +44,6 @@ public class PlayerModel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        jumpButton.OnClickAsObservable().Subscribe(_=> OnClickJumpButton()).AddTo(this);
-        reLoadButton.OnClickAsObservable().Subscribe(_=> ReloadGun()).AddTo(this);
     }
 
     private void FixedUpdate()
@@ -125,14 +121,13 @@ public class PlayerModel : MonoBehaviour
 
     }
 
-    private void OnClickJumpButton()
+    public void PlayJump()
     {
         //rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         //Debug.Log("dddffs");
 
         //ジャンプ、エイム、ジョイスティック等の操作系UIはviewにわけること        
-        //PlaySwitchWeapon();
-        PlayAiming();        
+        //PlaySwitchWeapon();  
     }
 
 
