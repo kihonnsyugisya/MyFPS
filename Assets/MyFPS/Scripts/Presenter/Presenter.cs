@@ -29,7 +29,13 @@ public class Presenter : MonoBehaviour
                     Debug.Log("pressing...");
                     model.playerModel.OnclickGunShoot(model.itemManager.gunItemSlot[model.itemManager.currentGunItemSlotIndex], model.itemManager.currentGunItem);
                 });
+
+        view.oparetionView.aimButton.OnClickAsObservable().Subscribe(_=> model.playerModel.PlayAiming()).AddTo(this);
+        view.oparetionView.reLoadButton.OnClickAsObservable().Subscribe(_ => model.playerModel.ReloadGun()).AddTo(this);
+        view.oparetionView.jumpButton.OnClickAsObservable().Subscribe(_ => model.playerModel.PlayJump()).AddTo(this);
         model.playerModel.isAiming.Subscribe(value => { model.playerModel.gameObject.layer = value ? 2 : 0; }).AddTo(this);
+
+
     }
     [SerializeField] bool set;
     // Update is called once per frame
