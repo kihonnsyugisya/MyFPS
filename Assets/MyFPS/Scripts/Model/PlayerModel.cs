@@ -16,14 +16,20 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private float rotateSpeed = 0.7f;
     [SerializeField] private float walkInputRange = 0.65f;
     [SerializeField] private float jumpForce = 200f;
+    [SerializeField] private int bullerFlyingDistance = 500;
 
     [SerializeField] private Joystick moveJoystick;
     [SerializeField] private Joystick rotateJoystick;
     [SerializeField] private Button jumpButton;
+    [SerializeField] private Button reLoadButton;
     [SerializeField] private Transform eye;
-    [HideInInspector] private new Rigidbody rigidbody;
+    [SerializeField] private Transform Aim;
+    public RectTransform AimPoint;
 
     [HideInInspector] public Animator animator;
+
+    private new Rigidbody rigidbody;
+    public BoolReactiveProperty isAiming = new(false);
 
     public float distToGround;
     public bool isGrounded;
@@ -41,6 +47,7 @@ public class PlayerModel : MonoBehaviour
     void Start()
     {
         jumpButton.OnClickAsObservable().Subscribe(_=> OnClickJumpButton()).AddTo(this);
+        reLoadButton.OnClickAsObservable().Subscribe(_=> ReloadGun()).AddTo(this);
     }
 
     private void FixedUpdate()
@@ -53,11 +60,17 @@ public class PlayerModel : MonoBehaviour
         float moveSpeed;
         float animSpeed;
 
-        if (tilt < walkInputRange)
+        if (isAiming.Value)
+        {
+            const float SPEED_LIMIT = 0.45f;
+            animSpeed = walkAnimationSpeed * SPEED_LIMIT;
+            moveSpeed = walkSpeed * SPEED_LIMIT;
+        }
+        else if (tilt < walkInputRange)
         {
             animSpeed = walkAnimationSpeed;
             moveSpeed = walkSpeed;
-            Debug.Log("walkspeed適用中");
+            //Debug.Log("walkspeed適用中");
         }
         else
         {
@@ -65,7 +78,7 @@ public class PlayerModel : MonoBehaviour
             horizontal *= 1.2f; 
             animSpeed = runAnimatonSpeed;
             moveSpeed = runSpeed;
-            Debug.Log("runspeed適用中");
+            //Debug.Log("runspeed適用中");
         }
 
         translation += transform.right * (horizontal * Time.deltaTime);
@@ -83,8 +96,11 @@ public class PlayerModel : MonoBehaviour
         const float ROTATE_LIMIT = 0.1f;
         eye.transform.Translate(0,rotateJoystick.Vertical * rotateSpeed * ROTATE_LIMIT,0);
         Vector3 camAngle = eye.position;
-        if(camAngle.y > 2.5f) camAngle.y = 2.5f;
-        if(camAngle.y < 1.5f) camAngle.y = 1.5f;
+
+        float upLange = isAiming.Value ?4.5f :2.5f;
+        float downLange = isAiming.Value ?-3.5f :1.5f;        
+        if(camAngle.y > upLange) camAngle.y = upLange;
+        if(camAngle.y < downLange) camAngle.y = downLange;
         eye.transform.position = camAngle;
 
 
@@ -101,14 +117,24 @@ public class PlayerModel : MonoBehaviour
     {
     }
 
+    private void OnAnimatorIK(int layerIndex)
+    {
+        animator.SetLookAtWeight(1f, 1f, 1f, 0f, 0f);     // LookAtの調整
+        if (isAiming.Value) animator.SetLookAtPosition(new Vector3(Aim.position.x, Aim.position.y - 1.7f, Aim.position.z));
+        else animator.SetLookAtPosition(Aim.position);
+
+    }
+
     private void OnClickJumpButton()
     {
         //rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         //Debug.Log("dddffs");
 
         //ジャンプ、エイム、ジョイスティック等の操作系UIはviewにわけること        
-        PlaySwitchWeapon();
+        //PlaySwitchWeapon();
+        PlayAiming();        
     }
+
 
     public void PlaySwitchWeapon()
     {
@@ -116,23 +142,71 @@ public class PlayerModel : MonoBehaviour
 
     }
 
-    public void PlayAiming(bool play)
+    public void PlayAiming()
     {
-        if (play)
-        {
-            animator.SetLayerWeight(1, 0);
-            float w = animator.GetLayerWeight(2) == 0 ? 1f : 0;
-            animator.SetLayerWeight(2, w);
-        }
-        else { 
-            animator.SetLayerWeight(2, 0);
-            animator.SetLayerWeight(1, 1f);
-        }
+        isAiming.Value = !isAiming.Value;
+        float w = isAiming.Value ? 1f : 0f;
+        animator.SetLayerWeight(2,w);
+        animator.SetBool("Aiming", isAiming.Value);
+
     }
 
     public void PlayHasGun()
     {
         animator.SetLayerWeight(1, 1f);
+    }
+    public void OnclickGunShoot(GunItemData gunItemData,GunItem gunItem)
+    {
+        if (gunItem.magazineSize <= 0)
+        {
+            OnpointerUpGunShoot(gunItem);
+        }
+        else 
+        {
+            if (!gunItem.gunEffect.activeSelf) gunItem.gunEffect.SetActive(true);
+            GameObject bullet = Instantiate(gunItem.bulletObj, gunItem.gunPoint.position, Quaternion.identity);
+            //bullet.GetComponent<Bullet>().playerID =
+            bullet.GetComponent<Rigidbody>().AddForce(bullerFlyingDistance * gunItemData.atkPoint * ((GetAimPoint() - gunItem.gunPoint.position).normalized));
+            gunItem.magazineSize--;
+        }
+    }
+
+    public void OnpointerUpGunShoot(GunItem gunItem)
+    {
+        gunItem.gunEffect.SetActive(false);
+    }
+
+    public Vector3 GetWorldPositionFromAimPoint()
+    {
+        //UI座標からスクリーン座標に変換
+            Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, AimPoint.position);
+
+        //ワールド座標
+        Vector3 result = Vector3.zero;
+
+        //スクリーン座標→ワールド座標に変換
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(AimPoint, screenPos, Camera.main, out result);
+
+        return result;
+    }
+
+    private Vector3 GetAimPoint()
+    {
+        Ray ray = new Ray(Camera.main.transform.position,(GetWorldPositionFromAimPoint() - Camera.main.transform.position).normalized);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit)) // もしRayを投射して何らかのコライダーに衝突したら
+        {
+            Debug.Log(hit.collider.name + " " + hit.collider.gameObject.layer);
+            Debug.DrawRay(ray.origin, ray.direction * 30, Color.blue, 10f);
+            return hit.point;
+        }
+        Debug.DrawRay(ray.origin,ray.direction * 30,Color.blue,10f);
+        return GetWorldPositionFromAimPoint();
+    }
+
+    public void ReloadGun()
+    {
+        animator.SetTrigger("Reload");
     }
 
 }

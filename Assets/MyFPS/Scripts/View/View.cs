@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class View : MonoBehaviour
 {
+    public OparetionView oparetionView;
     
     // Start is called before the first frame update
     void Start()

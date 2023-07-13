@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class GunItem : Item
 {
+    [HideInInspector] public int? magazineSize;
+    public GameObject bulletObj;
+    public Transform gunPoint;
+    public GameObject gunEffect;
     // Start is called before the first frame update
-    void Start()
+    override protected void Start()
     {
-        
+        base.Start();
+
+
     }
 
     // Update is called once per frame
@@ -15,10 +21,4 @@ public class GunItem : Item
     {
         
     }
-
-    public void FullAutoShot()
-    { }
-
-    public void SemiAutoShot()
-    { }
 }
