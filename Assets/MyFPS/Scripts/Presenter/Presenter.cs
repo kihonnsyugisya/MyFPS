@@ -21,13 +21,14 @@ public class Presenter : MonoBehaviour
                 .DoOnCompleted(() =>
                 {
                     Debug.Log("released!");
-                    model.playerModel.OnpointerUpGunShoot(model.itemManager.currentGunItem);
+                    model.playerModel.OnpointerUpGunShoot(model.itemManager.GetGunItemData().gunItem);
                 })
                 .RepeatUntilDestroy(view.oparetionView.gunShootingButton)
                 .Subscribe(unit =>
                 {
                     Debug.Log("pressing...");
-                    model.playerModel.OnclickGunShoot(model.itemManager.gunItemSlot[model.itemManager.currentGunItemSlotIndex], model.itemManager.currentGunItem);
+                    GunItemData g = model.itemManager.GetGunItemData();
+                    model.playerModel.OnclickGunShoot(g,g.gunItem);
                 });
 
         view.oparetionView.aimButton.OnClickAsObservable().Subscribe(_=> model.playerModel.PlayAiming()).AddTo(this);
@@ -36,16 +37,17 @@ public class Presenter : MonoBehaviour
         model.playerModel.isAiming.Subscribe(value => { model.playerModel.gameObject.layer = value ? 2 : 0; }).AddTo(this);
 
         model.itemManager.gunItemSlot.ObserveAdd().Subscribe(value => {
-            if (value.Index == 0) view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index,value.Value, model.itemManager.currentGunItem, model.itemManager.bullets);
-            else view.oparetionView.gunItemSlider.SetGunItemSlotView(value.Value, model.itemManager.currentGunItem, model.itemManager.bullets);
+            GunItem g = model.itemManager.GetGunItemData().gunItem;
+            if (value.Index == 0) view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index,value.Value, g, model.itemManager.bullets);
+            else view.oparetionView.gunItemSlider.SetGunItemSlotView(value.Value, g, model.itemManager.bullets);
         }).AddTo(this);
         model.itemManager.gunItemSlot.ObserveReplace().Subscribe(value => {
-            view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index, value.NewValue, model.itemManager.currentGunItem, model.itemManager.bullets);
+            GunItem g = model.itemManager.GetGunItemData().gunItem;
+            view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index, value.NewValue, g, model.itemManager.bullets);
         }).AddTo(this);
 
         view.oparetionView.gunItemSlider.horizontalScrollSnap._page.SkipLatestValueOnSubscribe().Subscribe(value => {
             model.itemManager.currentGunItemSlotIndex = value;
-            Debug.Log("ssdsdsds");
             model.playerModel.PlaySwitchWeapon();
         }).AddTo(this);
     }

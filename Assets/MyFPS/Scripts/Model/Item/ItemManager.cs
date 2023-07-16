@@ -15,8 +15,7 @@ public class ItemManager : MonoBehaviour
     [HideInInspector] public ReactiveCollection<GunItemData> gunItemSlot = new();
     [HideInInspector] public List<GameObject> dispItemPlates = new();
     [HideInInspector] public int currentGunItemSlotIndex = 0;
-    [HideInInspector] public GunItem currentGunItem;
-    [HideInInspector] public int bullets = 10;
+    [HideInInspector] public int bullets = 100;
 
     //???????????0?hand?1?shoulder?????
 
@@ -40,10 +39,12 @@ public class ItemManager : MonoBehaviour
     }
 
 
-    private GunItemData GetGunItemData(int itemID)
+    private GunItemData GetGunItemData(int itemID,GunItem gunItem)
     {
         Debug.Log("get item");
-        return itemDataBase.gunItemDataBase[itemID];
+        GunItemData gunItemData = itemDataBase.gunItemDataBase[itemID];
+        gunItemData.gunItem = gunItem;
+        return gunItemData;
     }
 
     public void GetItem(Item item)
@@ -51,20 +52,22 @@ public class ItemManager : MonoBehaviour
         switch (item.itemType)
         {
             case ItemType.GUN:
+                GunItem gunItem = item.GetComponent<GunItem>();
+                gunItem.magazineSize ??= 30;
                 if (gunItemSlot.Count == 2)
                 {
-                    ShowWeapon(item.transform, currentGunItemSlotIndex != 0);
-                    gunItemSlot[currentGunItemSlotIndex] = GetGunItemData(item.itemId);
+                    ShowWeapon(gunItem, currentGunItemSlotIndex != 0);
+                    gunItemSlot[currentGunItemSlotIndex] = GetGunItemData(item.itemId,gunItem);
                 }
                 else if(gunItemSlot.Count == 1)
                 {
-                    ShowWeapon(item.transform, true);
-                    gunItemSlot.Add(GetGunItemData(item.itemId));
+                    ShowWeapon(gunItem, true);
+                    gunItemSlot.Add(GetGunItemData(item.itemId,gunItem));
                 }
                 else
                 {
-                    ShowWeapon(item.transform, false);
-                    gunItemSlot.Add(GetGunItemData(item.itemId));
+                    ShowWeapon(gunItem, false);
+                    gunItemSlot.Add(GetGunItemData(item.itemId,gunItem));
                 }
                 hasHandWeapon.Value = true;
                 break;
@@ -132,7 +135,7 @@ public class ItemManager : MonoBehaviour
     }
 
 
-    public void ShowWeapon(Transform getItem,bool isCarry)
+    public void ShowWeapon(GunItem gunItem,bool isCarry)
     {
         Transform targetPoint;
         if (isCarry) targetPoint = shoulderWeaponPoint;
@@ -142,19 +145,28 @@ public class ItemManager : MonoBehaviour
         {
             Transform hasWeapon;
             hasWeapon = targetPoint.GetChild(0).transform;
-            hasWeapon.position = getItem.position;
+            hasWeapon.position = gunItem.transform.position;
             hasWeapon.parent = null;
         }
-        getItem.SetParent(targetPoint);
-        getItem.localPosition = getItem.localEulerAngles = Vector3.zero;
+        gunItem.transform.SetParent(targetPoint);
+        gunItem.transform.localPosition = gunItem.transform.localEulerAngles = Vector3.zero;
 
-        currentGunItem = getItem.GetComponent<GunItem>();
     }
 
-    public void SetCurrentGunItemData()
+    public GunItemData GetGunItemData()
     {
-        currentGunItem = handWeaponPoint.GetComponentInChildren<GunItem>();
-        currentGunItem.magazineSize ??= gunItemSlot[0].magazineSize;
+        return gunItemSlot[currentGunItemSlotIndex];
+    }
+
+    public void SwitchWeapon()
+    {
+        Transform shoulderItem = shoulderWeaponPoint.GetChild(0);
+        Transform handItem = handWeaponPoint.GetChild(0);
+        shoulderItem.SetParent(handWeaponPoint);
+        handItem.SetParent(shoulderWeaponPoint);
+        shoulderItem.localPosition = shoulderItem.localEulerAngles = Vector3.zero;
+        handItem.localPosition = handItem.localEulerAngles = Vector3.zero;
+        Debug.Log(shoulderItem.parent.name);
     }
 
 }
