@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UniRx;
 
 namespace Assets.SimpleSlider.Scripts
 {
@@ -15,12 +16,12 @@ namespace Assets.SimpleSlider.Scripts
 		public GameObject Pagination;
 		public int SwipeThreshold = 50;
 		public float SwipeTime = 0.5f;
+		[HideInInspector] public IntReactiveProperty _page = new();
 
 		private Toggle[] _pageToggles;
 
 		private bool _drag;
 		private bool _lerp;
-		private int _page;
 		private float _dragTime;
 
 		/// <summary>
@@ -29,25 +30,34 @@ namespace Assets.SimpleSlider.Scripts
 		/// <param name="random"></param>
 		public void Initialize(bool random = false)
 		{
-			ScrollRect.horizontalNormalizedPosition = 0;
 			_pageToggles = Pagination.GetComponentsInChildren<Toggle>(true);
 			
-			if (random)
-			{
-				ShowRandom();
-			}
+			//if (random)
+			//{
+			//	ShowRandom();
+			//}
 
-			UpdatePaginator(_page);
-			enabled = true;
-		}
+			UpdatePaginator(_page.Value);
+			if (_pageToggles.Length == 2)
+			{
+				ScrollRect.horizontal = true;
+				ScrollRect.horizontalNormalizedPosition = 0;
+			}
+			else {
+				ScrollRect.horizontal = false;
+			}
+        }
 
 		/// <summary>
 		/// Performs focusing on target page.
 		/// </summary>
 		public void Update()
 		{
+			if (Input.GetKeyDown(KeyCode.D))
+			{
+				ScrollRect.horizontalNormalizedPosition = _page.Value;
+			}
 			if (!_lerp || _drag) return;
-
 			if (Pagination)
 			{
 				var page = GetCurrentPage();
@@ -58,7 +68,7 @@ namespace Assets.SimpleSlider.Scripts
 				}
 			}
 
-			var horizontalNormalizedPosition = (float) _page / (ScrollRect.content.childCount - 1);
+			var horizontalNormalizedPosition = (float) _page.Value / (ScrollRect.content.childCount - 1);
 
 			ScrollRect.horizontalNormalizedPosition = Mathf.Lerp(ScrollRect.horizontalNormalizedPosition, horizontalNormalizedPosition, 5 * Time.deltaTime);
 
@@ -82,11 +92,11 @@ namespace Assets.SimpleSlider.Scripts
 			{
 				page = UnityEngine.Random.Range(0, ScrollRect.content.childCount);
 			}
-			while (page == _page);
+			while (page == _page.Value);
 
 			_lerp = false;
-			_page = page;
-			ScrollRect.horizontalNormalizedPosition = (float) _page / (ScrollRect.content.childCount - 1);
+			_page.Value = page;
+			ScrollRect.horizontalNormalizedPosition = (float) _page.Value / (ScrollRect.content.childCount - 1);
 		}
 
 		/// <summary>
@@ -109,10 +119,10 @@ namespace Assets.SimpleSlider.Scripts
 		{
 			direction = Math.Sign(direction);
 
-			if (_page == 0 && direction == -1 || _page == ScrollRect.content.childCount - 1 && direction == 1) return;
+			if (_page.Value == 0 && direction == -1 || _page.Value == ScrollRect.content.childCount - 1 && direction == 1) return;
 
 			_lerp = true;
-			_page += direction;
+			_page.Value += direction;
 		}
 
 		private int GetCurrentPage()
@@ -138,9 +148,9 @@ namespace Assets.SimpleSlider.Scripts
 		{
 			var page = GetCurrentPage();
 
-			if (page != _page)
+			if (page != _page.Value)
 			{
-				_page = page;
+				_page.Value = page;
 				UpdatePaginator(page);
 			}
 		}

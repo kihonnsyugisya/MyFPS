@@ -12,10 +12,11 @@ public class ItemManager : MonoBehaviour
 
     [SerializeField] private GameObject itemInfoPlateObj;
 
-    [HideInInspector] public List<GunItemData> gunItemSlot = new();
+    [HideInInspector] public ReactiveCollection<GunItemData> gunItemSlot = new();
     [HideInInspector] public List<GameObject> dispItemPlates = new();
     [HideInInspector] public int currentGunItemSlotIndex = 0;
     [HideInInspector] public GunItem currentGunItem;
+    [HideInInspector] public int bullets = 10;
 
     //???????????0?hand?1?shoulder?????
 
@@ -26,11 +27,7 @@ public class ItemManager : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 
     private ItemSourceData GetItemSourceData(Item item)
     {
@@ -56,19 +53,18 @@ public class ItemManager : MonoBehaviour
             case ItemType.GUN:
                 if (gunItemSlot.Count == 2)
                 {
+                    ShowWeapon(item.transform, currentGunItemSlotIndex != 0);
                     gunItemSlot[currentGunItemSlotIndex] = GetGunItemData(item.itemId);
-                    ShowWeapon(item.transform, true);
                 }
                 else if(gunItemSlot.Count == 1)
                 {
-                    gunItemSlot.Add(GetGunItemData(item.itemId));
                     ShowWeapon(item.transform, true);
+                    gunItemSlot.Add(GetGunItemData(item.itemId));
                 }
                 else
                 {
-                    gunItemSlot.Add(GetGunItemData(item.itemId));
                     ShowWeapon(item.transform, false);
-                    SetCurrentGunItemData();
+                    gunItemSlot.Add(GetGunItemData(item.itemId));
                 }
                 hasHandWeapon.Value = true;
                 break;
@@ -151,7 +147,8 @@ public class ItemManager : MonoBehaviour
         }
         getItem.SetParent(targetPoint);
         getItem.localPosition = getItem.localEulerAngles = Vector3.zero;
-        
+
+        currentGunItem = getItem.GetComponent<GunItem>();
     }
 
     public void SetCurrentGunItemData()

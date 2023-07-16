@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-public class OparetionView : MonoBehaviour
+public class GunItemSlotView : MonoBehaviour
 {
-    public Button gunShootingButton;
-    public Button jumpButton;
-    public Button reLoadButton;
-    public Button aimButton;
-    public GunItemSlider gunItemSlider;
+    [HideInInspector] public Button button;
+    public TextMeshProUGUI bulletSize;
+    public TextMeshProUGUI magazineSize;
+ 
+    private void Awake()
+    {
+        button = GetComponent<Button>();
+    }
 
     // Start is called before the first frame update
     void Start()

@@ -35,7 +35,13 @@ public class Presenter : MonoBehaviour
         view.oparetionView.jumpButton.OnClickAsObservable().Subscribe(_ => model.playerModel.PlayJump()).AddTo(this);
         model.playerModel.isAiming.Subscribe(value => { model.playerModel.gameObject.layer = value ? 2 : 0; }).AddTo(this);
 
-
+        model.itemManager.gunItemSlot.ObserveAdd().Subscribe(value => {
+            if (value.Index == 0) view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index,value.Value, model.itemManager.currentGunItem, model.itemManager.bullets);
+            else view.oparetionView.gunItemSlider.SetGunItemSlotView(value.Value, model.itemManager.currentGunItem, model.itemManager.bullets);
+        }).AddTo(this);
+        model.itemManager.gunItemSlot.ObserveReplace().Subscribe(value => {
+            view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index, value.NewValue, model.itemManager.currentGunItem, model.itemManager.bullets);
+        }).AddTo(this);
     }
     [SerializeField] bool set;
     // Update is called once per frame
