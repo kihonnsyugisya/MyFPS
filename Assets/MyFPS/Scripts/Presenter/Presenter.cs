@@ -42,6 +42,12 @@ public class Presenter : MonoBehaviour
         model.itemManager.gunItemSlot.ObserveReplace().Subscribe(value => {
             view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index, value.NewValue, model.itemManager.currentGunItem, model.itemManager.bullets);
         }).AddTo(this);
+
+        view.oparetionView.gunItemSlider.horizontalScrollSnap._page.SkipLatestValueOnSubscribe().Subscribe(value => {
+            model.itemManager.currentGunItemSlotIndex = value;
+            Debug.Log("ssdsdsds");
+            model.playerModel.PlaySwitchWeapon();
+        }).AddTo(this);
     }
     [SerializeField] bool set;
     // Update is called once per frame

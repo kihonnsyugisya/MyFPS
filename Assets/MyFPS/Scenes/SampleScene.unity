@@ -587,6 +587,14 @@ MonoBehaviour:
     m_VirtualCamera: {fileID: 1832555136}
     m_ActivateAfter: 0
     m_MinDuration: 0
+  - m_FullHash: -1983283253
+    m_VirtualCamera: {fileID: 1832555136}
+    m_ActivateAfter: 0
+    m_MinDuration: 0
+  - m_FullHash: 354613152
+    m_VirtualCamera: {fileID: 1832555136}
+    m_ActivateAfter: 0
+    m_MinDuration: 0
   m_DefaultBlend:
     m_Style: 1
     m_Time: 0.4
@@ -614,7 +622,7 @@ MonoBehaviour:
     m_ParentHash: 756556552
   - m_Hash: 131655881
     m_ParentHash: -1448635979
-  - m_Hash: 1146342105
+  - m_Hash: -744005006
     m_ParentHash: -1448635979
   - m_Hash: 797280537
     m_ParentHash: -1448635979
@@ -630,6 +638,12 @@ MonoBehaviour:
     m_ParentHash: -1448635979
   - m_Hash: 81957798
     m_ParentHash: -1448635979
+  - m_Hash: 354613152
+    m_ParentHash: 756556552
+  - m_Hash: 2136656005
+    m_ParentHash: 756556552
+  - m_Hash: -1983283253
+    m_ParentHash: 756556552
 --- !u!4 &133893496
 Transform:
   m_ObjectHideFlags: 0
