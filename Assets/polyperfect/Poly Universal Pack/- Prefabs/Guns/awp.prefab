@@ -183,7 +183,7 @@ MonoBehaviour:
   itemType: 0
   magazineSize:
     value: 8
-  bulletObj: {fileID: 3851796576372689554, guid: bb6818a2966f64782ad5f2f63029bd0e,
+  bulletObj: {fileID: 7158560429425753788, guid: 1561ab6ded1ae49ac9858a13f0942077,
     type: 3}
   gunPoint: {fileID: 2780414436934065178}
   gunEffect: {fileID: 5531774052838379401}

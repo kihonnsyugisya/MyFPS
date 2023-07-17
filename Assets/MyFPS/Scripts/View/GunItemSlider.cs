@@ -46,25 +46,24 @@ public class GunItemSlider : MonoBehaviour
 
 	}
 
-	public void SetGunItemSlotView(GunItemData gunItemData, GunItem gunItem, int bulletSize)
+	public void SetGunItemSlotView(GunItemData gunItemData, GunItem gunItem, IntReactiveProperty bulletSize)
 	{
 		var instance = Instantiate(gunItemSlotView, bannerGrid);
 		instance.button.image.sprite = gunItemData.itemeIcon;
 		gunItem.magazineSize.Subscribe(size => instance.magazineSize.text = size.ToString()).AddTo(this);
-		//instance.magazineSize.text = gunItem.magazineSize.Value.ToString();
-		instance.bulletSize.text = bulletSize.ToString();
+		bulletSize.Subscribe(size => instance.bulletSize.text = size.ToString()).AddTo(this);
+
 		var toggle = Instantiate(pagePrefab, paginationGrid);
 		toggle.group = paginationGrid.GetComponent<ToggleGroup>();
 		horizontalScrollSnap.Initialize();
 	}
 
-	public void ReplaceGunItemSlotView(int index, GunItemData gunItemData, GunItem gunItem, int bulletSize)
+	public void ReplaceGunItemSlotView(int index, GunItemData gunItemData, GunItem gunItem, IntReactiveProperty bulletSize)
 	{
 		GunItemSlotView gunItemSlotView = bannerGrid.GetChild(index).GetComponent<GunItemSlotView>();
 		gunItemSlotView.button.image.sprite = gunItemData.itemeIcon;
 		gunItem.magazineSize.Subscribe(size => gunItemSlotView.magazineSize.text = size.ToString()).AddTo(this);
-		//gunItemSlotView.magazineSize.text = gunItem.magazineSize.ToString();
-		gunItemSlotView.bulletSize.text = bulletSize.ToString();
+		bulletSize.Subscribe(size => gunItemSlotView.bulletSize.text = size.ToString()).AddTo(this);
 		horizontalScrollSnap.Initialize();
 	}
 

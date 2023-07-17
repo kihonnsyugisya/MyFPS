@@ -16,7 +16,12 @@ public class ItemManager : MonoBehaviour
     [HideInInspector] public ReactiveCollection<GunItem> gunitemHolder = new();
     [HideInInspector] public List<GameObject> dispItemPlates = new();
     [HideInInspector] public int currentGunItemSlotIndex = 0;
-    [HideInInspector] public int bullets = 100;
+
+    [HideInInspector] public Dictionary<BulletType, IntReactiveProperty> bulletHolder = new() {
+        { BulletType.Short, new IntReactiveProperty(10)},
+        { BulletType.Long, new IntReactiveProperty(2) },
+        { BulletType.Shot, new IntReactiveProperty(8) },
+    };
 
     //???????????0?hand?1?shoulder?????
 
@@ -160,6 +165,23 @@ public class ItemManager : MonoBehaviour
         handItem.SetParent(shoulderWeaponPoint);
         shoulderItem.localPosition = shoulderItem.localEulerAngles = Vector3.zero;
         handItem.localPosition = handItem.localEulerAngles = Vector3.zero;
+    }
+
+    public void ReloadGun()
+    {
+        BulletType bulletType = gunItemSlot[currentGunItemSlotIndex].bulletType;
+        int needBullets = gunItemSlot[currentGunItemSlotIndex].magazineSize - gunitemHolder[currentGunItemSlotIndex].magazineSize.Value;
+        if (needBullets > bulletHolder[bulletType].Value)
+        {
+            gunitemHolder[currentGunItemSlotIndex].magazineSize.Value += bulletHolder[bulletType].Value;
+            bulletHolder[bulletType].Value = 0;
+
+
+        }
+        else {
+            bulletHolder[bulletType].Value -= needBullets;
+            gunitemHolder[currentGunItemSlotIndex].magazineSize.Value += needBullets;
+        }
     }
 
 }

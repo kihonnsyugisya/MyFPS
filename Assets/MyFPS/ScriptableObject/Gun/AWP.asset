@@ -19,3 +19,4 @@ MonoBehaviour:
   magazineSize: 6
   rate: 0
   gunType: 3
+  bulletType: 1

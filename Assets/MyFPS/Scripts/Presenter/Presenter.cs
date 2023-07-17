@@ -33,18 +33,21 @@ public class Presenter : MonoBehaviour
                 });
 
         view.oparetionView.aimButton.OnClickAsObservable().Subscribe(_=> model.playerModel.PlayAiming()).AddTo(this);
-        view.oparetionView.reLoadButton.OnClickAsObservable().Subscribe(_ => model.playerModel.ReloadGun()).AddTo(this);
+        view.oparetionView.reLoadButton.OnClickAsObservable().Subscribe(_ => {
+            model.playerModel.ReloadGun();
+            model.itemManager.ReloadGun();
+        }).AddTo(this);
         view.oparetionView.jumpButton.OnClickAsObservable().Subscribe(_ => model.playerModel.PlayJump()).AddTo(this);
         model.playerModel.isAiming.Subscribe(value => { model.playerModel.gameObject.layer = value ? 2 : 0; }).AddTo(this);
 
         model.itemManager.gunItemSlot.ObserveAdd().Subscribe(value => {
             GunItem g = model.itemManager.gunitemHolder[value.Index];
-            if (value.Index == 0) view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index,value.Value, g, model.itemManager.bullets);
-            else view.oparetionView.gunItemSlider.SetGunItemSlotView(value.Value, g, model.itemManager.bullets);
+            if (value.Index == 0) view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index,value.Value, g, model.itemManager.bulletHolder[value.Value.bulletType]);
+            else view.oparetionView.gunItemSlider.SetGunItemSlotView(value.Value, g, model.itemManager.bulletHolder[value.Value.bulletType]);
         }).AddTo(this);
         model.itemManager.gunItemSlot.ObserveReplace().Subscribe(value => {
             GunItem g = model.itemManager.gunitemHolder[value.Index];
-            view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index, value.NewValue, g, model.itemManager.bullets);
+            view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index, value.NewValue, g, model.itemManager.bulletHolder[value.NewValue.bulletType]);
         }).AddTo(this);
 
         view.oparetionView.gunItemSlider.horizontalScrollSnap._page.SkipLatestValueOnSubscribe().Subscribe(value => {
