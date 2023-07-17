@@ -178,6 +178,7 @@ public class PlayerModel : MonoBehaviour
     {
         if (!gunItem.gunEffect) return;
         gunItem.gunEffect.SetActive(false);
+        
     }
 
     public Vector3 GetWorldPositionFromAimPoint()

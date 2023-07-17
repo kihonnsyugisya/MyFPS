@@ -20,7 +20,8 @@ public class Presenter : MonoBehaviour
                 .DoOnCompleted(() =>
                 {
                     Debug.Log("released!");
-                    model.playerModel.OnpointerUpGunShoot(model.itemManager.GetGunItem());                   
+                    model.playerModel.OnpointerUpGunShoot(model.itemManager.GetGunItem());
+                    model.itemManager.CheckCanReload();
                 })
                 .RepeatUntilDestroy(view.oparetionView.gunShootingButton)
                 .Subscribe(unit =>
@@ -30,11 +31,13 @@ public class Presenter : MonoBehaviour
                     GunItem gi = model.itemManager.GetGunItem();
                     model.playerModel.OnclickGunShoot(gid,gi);       
                 });
+        model.itemManager.canReload.Subscribe(value => view.oparetionView.reLoadButton.interactable = value).AddTo(this);
 
         view.oparetionView.aimButton.OnClickAsObservable().Subscribe(_=> model.playerModel.PlayAiming()).AddTo(this);
         view.oparetionView.reLoadButton.OnClickAsObservable().Subscribe(_ => {
             model.playerModel.ReloadGun();
             model.itemManager.ReloadGun();
+            model.itemManager.canReload.Value = false;
         }).AddTo(this);
         view.oparetionView.jumpButton.OnClickAsObservable().Subscribe(_ => model.playerModel.PlayJump()).AddTo(this);
         model.playerModel.isAiming.Subscribe(value => { model.playerModel.gameObject.layer = value ? 2 : 0; }).AddTo(this);
