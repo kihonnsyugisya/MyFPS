@@ -10,6 +10,7 @@ public class GunItemData : ItemSourceData
     public int magazineSize;
     public float rate;
     public GunType gunType;
+    public BulletType bulletType;
 }
 
 public enum GunType 

@@ -13,7 +13,6 @@ public class Presenter : MonoBehaviour
     void Start()
     {
         model.emoteModel.MakeEmoteButtonList(model.playerModel.animator);
-        model.itemManager.hasHandWeapon.Subscribe(value => { if(value) model.playerModel.PlayHasGun(); }).AddTo(this);
         view.oparetionView.gunShootingButton.OnPointerDownAsObservable()
                 .SelectMany(_ => view.oparetionView.gunShootingButton.UpdateAsObservable())
                 .TakeUntil(view.oparetionView.gunShootingButton.OnPointerUpAsObservable())
@@ -21,21 +20,45 @@ public class Presenter : MonoBehaviour
                 .DoOnCompleted(() =>
                 {
                     Debug.Log("released!");
-                    model.playerModel.OnpointerUpGunShoot(model.itemManager.currentGunItem);
+                    model.playerModel.OnpointerUpGunShoot(model.itemManager.GetGunItem());                   
                 })
                 .RepeatUntilDestroy(view.oparetionView.gunShootingButton)
                 .Subscribe(unit =>
                 {
                     Debug.Log("pressing...");
-                    model.playerModel.OnclickGunShoot(model.itemManager.gunItemSlot[model.itemManager.currentGunItemSlotIndex], model.itemManager.currentGunItem);
+                    GunItemData gid = model.itemManager.GetGunItemData();
+                    GunItem gi = model.itemManager.GetGunItem();
+                    model.playerModel.OnclickGunShoot(gid,gi);       
                 });
 
         view.oparetionView.aimButton.OnClickAsObservable().Subscribe(_=> model.playerModel.PlayAiming()).AddTo(this);
-        view.oparetionView.reLoadButton.OnClickAsObservable().Subscribe(_ => model.playerModel.ReloadGun()).AddTo(this);
+        view.oparetionView.reLoadButton.OnClickAsObservable().Subscribe(_ => {
+            model.playerModel.ReloadGun();
+            model.itemManager.ReloadGun();
+        }).AddTo(this);
         view.oparetionView.jumpButton.OnClickAsObservable().Subscribe(_ => model.playerModel.PlayJump()).AddTo(this);
         model.playerModel.isAiming.Subscribe(value => { model.playerModel.gameObject.layer = value ? 2 : 0; }).AddTo(this);
 
+        model.itemManager.gunItemSlot.ObserveAdd().Subscribe(value => {
+            GunItem g = model.itemManager.gunitemHolder[value.Index];
+            if (value.Index == 0) view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index,value.Value, g, model.itemManager.bulletHolder[value.Value.bulletType]);
+            else view.oparetionView.gunItemSlider.SetGunItemSlotView(value.Value, g, model.itemManager.bulletHolder[value.Value.bulletType]);
+        }).AddTo(this);
+        model.itemManager.gunItemSlot.ObserveReplace().Subscribe(value => {
+            GunItem g = model.itemManager.gunitemHolder[value.Index];
+            view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index, value.NewValue, g, model.itemManager.bulletHolder[value.NewValue.bulletType]);
+        }).AddTo(this);
 
+        view.oparetionView.gunItemSlider.horizontalScrollSnap._page.SkipLatestValueOnSubscribe().Subscribe(value => {
+            model.itemManager.currentGunItemSlotIndex = value;
+            model.playerModel.PlaySwitchWeapon();
+        }).AddTo(this);
+
+        model.itemManager.hasHandWeapon.Subscribe(value => {
+            if (value) model.playerModel.PlayHasGun();
+            foreach (var gunButton in view.oparetionView.gunButtons) gunButton.gameObject.SetActive(value);
+            view.oparetionView.gunItemSlider.gameObject.SetActive(value);
+        }).AddTo(this);
     }
     [SerializeField] bool set;
     // Update is called once per frame

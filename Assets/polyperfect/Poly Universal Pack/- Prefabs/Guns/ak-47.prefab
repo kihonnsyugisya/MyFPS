@@ -423,6 +423,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 0
   itemType: 0
+  magazineSize:
+    value: 30
   bulletObj: {fileID: 7158560429425753788, guid: 7bcd4c39f6772416a92d5ccd95ea6465,
     type: 3}
   gunPoint: {fileID: 4147038821041944238}
