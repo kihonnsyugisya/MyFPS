@@ -38,12 +38,12 @@ public class Presenter : MonoBehaviour
         model.playerModel.isAiming.Subscribe(value => { model.playerModel.gameObject.layer = value ? 2 : 0; }).AddTo(this);
 
         model.itemManager.gunItemSlot.ObserveAdd().Subscribe(value => {
-            GunItem g = model.itemManager.GetGunItem();
+            GunItem g = model.itemManager.gunitemHolder[value.Index];
             if (value.Index == 0) view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index,value.Value, g, model.itemManager.bullets);
             else view.oparetionView.gunItemSlider.SetGunItemSlotView(value.Value, g, model.itemManager.bullets);
         }).AddTo(this);
         model.itemManager.gunItemSlot.ObserveReplace().Subscribe(value => {
-            GunItem g = model.itemManager.GetGunItem();
+            GunItem g = model.itemManager.gunitemHolder[value.Index];
             view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index, value.NewValue, g, model.itemManager.bullets);
         }).AddTo(this);
 

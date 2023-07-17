@@ -13,7 +13,7 @@ public class ItemManager : MonoBehaviour
     [SerializeField] private GameObject itemInfoPlateObj;
 
     [HideInInspector] public ReactiveCollection<GunItemData> gunItemSlot = new();
-    [HideInInspector] public List<GunItem> gunitemHolder = new();
+    [HideInInspector] public ReactiveCollection<GunItem> gunitemHolder = new();
     [HideInInspector] public List<GameObject> dispItemPlates = new();
     [HideInInspector] public int currentGunItemSlotIndex = 0;
     [HideInInspector] public int bullets = 100;
@@ -53,7 +53,6 @@ public class ItemManager : MonoBehaviour
         {
             case ItemType.GUN:
                 GunItem gunItem = item.GetComponent<GunItem>();
-                gunItem.magazineSize ??= 30;
                 if (gunItemSlot.Count == 2)
                 {
                     ShowWeapon(gunItem, currentGunItemSlotIndex != 0);

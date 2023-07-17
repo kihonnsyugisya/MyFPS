@@ -160,7 +160,7 @@ public class PlayerModel : MonoBehaviour
         Debug.Log(gunItemData.magazineSize);
         Debug.Log(gunItemData.itemName);
 
-        if (gunItem.magazineSize <= 0)
+        if (gunItem.magazineSize.Value <= 0)
         {
             OnpointerUpGunShoot(gunItem);
         }
@@ -170,7 +170,7 @@ public class PlayerModel : MonoBehaviour
             GameObject bullet = Instantiate(gunItem.bulletObj, gunItem.gunPoint.position, Quaternion.identity);
             //bullet.GetComponent<Bullet>().playerID =
             bullet.GetComponent<Rigidbody>().AddForce(bullerFlyingDistance * gunItemData.atkPoint * ((GetAimPoint() - gunItem.gunPoint.position).normalized));
-            gunItem.magazineSize--;
+            gunItem.magazineSize.Value --;
         }
     }
 

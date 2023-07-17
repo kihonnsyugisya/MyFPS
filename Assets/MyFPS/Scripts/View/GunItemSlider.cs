@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using UniRx;
 using Custom = Assets.SimpleSlider.Scripts;
 
 public class GunItemSlider : MonoBehaviour
@@ -48,7 +50,8 @@ public class GunItemSlider : MonoBehaviour
 	{
 		var instance = Instantiate(gunItemSlotView, bannerGrid);
 		instance.button.image.sprite = gunItemData.itemeIcon;
-		instance.magazineSize.text = gunItem.magazineSize.ToString();
+		gunItem.magazineSize.Subscribe(size => instance.magazineSize.text = size.ToString()).AddTo(this);
+		//instance.magazineSize.text = gunItem.magazineSize.Value.ToString();
 		instance.bulletSize.text = bulletSize.ToString();
 		var toggle = Instantiate(pagePrefab, paginationGrid);
 		toggle.group = paginationGrid.GetComponent<ToggleGroup>();
@@ -59,7 +62,8 @@ public class GunItemSlider : MonoBehaviour
 	{
 		GunItemSlotView gunItemSlotView = bannerGrid.GetChild(index).GetComponent<GunItemSlotView>();
 		gunItemSlotView.button.image.sprite = gunItemData.itemeIcon;
-		gunItemSlotView.magazineSize.text = gunItem.magazineSize.ToString();
+		gunItem.magazineSize.Subscribe(size => gunItemSlotView.magazineSize.text = size.ToString()).AddTo(this);
+		//gunItemSlotView.magazineSize.text = gunItem.magazineSize.ToString();
 		gunItemSlotView.bulletSize.text = bulletSize.ToString();
 		horizontalScrollSnap.Initialize();
 	}

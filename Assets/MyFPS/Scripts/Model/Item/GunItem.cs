@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 public class GunItem : Item
 {
-    [HideInInspector] public int? magazineSize;
+    public IntReactiveProperty magazineSize = new();
     public GameObject bulletObj;
     public Transform gunPoint;
     public GameObject gunEffect;
