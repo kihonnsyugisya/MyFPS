@@ -13,10 +13,10 @@ public class ItemManager : MonoBehaviour
     [SerializeField] private GameObject itemInfoPlateObj;
 
     [HideInInspector] public ReactiveCollection<GunItemData> gunItemSlot = new();
-    [HideInInspector] public ReactiveCollection<GunItem> gunitemHolder = new();
+    [HideInInspector] public List<GunItem> gunitemHolder = new();
     [HideInInspector] public List<GameObject> dispItemPlates = new();
     [HideInInspector] public int currentGunItemSlotIndex = 0;
-
+    [HideInInspector] public BoolReactiveProperty canReload = new(false);
     [HideInInspector] public Dictionary<BulletType, IntReactiveProperty> bulletHolder = new() {
         { BulletType.Short, new IntReactiveProperty(10)},
         { BulletType.Long, new IntReactiveProperty(2) },
@@ -184,6 +184,16 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    public void CheckCanReload()
+    {
+        GunItemData currentGunData = gunItemSlot[currentGunItemSlotIndex];
+        GunItem currentGunItem = gunitemHolder[currentGunItemSlotIndex];
+        if (bulletHolder[currentGunData.bulletType].Value > 0 && currentGunItem.magazineSize.Value < currentGunData.magazineSize)
+        {
+            canReload.Value = true;
+        }
+        else canReload.Value = false;
+    }
 }
 
 
