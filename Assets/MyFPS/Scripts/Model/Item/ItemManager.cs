@@ -55,7 +55,7 @@ public class ItemManager : MonoBehaviour
                 GunItem gunItem = item.GetComponent<GunItem>();
                 if (gunItemSlot.Count == 2)
                 {
-                    ShowWeapon(gunItem, currentGunItemSlotIndex != 0);
+                    ShowWeapon(gunItem, false);
                     gunitemHolder[currentGunItemSlotIndex] = gunItem;
                     gunItemSlot[currentGunItemSlotIndex] = GetGunItemData(item.itemId);
                 }
@@ -155,6 +155,7 @@ public class ItemManager : MonoBehaviour
     {
         Transform shoulderItem = shoulderWeaponPoint.GetChild(0);
         Transform handItem = handWeaponPoint.GetChild(0);
+
         shoulderItem.SetParent(handWeaponPoint);
         handItem.SetParent(shoulderWeaponPoint);
         shoulderItem.localPosition = shoulderItem.localEulerAngles = Vector3.zero;
@@ -162,3 +163,5 @@ public class ItemManager : MonoBehaviour
     }
 
 }
+
+

@@ -41,7 +41,6 @@ namespace Assets.SimpleSlider.Scripts
 			if (_pageToggles.Length == 2)
 			{
 				ScrollRect.horizontal = true;
-				ScrollRect.horizontalNormalizedPosition = 0;
 			}
 			else {
 				ScrollRect.horizontal = false;
@@ -53,10 +52,6 @@ namespace Assets.SimpleSlider.Scripts
 		/// </summary>
 		public void Update()
 		{
-			if (Input.GetKeyDown(KeyCode.D))
-			{
-				ScrollRect.horizontalNormalizedPosition = _page.Value;
-			}
 			if (!_lerp || _drag) return;
 			if (Pagination)
 			{
