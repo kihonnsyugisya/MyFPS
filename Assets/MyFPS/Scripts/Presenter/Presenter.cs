@@ -13,7 +13,6 @@ public class Presenter : MonoBehaviour
     void Start()
     {
         model.emoteModel.MakeEmoteButtonList(model.playerModel.animator);
-        model.itemManager.hasHandWeapon.Subscribe(value => { if(value) model.playerModel.PlayHasGun(); }).AddTo(this);
         view.oparetionView.gunShootingButton.OnPointerDownAsObservable()
                 .SelectMany(_ => view.oparetionView.gunShootingButton.UpdateAsObservable())
                 .TakeUntil(view.oparetionView.gunShootingButton.OnPointerUpAsObservable())
@@ -53,6 +52,12 @@ public class Presenter : MonoBehaviour
         view.oparetionView.gunItemSlider.horizontalScrollSnap._page.SkipLatestValueOnSubscribe().Subscribe(value => {
             model.itemManager.currentGunItemSlotIndex = value;
             model.playerModel.PlaySwitchWeapon();
+        }).AddTo(this);
+
+        model.itemManager.hasHandWeapon.Subscribe(value => {
+            if (value) model.playerModel.PlayHasGun();
+            foreach (var gunButton in view.oparetionView.gunButtons) gunButton.gameObject.SetActive(value);
+            view.oparetionView.gunItemSlider.gameObject.SetActive(value);
         }).AddTo(this);
     }
     [SerializeField] bool set;

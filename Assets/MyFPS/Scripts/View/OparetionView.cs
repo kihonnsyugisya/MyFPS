@@ -10,6 +10,15 @@ public class OparetionView : MonoBehaviour
     public Button reLoadButton;
     public Button aimButton;
     public GunItemSlider gunItemSlider;
+    [HideInInspector] public List<Button> gunButtons;
+
+    private void Awake()
+    {
+        gunButtons = new()
+        {
+            gunShootingButton,reLoadButton,aimButton
+        };
+    }
 
     // Start is called before the first frame update
     void Start()
