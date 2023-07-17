@@ -157,6 +157,9 @@ public class PlayerModel : MonoBehaviour
     }
     public void OnclickGunShoot(GunItemData gunItemData,GunItem gunItem)
     {
+        Debug.Log(gunItemData.magazineSize);
+        Debug.Log(gunItemData.itemName);
+
         if (gunItem.magazineSize <= 0)
         {
             OnpointerUpGunShoot(gunItem);
@@ -173,6 +176,7 @@ public class PlayerModel : MonoBehaviour
 
     public void OnpointerUpGunShoot(GunItem gunItem)
     {
+        if (!gunItem.gunEffect) return;
         gunItem.gunEffect.SetActive(false);
     }
 

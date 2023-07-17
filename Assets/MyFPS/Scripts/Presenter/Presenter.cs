@@ -21,14 +21,15 @@ public class Presenter : MonoBehaviour
                 .DoOnCompleted(() =>
                 {
                     Debug.Log("released!");
-                    model.playerModel.OnpointerUpGunShoot(model.itemManager.GetGunItemData().gunItem);
+                    model.playerModel.OnpointerUpGunShoot(model.itemManager.GetGunItem());                   
                 })
                 .RepeatUntilDestroy(view.oparetionView.gunShootingButton)
                 .Subscribe(unit =>
                 {
                     Debug.Log("pressing...");
-                    GunItemData g = model.itemManager.GetGunItemData();
-                    model.playerModel.OnclickGunShoot(g,g.gunItem);
+                    GunItemData gid = model.itemManager.GetGunItemData();
+                    GunItem gi = model.itemManager.GetGunItem();
+                    model.playerModel.OnclickGunShoot(gid,gi);       
                 });
 
         view.oparetionView.aimButton.OnClickAsObservable().Subscribe(_=> model.playerModel.PlayAiming()).AddTo(this);
@@ -37,12 +38,12 @@ public class Presenter : MonoBehaviour
         model.playerModel.isAiming.Subscribe(value => { model.playerModel.gameObject.layer = value ? 2 : 0; }).AddTo(this);
 
         model.itemManager.gunItemSlot.ObserveAdd().Subscribe(value => {
-            GunItem g = model.itemManager.GetGunItemData().gunItem;
+            GunItem g = model.itemManager.GetGunItem();
             if (value.Index == 0) view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index,value.Value, g, model.itemManager.bullets);
             else view.oparetionView.gunItemSlider.SetGunItemSlotView(value.Value, g, model.itemManager.bullets);
         }).AddTo(this);
         model.itemManager.gunItemSlot.ObserveReplace().Subscribe(value => {
-            GunItem g = model.itemManager.GetGunItemData().gunItem;
+            GunItem g = model.itemManager.GetGunItem();
             view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index, value.NewValue, g, model.itemManager.bullets);
         }).AddTo(this);
 
