@@ -20,7 +20,7 @@ public class Presenter : MonoBehaviour
                 .DoOnCompleted(() =>
                 {
                     Debug.Log("released!");
-                    model.playerModel.OnpointerUpGunShoot(model.itemManager.GetGunItem());
+                    model.gunModel.OnpointerUpGunShoot(model.itemManager.GetGunItem());
                     model.itemManager.CheckCanReload();
                 })
                 .RepeatUntilDestroy(view.oparetionView.gunShootingButton)
@@ -29,7 +29,7 @@ public class Presenter : MonoBehaviour
                     Debug.Log("pressing...");
                     GunItemData gid = model.itemManager.GetGunItemData();
                     GunItem gi = model.itemManager.GetGunItem();
-                    model.playerModel.OnclickGunShoot(gid,gi);       
+                    model.gunModel.OnclickGunShoot(gid,gi);       
                 });
         model.itemManager.canReload.Subscribe(value => view.oparetionView.reLoadButton.interactable = value).AddTo(this);
 
