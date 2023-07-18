@@ -11,6 +11,8 @@ public class ItemManager : MonoBehaviour
 
     [HideInInspector] public List<GameObject> dispItemPlates = new();
 
+    //private int? currentDispItemInfoPlateID;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,22 +67,22 @@ public class ItemManager : MonoBehaviour
 
     public void UnDispItemInfoPlate()
     {
-        currentDispItemInfoPlateID = null;
+        //currentDispItemInfoPlateID = null;
         foreach (var itemPlate in dispItemPlates) Destroy(itemPlate);
+        Debug.Log("call");
     }
 
     public void UseItem()
     { }
 
-    private int? currentDispItemInfoPlateID;
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Item")) return;
         if (other.TryGetComponent(out Item item))
         {
-            if (currentDispItemInfoPlateID == other.GetInstanceID()) return;
-            currentDispItemInfoPlateID = other.GetInstanceID();
+            //if (currentDispItemInfoPlateID == other.GetInstanceID()) return;
+            //currentDispItemInfoPlateID = other.GetInstanceID();
             DispItemInfoPlate(item);
         }
     }
