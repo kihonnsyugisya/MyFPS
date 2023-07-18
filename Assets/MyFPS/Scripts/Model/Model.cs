@@ -7,7 +7,6 @@ public class Model : MonoBehaviour
     public PlayerModel playerModel;
     public EmoteModel emoteModel;
     public ItemManager itemManager;
-    public GunModel gunModel;
 
     // Start is called before the first frame update
     void Start()
