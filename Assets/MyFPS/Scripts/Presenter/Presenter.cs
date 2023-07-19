@@ -40,9 +40,7 @@ public class Presenter : MonoBehaviour
         view.oparetionView.jumpButton.OnClickAsObservable().Subscribe(_ => model.playerModel.PlayJump()).AddTo(this);
         model.playerModel.isAiming.Subscribe(value => {
             model.playerModel.gameObject.layer = value ? 2 : 0;
-            //foreach (GameObject itemPlate in model.itemManager.dispItemPlates) itemPlate.SetActive(value);
-            Debug.Log("???");
-            if(value) model.itemManager.UnDispItemInfoPlate();
+            foreach (ItemInfoPlate currentDispItemPlate in model.itemManager.dispItemPlateList) currentDispItemPlate.gameObject.SetActive(!value);
         }).AddTo(this);
 
         model.itemManager.gunModel.gunItemSlot.ObserveAdd().Subscribe(value => {

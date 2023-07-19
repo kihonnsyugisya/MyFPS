@@ -9,9 +9,7 @@ public class ItemManager : MonoBehaviour
 
     [SerializeField] private GameObject itemInfoPlateObj;
 
-    [HideInInspector] public List<GameObject> dispItemPlates = new();
-
-    //private int? currentDispItemInfoPlateID;
+    [HideInInspector] public List<ItemInfoPlate> dispItemPlateList = new();
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +37,7 @@ public class ItemManager : MonoBehaviour
                 gunModel.GetGunItem(gunItem,gunItemData);
                 break;
         }
-        UnDispItemInfoPlate();
+        UnDispItemInfoPlate(item);
     }
 
     private GunItemData GetGunItemData(int itemID)
@@ -51,26 +49,43 @@ public class ItemManager : MonoBehaviour
 
     public void DispItemInfoPlate(Item item)
     {
-        Transform parent = item.transform;
-        Vector3 pos = parent.position;
-        pos.y += 0.7f; 
-        GameObject instance = Instantiate(itemInfoPlateObj,pos,Quaternion.identity,parent);
-        dispItemPlates.Add(instance);
-        if (instance.TryGetComponent(out ItemInfoPlate iip))
+        if (!item.itemInfoPlate)
         {
-            iip.itemIcon.sprite = GetItemSourceData(item).itemeIcon;
-            iip.itemName.text = item.name;
-            iip.pickUpButton.onClick.AddListener(()=> GetItem(item));
+            Transform parent = item.transform;
+            Vector3 pos = parent.position;
+            pos.y += 0.7f;
+            GameObject instance = Instantiate(itemInfoPlateObj, pos, Quaternion.identity, parent);
+
+            if (instance.TryGetComponent(out ItemInfoPlate iip))
+            {
+                item.itemInfoPlate = iip;
+                iip.itemIcon.sprite = GetItemSourceData(item).itemeIcon;
+                iip.itemName.text = item.name;
+                iip.pickUpButton.onClick.AddListener(() => GetItem(item));
+                iip.uniqueID = iip.gameObject.GetInstanceID();
+                dispItemPlateList.Add(iip);
+            }
         }
 
+
+        if (item.itemInfoPlate.gameObject.activeSelf) return;
+        else { 
+            item.itemInfoPlate.gameObject.SetActive(true);
+            dispItemPlateList.Add(item.itemInfoPlate);
+        }
     }
 
-    public void UnDispItemInfoPlate()
+    public void UnDispItemInfoPlate(Item item)
     {
-        //currentDispItemInfoPlateID = null;
-        foreach (var itemPlate in dispItemPlates) Destroy(itemPlate);
-        Debug.Log("call");
+        //foreach (var itemPlate in dispItemPlates) Destroy(itemPlate);
+        if (!item.itemInfoPlate) return;
+        item.itemInfoPlate.gameObject.SetActive(false);
+        foreach (ItemInfoPlate itemPlate in dispItemPlateList.ToArray()) 
+        { 
+            if (item.itemInfoPlate.uniqueID == itemPlate.uniqueID) dispItemPlateList.Remove(itemPlate);
+        }
     }
+
 
     public void UseItem()
     { }
@@ -89,8 +104,11 @@ public class ItemManager : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Item")) return;       
-        UnDispItemInfoPlate();
+        if (!other.CompareTag("Item")) return;
+        if (other.TryGetComponent(out Item item))
+        {
+            UnDispItemInfoPlate(item);
+        }
 
     }
 

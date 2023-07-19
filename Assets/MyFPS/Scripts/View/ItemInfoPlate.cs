@@ -9,6 +9,7 @@ public class ItemInfoPlate : MonoBehaviour
     public TextMeshProUGUI itemName;
     public Image itemIcon;
     public Button pickUpButton;
+    [HideInInspector] public int uniqueID;
 
     // Start is called before the first frame update
     void Start()
