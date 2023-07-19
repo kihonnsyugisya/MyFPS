@@ -6,6 +6,7 @@ public class Item : MonoBehaviour
 {
     public int itemId;
     public ItemType itemType;
+    [HideInInspector] public ItemInfoPlate itemInfoPlate;
 
     // Start is called before the first frame update
     virtual protected void Start()

@@ -38,7 +38,10 @@ public class Presenter : MonoBehaviour
             model.itemManager.gunModel.canReload.Value = false;
         }).AddTo(this);
         view.oparetionView.jumpButton.OnClickAsObservable().Subscribe(_ => model.playerModel.PlayJump()).AddTo(this);
-        model.playerModel.isAiming.Subscribe(value => { model.playerModel.gameObject.layer = value ? 2 : 0; }).AddTo(this);
+        model.playerModel.isAiming.Subscribe(value => {
+            model.playerModel.gameObject.layer = value ? 2 : 0;
+            foreach (ItemInfoPlate currentDispItemPlate in model.itemManager.dispItemPlateList) currentDispItemPlate.gameObject.SetActive(!value);
+        }).AddTo(this);
 
         model.itemManager.gunModel.gunItemSlot.ObserveAdd().Subscribe(value => {
             GunItem g = model.itemManager.gunModel.gunitemHolder[value.Index];
@@ -61,7 +64,7 @@ public class Presenter : MonoBehaviour
             view.oparetionView.gunItemSlider.gameObject.SetActive(value);
         }).AddTo(this);
     }
-    [SerializeField] bool set;
+
     // Update is called once per frame
     void Update()
     {

@@ -58,10 +58,9 @@ public class GunModel : MonoBehaviour
 
     public void OnpointerUpGunShoot()
     {
+        if (!hasHandWeapon.Value) return;
         GunItem gunItem = GetCurrentGunItem();
-        if (!gunItem.gunEffect) return;
-        gunItem.gunEffect.SetActive(false);
-
+        if (gunItem.gunEffect) gunItem.gunEffect.SetActive(false);
     }
 
     public Vector3 GetWorldPositionFromAimPoint()

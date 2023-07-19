@@ -337,6 +337,7 @@ MonoBehaviour:
   itemName: {fileID: 1447944240}
   itemIcon: {fileID: 614997217}
   pickUpButton: {fileID: 738842005}
+  uniqueID: 0
 --- !u!1 &36236777
 GameObject:
   m_ObjectHideFlags: 0
@@ -2124,6 +2125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 1
   itemType: 0
+  itemInfoPlate: {fileID: 0}
   magazineSize:
     value: 0
   bulletObj: {fileID: 0}
@@ -2529,7 +2531,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   view: {fileID: 883442435}
   model: {fileID: 589126593}
-  set: 0
 --- !u!4 &630771480
 Transform:
   m_ObjectHideFlags: 0
@@ -4581,7 +4582,7 @@ MonoBehaviour:
   itemDataBase: {fileID: 589126596}
   gunModel: {fileID: 6656097000458928146}
   itemInfoPlateObj: {fileID: 31435178}
-  dispItemPlates: []
+  dispItemPlateList: []
 --- !u!1001 &1418134490
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6522,7 +6523,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832555135}
-  m_LocalRotation: {x: 0.04365198, y: -0.04304827, z: 0.0018826874, w: 0.99811715}
+  m_LocalRotation: {x: 0.043652, y: -0.043048307, z: 0.0018826898, w: 0.99811715}
   m_LocalPosition: {x: 0.56, y: -1.54, z: 2.6299996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -26211,7 +26212,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 87
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
