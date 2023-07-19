@@ -142,15 +142,19 @@ public class PlayerModel : MonoBehaviour
     public void PlayAiming()
     {
         isAiming.Value = !isAiming.Value;
-        float w = isAiming.Value ? 1f : 0f;
-        animator.SetLayerWeight(2,w);
+        animator.SetLayerWeight(3, isAiming.Value ? 1f : 0f);
         animator.SetBool("Aiming", isAiming.Value);
-
     }
 
     public void PlayHasGun()
     {
         animator.SetLayerWeight(1, 1f);
+    }
+
+    public void PlayGunHipFire(bool isPlay)
+    {
+        if (isAiming.Value) return;
+        animator.SetLayerWeight(2, isPlay ? 1 : 0);
     }
 
 
