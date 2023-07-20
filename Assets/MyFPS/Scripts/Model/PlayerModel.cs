@@ -150,16 +150,13 @@ public class PlayerModel : MonoBehaviour
         animator.SetLayerWeight(1, 1f);
     }
 
-    private float targetValue;
     private float currentValue;
     private float velocity;
-    const float SMOOTH_TIME = 0.01f;
 
     public void PlayGunHipFire(bool isPlay)
     {
         if (isAiming.Value) return;
-        targetValue = isPlay ?1 :0 ;
-        currentValue = Mathf.SmoothDamp(currentValue, targetValue, ref velocity, SMOOTH_TIME);
+        currentValue = Mathf.SmoothDamp(currentValue, isPlay ?1:0, ref velocity, isPlay ?0.005f :0);
         animator.SetLayerWeight(2, currentValue);
     }
 
