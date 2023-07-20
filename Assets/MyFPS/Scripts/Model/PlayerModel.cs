@@ -132,11 +132,10 @@ public class PlayerModel : MonoBehaviour
         //PlaySwitchWeapon();  
     }
 
-
     public void PlaySwitchWeapon()
     {
         animator.SetTrigger("SwitchWeapon");
-
+        
     }
 
     public void PlayAiming()
@@ -151,10 +150,17 @@ public class PlayerModel : MonoBehaviour
         animator.SetLayerWeight(1, 1f);
     }
 
+    private float targetValue;
+    private float currentValue;
+    private float velocity;
+    const float SMOOTH_TIME = 0.01f;
+
     public void PlayGunHipFire(bool isPlay)
     {
         if (isAiming.Value) return;
-        animator.SetLayerWeight(2, isPlay ? 1 : 0);
+        targetValue = isPlay ?1 :0 ;
+        currentValue = Mathf.SmoothDamp(currentValue, targetValue, ref velocity, SMOOTH_TIME);
+        animator.SetLayerWeight(2, currentValue);
     }
 
 
