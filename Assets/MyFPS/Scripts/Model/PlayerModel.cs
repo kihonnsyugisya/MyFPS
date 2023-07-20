@@ -132,25 +132,32 @@ public class PlayerModel : MonoBehaviour
         //PlaySwitchWeapon();  
     }
 
-
     public void PlaySwitchWeapon()
     {
         animator.SetTrigger("SwitchWeapon");
-
+        
     }
 
     public void PlayAiming()
     {
         isAiming.Value = !isAiming.Value;
-        float w = isAiming.Value ? 1f : 0f;
-        animator.SetLayerWeight(2,w);
+        animator.SetLayerWeight(3, isAiming.Value ? 1f : 0f);
         animator.SetBool("Aiming", isAiming.Value);
-
     }
 
     public void PlayHasGun()
     {
         animator.SetLayerWeight(1, 1f);
+    }
+
+    private float currentValue;
+    private float velocity;
+
+    public void PlayGunHipFire(bool isPlay)
+    {
+        if (isAiming.Value) return;
+        currentValue = Mathf.SmoothDamp(currentValue, isPlay ?1:0, ref velocity, isPlay ?0.005f :0);
+        animator.SetLayerWeight(2, currentValue);
     }
 
 

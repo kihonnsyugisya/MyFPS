@@ -20,6 +20,7 @@ public class Presenter : MonoBehaviour
                 .DoOnCompleted(() =>
                 {
                     Debug.Log("released!");
+                    model.playerModel.PlayGunHipFire(false);
                     model.itemManager.gunModel.OnpointerUpGunShoot();
                     model.itemManager.gunModel.CheckCanReload();
                 })
@@ -27,6 +28,7 @@ public class Presenter : MonoBehaviour
                 .Subscribe(unit =>
                 {
                     Debug.Log("pressing...");
+                    model.playerModel.PlayGunHipFire(true);
                     model.itemManager.gunModel.OnclickGunShoot();       
                 });
         model.itemManager.gunModel.canReload.Subscribe(value => view.oparetionView.reLoadButton.interactable = value).AddTo(this);
