@@ -7,7 +7,7 @@ using UniRx;
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
     [HideInInspector] public BoolReactiveProperty isConnectedMaster = new(false);
-    [HideInInspector] public BoolReactiveProperty isConnectedLobby = new(false);
+    [HideInInspector] public BoolReactiveProperty isConnectedRandomRoom = new(false);
 
 
     // Start is called before the first frame update
@@ -31,12 +31,17 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         isConnectedMaster.Value = true;
-        PhotonNetwork.JoinLobby();
+        PhotonNetwork.JoinRandomOrCreateRoom();
     }
 
-    public override void OnJoinedLobby()
+    public override void OnJoinedRoom()
     {
-        isConnectedLobby.Value = true;
+        isConnectedRandomRoom.Value = true;
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        Debug.Log("room field");
     }
 
 

@@ -12,7 +12,7 @@ public class StartSenePresenter : MonoBehaviour
     void Start()
     {
         startSceneModel.photonManager.isConnectedMaster.Subscribe(_=> startSceneVeiw.SuccessMaster()).AddTo(this);
-        startSceneModel.photonManager.isConnectedLobby.Subscribe(_=> startSceneVeiw.SuccessLobby()).AddTo(this);
+        startSceneModel.photonManager.isConnectedRandomRoom.Subscribe(_=> startSceneVeiw.SuccessRandomRoom()).AddTo(this);
 
         startSceneVeiw.randomMatchButton.OnClickAsObservable()
             .TakeUntilDestroy(this)
