@@ -41,9 +41,15 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        Debug.Log("room field");
+        Debug.Log("on join room field");
     }
 
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        Debug.Log("on created room field"); 
+    }
+
+    
 
 
 }
