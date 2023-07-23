@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class StartSceneModel : MonoBehaviour
 {
@@ -17,4 +19,8 @@ public class StartSceneModel : MonoBehaviour
         
     }
 
+    public void MoveToGameScene()
+    {
+        SceneManager.LoadScene("GameScene",LoadSceneMode.Single);
+    }
 }
