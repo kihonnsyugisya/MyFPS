@@ -28,7 +28,7 @@ public class StartSceneVeiw : MonoBehaviour
 
     public void SuccessMaster()
     {
-        connetionStatusMessage.text = "connect lobby...";
+        connetionStatusMessage.text = "connect room...";
     }
 
     public void SuccessRandomRoom()
