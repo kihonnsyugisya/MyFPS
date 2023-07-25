@@ -17,27 +17,24 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private float walkInputRange = 0.65f;
     [SerializeField] private float jumpForce = 200f;
 
-    [SerializeField] private Joystick moveJoystick;
-    [SerializeField] private Joystick rotateJoystick;
-    [SerializeField] private Transform eye;
-    [SerializeField] private Transform Aim;
-
+    [HideInInspector] public Joystick moveJoystick;
+    [HideInInspector] public Joystick rotateJoystick;
+    [HideInInspector] public AudioSource audioSource;
     [HideInInspector] public Animator animator;
     [HideInInspector] public BoolReactiveProperty isAiming = new(false);
+    [HideInInspector] public List<AudioClip> audioClips = new();
+    [HideInInspector] public ItemManager itemManager;
+    [HideInInspector] public Transform eye;
+    [HideInInspector] public Transform Aim;
 
     private new Rigidbody rigidbody;
-    private AudioSource audioSource;
 
     public float distToGround;
     public bool isGrounded;
 
-    public ItemManager itemManager;
-    public List<AudioClip> audioClips = new();
    
-
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
         rigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         distToGround = GetComponent<Collider>().bounds.extents.y;
@@ -100,13 +97,6 @@ public class PlayerModel : MonoBehaviour
         if(camAngle.y > upLange) camAngle.y = upLange;
         if(camAngle.y < downLange) camAngle.y = downLange;
         eye.transform.position = camAngle;
-
-
-        //Debug.Log(cam.transform.localEulerAngles.x);
-        //Debug.Log("vert " + joystick.Vertical);
-        //Debug.Log("horizon " + joystick.Horizontal);
-
-        //Debug.Log(tilt);
 
     }
 

@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Model : MonoBehaviour
+public class PlayerView : MonoBehaviour
 {
-    public EmoteModel emoteModel;
-    public AvatarManager avatarManager;
-
+    public Transform eye;
+    public Transform Aim;
+    public Transform shoulderWeaponPoint;
+    public Transform handWeaponPoint;
     // Start is called before the first frame update
     void Start()
     {

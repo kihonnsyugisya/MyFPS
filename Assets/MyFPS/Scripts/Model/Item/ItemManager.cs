@@ -7,8 +7,7 @@ public class ItemManager : MonoBehaviour
     public ItemDataBase itemDataBase;
     public GunModel gunModel;
 
-    [SerializeField] private GameObject itemInfoPlateObj;
-
+    [HideInInspector] public GameObject itemInfoPlateObj;
     [HideInInspector] public List<ItemInfoPlate> dispItemPlateList = new();
 
     // Start is called before the first frame update

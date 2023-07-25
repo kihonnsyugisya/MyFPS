@@ -7,10 +7,10 @@ public class GunModel : MonoBehaviour
 {
 
     [SerializeField] private int bullerFlyingDistance = 500;
-    public RectTransform AimPoint;
-    public Transform shoulderWeaponPoint;
-    public Transform handWeaponPoint;
 
+    [HideInInspector] public RectTransform AimPoint;
+    [HideInInspector] public Transform shoulderWeaponPoint;
+    [HideInInspector] public Transform handWeaponPoint;
     [HideInInspector] public BoolReactiveProperty hasHandWeapon = new(false);
     [HideInInspector] public List<GunItem> gunitemHolder = new();
     [HideInInspector] public ReactiveCollection<GunItemData> gunItemSlot = new();
@@ -24,12 +24,8 @@ public class GunModel : MonoBehaviour
         { BulletType.Shot, new IntReactiveProperty(8) },
     };
 
-
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
     }
 
     // Update is called once per frame
