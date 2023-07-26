@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Cinemachine;
+using Photon.Realtime;
 
 public class AvatarManager : MonoBehaviourPunCallbacks
 {   
@@ -11,6 +12,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     private PlayerView playerView;
     public static string avatarName = "3RD Person";
 
+    public TMPro.TextMeshProUGUI debugtext;
 
     private void Awake()
     {
@@ -21,6 +23,8 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         SetItemManager();
         SetPlayerModel();
         SetCamera();
+        Debug.Log(PhotonNetwork.CloudRegion + " " + PhotonNetwork.CurrentRoom.Name);
+        debugtext.text = "region " + PhotonNetwork.CloudRegion + " roomName: " + PhotonNetwork.CurrentRoom.Name;
     }
 
     // Update is called once per frame
@@ -73,6 +77,11 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         stateDrivenCamera.m_AnimatedTarget = myAvatar.GetComponent<Animator>();
         stateDrivenCamera.ChildCameras[1].LookAt = playerModel.Aim;
         //stateDrivenCamera.
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer) 
+    {
+        Debug.Log("haittekita");
     }
 
 
