@@ -9,11 +9,14 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     public List<Transform> spawnPoint = new();
     [HideInInspector] public GameObject myAvatar;
     private PlayerView playerView;
+    public static string avatarName = "3RD Person";
+
 
     private void Awake()
     {
-        myAvatar = PhotonNetwork.Instantiate("3RD Person", spawnPoint[Random.Range(0, spawnPoint.Count)].position, Quaternion.identity);
+        myAvatar = PhotonNetwork.Instantiate(avatarName, spawnPoint[Random.Range(0, spawnPoint.Count)].position, Quaternion.identity);
         playerView = myAvatar.GetComponent<PlayerView>();
+        myAvatar.name = avatarName;
         SetGunModel();
         SetItemManager();
         SetPlayerModel();

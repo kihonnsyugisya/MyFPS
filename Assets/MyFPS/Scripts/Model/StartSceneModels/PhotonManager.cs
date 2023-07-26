@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UniRx;
+using Photon.Realtime;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
@@ -31,6 +32,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         isConnectedMaster.Value = true;
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 10;
+        roomOptions.IsOpen = true;
+        roomOptions.IsVisible = true;
+
         PhotonNetwork.JoinRandomOrCreateRoom();
     }
 
