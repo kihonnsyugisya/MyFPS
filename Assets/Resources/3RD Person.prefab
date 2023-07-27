@@ -6092,6 +6092,7 @@ MonoBehaviour:
   Aim: {fileID: 6011680722247513716}
   shoulderWeaponPoint: {fileID: 2404526705063955962}
   handWeaponPoint: {fileID: 4388348923123004961}
+  userID: 
 --- !u!114 &-2216750629651772227
 MonoBehaviour:
   m_ObjectHideFlags: 0

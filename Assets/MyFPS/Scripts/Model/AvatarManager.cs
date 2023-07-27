@@ -21,9 +21,9 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         myAvatar = PhotonNetwork.Instantiate(avatarName, spawnPoint[Random.Range(0, spawnPoint.Count)].position, Quaternion.identity);
         myViewID = myAvatar.GetPhotonView().ViewID;
         playerView = myAvatar.GetComponent<PlayerView>();
-        playerView.player = PhotonNetwork.LocalPlayer;
+        playerView.userID = PhotonNetwork.LocalPlayer.UserId;
         myAvatar.name = avatarName;
-        photonView.RPC(nameof(SetPlayerList), RpcTarget.AllBuffered, myViewID);
+        photonView.RPC(nameof(SetPlayerList), RpcTarget.AllBuffered, myViewID,PhotonNetwork.LocalPlayer.UserId);
 
         SetGunModel();
         SetItemManager();
@@ -52,6 +52,9 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     {
         playerModel = myAvatar.AddComponent<PlayerModel>();
         playerModel.audioSource = myAvatar.AddComponent<AudioSource>();
+
+        playerModel.audioSource.mute = true;
+
         playerModel.moveJoystick = moveJoystick;
         playerModel.rotateJoystick = rotateJoystick;
         playerModel.audioClips.Add(orenoVoice);
@@ -107,10 +110,10 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void SetPlayerList(int viewID)
+    private void SetPlayerList(int viewID,string userID)
     {
         PlayerView pv = PhotonView.Find(viewID).GetComponent<PlayerView>();
-
+        pv.userID = userID;
         playerList.Add(viewID, pv);      
         
     }
@@ -121,7 +124,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     {
         foreach (var roomPlayer in playerList)
         {
-            if (roomPlayer.Value.player.UserId == player.UserId)
+            if (roomPlayer.Value.userID == player.UserId)
             {
                 playerList.Remove(roomPlayer.Key);
                 Debug.Log(roomPlayer.Key + "　をリストから削除");

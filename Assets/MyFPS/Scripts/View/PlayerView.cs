@@ -9,7 +9,7 @@ public class PlayerView : MonoBehaviour
     public Transform Aim;
     public Transform shoulderWeaponPoint;
     public Transform handWeaponPoint;
-    public Player player;
+    public string userID;
     // Start is called before the first frame update
     void Start()
     {
