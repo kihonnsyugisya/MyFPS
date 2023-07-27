@@ -109,19 +109,24 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetPlayerList(int viewID)
     {
-        playerList.Add(viewID, PhotonView.Find(viewID).GetComponent<PlayerView>());        
+        PlayerView pv = PhotonView.Find(viewID).GetComponent<PlayerView>();
+
+        playerList.Add(viewID, pv);      
+        
     }
+    //PhotonNetwork.UseRpcMonoBehaviourCache = true;
+
 
     public override void OnPlayerLeftRoom(Player player)
     {
-        foreach (var roomPlayer in playerList) 
+        foreach (var roomPlayer in playerList)
         {
-            if (roomPlayer.Value.player.UserId == player.UserId) 
+            if (roomPlayer.Value.player.UserId == player.UserId)
             {
                 playerList.Remove(roomPlayer.Key);
                 Debug.Log(roomPlayer.Key + "　をリストから削除");
                 return;
-            } 
+            }
         }
         Debug.Log(player.NickName + " が退出しました");
     }
