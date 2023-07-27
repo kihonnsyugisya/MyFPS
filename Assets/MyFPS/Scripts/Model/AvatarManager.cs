@@ -23,6 +23,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         SetItemManager();
         SetPlayerModel();
         SetCamera();
+        SetAnimatorSyncSetting();
         Debug.Log(PhotonNetwork.CloudRegion + " " + PhotonNetwork.CurrentRoom.Name);
         debugtext.text = "region " + PhotonNetwork.CloudRegion + " roomName: " + PhotonNetwork.CurrentRoom.Name;
     }
@@ -79,9 +80,20 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         //stateDrivenCamera.
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer) 
+    private void SetAnimatorSyncSetting()
     {
-        Debug.Log("haittekita");
+        Animator animator = myAvatar.GetComponent<Animator>();
+        PhotonAnimatorView photonAnimatorView = myAvatar.GetComponent<PhotonAnimatorView>();
+
+        for (var count = 0; count < animator.layerCount; count++)
+        {
+            photonAnimatorView.SetLayerSynchronized(count,PhotonAnimatorView.SynchronizeType.Discrete);
+        }
+
+        foreach (AnimatorControllerParameter animatorControllerParameter in animator.parameters)
+        {
+            photonAnimatorView.SetParameterSynchronized(animatorControllerParameter.name,(PhotonAnimatorView.ParameterType)animatorControllerParameter.type,PhotonAnimatorView.SynchronizeType.Discrete);
+        }
     }
 
 
