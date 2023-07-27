@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,6 @@ public class StartSceneModel : MonoBehaviour
 
     public void MoveToGameScene()
     {
-        SceneManager.LoadScene("GameScene",LoadSceneMode.Single);
+        PhotonNetwork.LoadLevel("GameScene");
     }
 }
