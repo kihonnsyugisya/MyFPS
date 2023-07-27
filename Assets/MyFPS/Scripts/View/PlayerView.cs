@@ -1,3 +1,4 @@
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class PlayerView : MonoBehaviour
     public Transform Aim;
     public Transform shoulderWeaponPoint;
     public Transform handWeaponPoint;
+    public Player player;
     // Start is called before the first frame update
     void Start()
     {
