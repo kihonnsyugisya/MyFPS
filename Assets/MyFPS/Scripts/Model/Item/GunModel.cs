@@ -108,6 +108,7 @@ public class GunModel : MonoBehaviourPunCallbacks
             hasWeapon.position = gunItem.transform.position;
             hasWeapon.parent = null;
         }
+        gunItem.gameObject.GetPhotonView().RequestOwnership();
         gunItem.transform.SetParent(targetPoint);
         gunItem.transform.localPosition = gunItem.transform.localEulerAngles = Vector3.zero;
 
