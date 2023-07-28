@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using Photon.Pun;
 
-public class GunModel : MonoBehaviour
+public class GunModel : MonoBehaviourPunCallbacks
 {
 
     [SerializeField] private int bullerFlyingDistance = 500;
@@ -45,12 +46,19 @@ public class GunModel : MonoBehaviour
         else
         {
             if (!gunItem.gunEffect.activeSelf) gunItem.gunEffect.SetActive(true);
-            GameObject bullet = Instantiate(gunItem.bulletObj, gunItem.gunPoint.position, Quaternion.identity);
-            //bullet.GetComponent<Bullet>().playerID =
-            bullet.GetComponent<Rigidbody>().AddForce(bullerFlyingDistance * gunItemData.atkPoint * ((GetAimPoint() - gunItem.gunPoint.position).normalized));
+            photonView.RPC(nameof(BulletFire),RpcTarget.All,gunItem.gunPoint.position,200f,GetAimPoint());
             gunItem.magazineSize.Value--;
         }
     }
+
+    public GameObject testBullet;
+    [PunRPC]
+    private void BulletFire(Vector3 instantiatePoint,float atkPoint,Vector3 aimPoint)
+    {
+        GameObject bullet = Instantiate(testBullet, instantiatePoint, Quaternion.identity);        
+        bullet.GetComponent<Rigidbody>().AddForce(bullerFlyingDistance * atkPoint * ((aimPoint - instantiatePoint).normalized));
+    }
+
 
     public void OnpointerUpGunShoot()
     {

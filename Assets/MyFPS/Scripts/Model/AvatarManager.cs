@@ -23,8 +23,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         playerView = myAvatar.GetComponent<PlayerView>();
         myAvatar.name = avatarName;
         photonView.RPC(nameof(SetPlayerList), RpcTarget.AllBuffered, myViewID,PhotonNetwork.LocalPlayer.UserId);
-
-        SetGunModel();
+        photonView.RPC(nameof(SetGunModel),RpcTarget.AllBuffered,myViewID);
         SetItemManager();
         SetPlayerModel();
         SetCamera();
@@ -74,12 +73,16 @@ public class AvatarManager : MonoBehaviourPunCallbacks
 
     [HideInInspector] public GunModel gunModel;
     public RectTransform AimPoint;
-    private void SetGunModel()
+    public GameObject testBullet;
+    [PunRPC]
+    private void SetGunModel(int viewID)
     {
-        gunModel = myAvatar.AddComponent<GunModel>();
+        GameObject target = playerList[viewID].gameObject;
+        gunModel = target.AddComponent<GunModel>();
         gunModel.AimPoint = AimPoint;
         gunModel.shoulderWeaponPoint = playerView.shoulderWeaponPoint;
         gunModel.handWeaponPoint = playerView.handWeaponPoint;
+        gunModel.testBullet = testBullet;
     }
 
     public CinemachineStateDrivenCamera stateDrivenCamera;
@@ -113,22 +116,15 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     {
         PlayerView pv = PhotonView.Find(viewID).GetComponent<PlayerView>();
         pv.userID = userID;
-        playerList.Add(viewID, pv);      
-        
+        playerList.Add(viewID, pv);
+        Debug.Log("set list");
     }
     //PhotonNetwork.UseRpcMonoBehaviourCache = true;
 
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        foreach (var roomPlayer in playerList)
-        {
-            if (roomPlayer.Value.userID == newPlayer.UserId)
-            {
-                //roomPlayer.Value.gameObject.AddComponent<>();
-                return;
-            }
-        }
+        Debug.Log(newPlayer.NickName + ": on player enter");
     }
 
 
@@ -147,14 +143,6 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         Debug.Log(player.NickName + " が退出しました");
     }
 
-    private int GetKeyInPlayerList(string userID)
-    {
-        foreach (var player in playerList)
-        {
-            if (player.Value.userID == userID) return player.Key;
-        }
-        return 404;
-    }
 
 
 }

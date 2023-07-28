@@ -2414,6 +2414,8 @@ MonoBehaviour:
   itemInfoPlateObj: {fileID: 31435178}
   gunModel: {fileID: 0}
   AimPoint: {fileID: 1350090158}
+  testBullet: {fileID: 7158560429425753788, guid: 7bcd4c39f6772416a92d5ccd95ea6465,
+    type: 3}
   stateDrivenCamera: {fileID: 133893495}
 --- !u!114 &589126598
 MonoBehaviour:
