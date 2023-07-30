@@ -10,11 +10,6 @@ public class PlayerView : MonoBehaviour
     public Transform shoulderWeaponPoint;
     public Transform handWeaponPoint;
     public string userID;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()

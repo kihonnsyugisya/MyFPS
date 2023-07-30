@@ -105,4 +105,9 @@ public class StageItemManager : MonoBehaviourPunCallbacks
 
     }
 
+    public static void RemoveItem(int stageID)
+    {
+        stageItemInfo[stageID].gameObject.SetActive(false);
+    }
+
 }

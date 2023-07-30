@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class ItemManager : MonoBehaviour
 {
     public ItemDataBase itemDataBase;
@@ -36,8 +35,9 @@ public class ItemManager : MonoBehaviour
                 GunItemData gunItemData = GetGunItemData(item.itemId);
                 gunModel.GetGunItem(gunItem,gunItemData);
                 break;
-        }
+        }        
         UnDispItemInfoPlate(item);
+        //photonView.RPC(nameof(RemoveItem),RpcTarget.AllBuffered,item.stageId);
     }
 
     private GunItemData GetGunItemData(int itemID)

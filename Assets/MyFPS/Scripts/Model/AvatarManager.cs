@@ -78,10 +78,11 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     private void SetGunModel(int viewID)
     {
         GameObject target = playerList[viewID].gameObject;
+        PlayerView pv = target.GetComponent<PlayerView>();
         gunModel = target.AddComponent<GunModel>();
         gunModel.AimPoint = AimPoint;
-        gunModel.shoulderWeaponPoint = playerView.shoulderWeaponPoint;
-        gunModel.handWeaponPoint = playerView.handWeaponPoint;
+        gunModel.shoulderWeaponPoint = pv.shoulderWeaponPoint;
+        gunModel.handWeaponPoint = pv.handWeaponPoint;
         gunModel.testBullet = testBullet;
     }
 
