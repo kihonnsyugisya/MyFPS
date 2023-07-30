@@ -42,6 +42,9 @@ MonoBehaviour:
   - SetPlayerList
   - BulletFire
   - SetGunModel
+  - ShareRandamPoint
+  - RequestRandamPoint
+  - ShareRandomInts
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

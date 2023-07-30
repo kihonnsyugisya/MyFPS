@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    public int itemId;
+    public int itemId;    
     public ItemType itemType;
     [HideInInspector] public ItemInfoPlate itemInfoPlate;
+    [HideInInspector] public int stageId;
 
     // Start is called before the first frame update
     virtual protected void Start()
