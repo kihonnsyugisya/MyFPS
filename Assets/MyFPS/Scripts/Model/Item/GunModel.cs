@@ -44,7 +44,6 @@ public class GunModel : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public void OnclickGunShoot()
@@ -165,22 +164,22 @@ public class GunModel : MonoBehaviourPunCallbacks
 
     public void SwitchWeapon()
     {
-        Transform shoulderItem = shoulderWeaponPoint.GetChild(0);
-        Transform handItem = handWeaponPoint.GetChild(0);
-
-        shoulderItem.SetParent(handWeaponPoint);
-        handItem.SetParent(shoulderWeaponPoint);
-        shoulderItem.localPosition = shoulderItem.localEulerAngles = Vector3.zero;
-        handItem.localPosition = handItem.localEulerAngles = Vector3.zero;
-
-        //ここで同期処理いる
-
+        Debug.Log(gameObject.name);
+        photonView.RPC(nameof(ShareSwitchWeapon), RpcTarget.All, gunitemHolder[currentGunItemSlotIndex].itemId, gunitemHolder[GetShoulderItemIndex(currentGunItemSlotIndex)].itemId);
     }
 
     [PunRPC]
-    private void ShaerSwitchWeapon()
+    private void ShareSwitchWeapon(int handItemID, int shoulderItemID)
     {
-        //これをやる
+        handItemDic[shoulderItemID].gameObject.SetActive(false);
+        handItemDic[handItemID].gameObject.SetActive(true);
+        shoulderItemDic[handItemID].gameObject.SetActive(false);
+        shoulderItemDic[shoulderItemID].gameObject.SetActive(true);
+    }
+
+    private int GetShoulderItemIndex(int currentItemIndex)
+    {
+        return currentItemIndex == 0 ? 1 : 0;
     }
 
     public void ReloadGun()

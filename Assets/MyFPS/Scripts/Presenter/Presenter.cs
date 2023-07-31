@@ -57,6 +57,7 @@ public class Presenter : MonoBehaviour
 
         view.oparetionView.gunItemSlider.horizontalScrollSnap._page.SkipLatestValueOnSubscribe().Subscribe(value => {
             model.avatarManager.itemManager.gunModel.currentGunItemSlotIndex = value;
+            model.avatarManager.itemManager.gunModel.SwitchWeapon();
             model.avatarManager.playerModel.PlaySwitchWeapon();
         }).AddTo(this);
 
