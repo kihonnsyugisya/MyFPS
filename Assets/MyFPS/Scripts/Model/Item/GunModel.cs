@@ -13,9 +13,8 @@ public class GunModel : MonoBehaviourPunCallbacks
     [HideInInspector] public Transform shoulderWeaponPoint;
     [HideInInspector] public Transform handWeaponPoint;
     [HideInInspector] public BoolReactiveProperty hasHandWeapon = new(false);
-    [HideInInspector] public List<GunItem> gunitemHolder = new();
-    [HideInInspector] public ReactiveCollection<GunItemData> gunItemSlot = new();
-    [HideInInspector] public int currentGunItemSlotIndex = 0;
+    //[HideInInspector] public List<GunItem> gunitemHolder = new();
+    //[HideInInspector] public ReactiveCollection<GunItemData> gunItemSlot = new();
     [HideInInspector] public BoolReactiveProperty canReload = new(false);
     [HideInInspector]
     public Dictionary<BulletType, IntReactiveProperty> bulletHolder = new()
@@ -24,19 +23,23 @@ public class GunModel : MonoBehaviourPunCallbacks
         { BulletType.Long, new IntReactiveProperty(2) },
         { BulletType.Shot, new IntReactiveProperty(8) },
     };
-    [HideInInspector] public Dictionary<int, Item> handItemDic = new();
-    [HideInInspector] public Dictionary<int, Item> shoulderItemDic = new();
+    [HideInInspector] public Dictionary<int, GunItem> handItemDic = new();
+    [HideInInspector] public Dictionary<int, GunItem> shoulderItemDic = new();
+
+    [HideInInspector] public ReactiveDictionary<WeaponPoint,GunItemData> gunItemDataSlot = new();
+    [HideInInspector] public Dictionary<WeaponPoint, GunItem> gunItemSlot = new();
+
 
     private void Start()
     {
         foreach (Transform handItem in handWeaponPoint.transform)
         {
-            Item item = handItem.GetComponent<Item>();
+            GunItem item = handItem.GetComponent<GunItem>();
             handItemDic.Add(item.itemId, item);
         }
         foreach (Transform shoulderItem in shoulderWeaponPoint.transform)
         {
-            Item item = shoulderItem.GetComponent<Item>();
+            GunItem item = shoulderItem.GetComponent<GunItem>();
             shoulderItemDic.Add(item.itemId, item);
         }
     }
@@ -110,7 +113,7 @@ public class GunModel : MonoBehaviourPunCallbacks
     private void ShareShowWeapon(bool isCarry, bool isChange ,int getItemID, int getItemStageID, int hasItemStageID , Vector3 itemPos)
     {
         StageItemManager.RemoveItem(getItemStageID);
-        Dictionary<int, Item> targetDic;
+        Dictionary<int, GunItem> targetDic;
         if (isCarry) targetDic = shoulderItemDic;
         else targetDic = handItemDic;
 
@@ -132,37 +135,50 @@ public class GunModel : MonoBehaviourPunCallbacks
         if (gunItemSlot.Count == 2)
         {
             photonView.RPC(nameof(ShareShowWeapon),RpcTarget.All,false,true,getGunItem.itemId,getGunItem.stageId,GetCurrentGunItem().stageId,getGunItem.transform.position);
-            gunitemHolder[currentGunItemSlotIndex] = getGunItem;
-            gunItemSlot[currentGunItemSlotIndex] = getGunItemData;
+            //gunitemHolder[currentGunItemSlotIndex] = getGunItem;
+            //gunItemSlot[currentGunItemSlotIndex] = getGunItemData;
+            gunItemSlot[WeaponPoint.Hand] = getGunItem;
+            gunItemDataSlot[WeaponPoint.Hand] = getGunItemData;
         }
         else if (gunItemSlot.Count == 1)
         {
             photonView.RPC(nameof(ShareShowWeapon), RpcTarget.All, true,false,getGunItem.itemId,getGunItem.stageId,404,Vector3.zero);
-            gunitemHolder.Add(getGunItem);
-            gunItemSlot.Add(getGunItemData);
+            //gunitemHolder.Add(getGunItem);
+            //gunItemSlot.Add(getGunItemData);
+            gunItemSlot.Add(WeaponPoint.Shoulder, getGunItem);
+            gunItemDataSlot.Add(WeaponPoint.Shoulder, getGunItemData);
         }
         else
         {
             photonView.RPC(nameof(ShareShowWeapon), RpcTarget.All, false,false,getGunItem.itemId,getGunItem.stageId,404,Vector3.zero);
-            gunitemHolder.Add(getGunItem);
-            gunItemSlot.Add(getGunItemData);
+            //gunitemHolder.Add(getGunItem);
+            //gunItemSlot.Add(getGunItemData);
+            gunItemSlot.Add(WeaponPoint.Hand, getGunItem);
+            gunItemDataSlot.Add(WeaponPoint.Hand,getGunItemData);
         }
         hasHandWeapon.Value = true;
     }
 
     public GunItemData GetCurrentGunItemData()
     {
-        return gunItemSlot[currentGunItemSlotIndex];
+        return gunItemDataSlot[WeaponPoint.Hand];
     }
 
     public GunItem GetCurrentGunItem()
     {
-        return gunitemHolder[currentGunItemSlotIndex];
+        return gunItemSlot[WeaponPoint.Hand];
     }
 
     public void SwitchWeapon()
     {
-        photonView.RPC(nameof(ShareSwitchWeapon), RpcTarget.All, gunitemHolder[currentGunItemSlotIndex].itemId, gunitemHolder[GetShoulderItemIndex(currentGunItemSlotIndex)].itemId);
+        var dataTemp = gunItemDataSlot[WeaponPoint.Hand];
+        gunItemDataSlot[WeaponPoint.Hand] = gunItemDataSlot[WeaponPoint.Shoulder];
+        gunItemDataSlot[WeaponPoint.Shoulder] = dataTemp;
+
+        var itemTemp = gunItemSlot[WeaponPoint.Hand];
+        gunItemSlot[WeaponPoint.Hand] = gunItemSlot[WeaponPoint.Shoulder];
+        gunItemSlot[WeaponPoint.Shoulder] = itemTemp;
+        photonView.RPC(nameof(ShareSwitchWeapon), RpcTarget.All, gunItemSlot[WeaponPoint.Hand].itemId, gunItemSlot[WeaponPoint.Shoulder].itemId);
     }
 
     [PunRPC]
@@ -181,24 +197,24 @@ public class GunModel : MonoBehaviourPunCallbacks
 
     public void ReloadGun()
     {
-        BulletType bulletType = gunItemSlot[currentGunItemSlotIndex].bulletType;
-        int needBullets = gunItemSlot[currentGunItemSlotIndex].magazineSize - gunitemHolder[currentGunItemSlotIndex].magazineSize.Value;
+        BulletType bulletType = gunItemDataSlot[WeaponPoint.Hand].bulletType;
+        int needBullets = gunItemDataSlot[WeaponPoint.Hand].magazineSize - gunItemSlot[WeaponPoint.Hand].magazineSize.Value;
         if (needBullets > bulletHolder[bulletType].Value)
         {
-            gunitemHolder[currentGunItemSlotIndex].magazineSize.Value += bulletHolder[bulletType].Value;
+            gunItemSlot[WeaponPoint.Hand].magazineSize.Value += bulletHolder[bulletType].Value;
             bulletHolder[bulletType].Value = 0;
         }
         else
         {
             bulletHolder[bulletType].Value -= needBullets;
-            gunitemHolder[currentGunItemSlotIndex].magazineSize.Value += needBullets;
+            gunItemSlot[WeaponPoint.Hand].magazineSize.Value += needBullets;
         }
     }
 
     public void CheckCanReload()
     {
-        GunItemData currentGunData = gunItemSlot[currentGunItemSlotIndex];
-        GunItem currentGunItem = gunitemHolder[currentGunItemSlotIndex];
+        GunItemData currentGunData = gunItemDataSlot[WeaponPoint.Hand];
+        GunItem currentGunItem = gunItemSlot[WeaponPoint.Hand];
         if (bulletHolder[currentGunData.bulletType].Value > 0 && currentGunItem.magazineSize.Value < currentGunData.magazineSize)
         {
             canReload.Value = true;
@@ -206,4 +222,9 @@ public class GunModel : MonoBehaviourPunCallbacks
         else canReload.Value = false;
     }
 
+}
+
+public enum WeaponPoint
+{
+    Hand,Shoulder
 }
