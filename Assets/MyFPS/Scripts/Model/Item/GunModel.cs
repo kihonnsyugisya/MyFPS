@@ -107,23 +107,23 @@ public class GunModel : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void ShareShowWeapon(bool isCarry, int itemID, int stageID, Vector3 itemPos)
+    private void ShareShowWeapon(bool isCarry, bool isChange ,int getItemID, int getItemStageID, int hasItemStageID , Vector3 itemPos)
     {
-        StageItemManager.RemoveItem(stageID);
+        StageItemManager.RemoveItem(getItemStageID);
         Dictionary<int, Item> targetDic;
         if (isCarry) targetDic = shoulderItemDic;
         else targetDic = handItemDic;
 
-        if (gunItemSlot.Count == 2)
+        if (isChange)
         {
             foreach (Transform handItem in handWeaponPoint.transform) handItem.gameObject.SetActive(false);
-            Transform hasItem = StageItemManager.stageItemInfo[gunitemHolder[0].stageId].transform;
+            Transform hasItem = StageItemManager.stageItemInfo[hasItemStageID].transform;
             hasItem.position = itemPos;
             hasItem.gameObject.SetActive(true);
         }
 
-        targetDic[itemID].gameObject.SetActive(true);
-        targetDic[itemID].stageId = stageID;
+        targetDic[getItemID].gameObject.SetActive(true);
+        targetDic[getItemID].stageId = getItemStageID;
     }
 
     public void GetGunItem(GunItem getGunItem,GunItemData getGunItemData)
@@ -131,26 +131,24 @@ public class GunModel : MonoBehaviourPunCallbacks
 
         if (gunItemSlot.Count == 2)
         {
-            photonView.RPC(nameof(ShareShowWeapon),RpcTarget.All,false,getGunItem.itemId,getGunItem.stageId,getGunItem.transform.position);
+            photonView.RPC(nameof(ShareShowWeapon),RpcTarget.All,false,true,getGunItem.itemId,getGunItem.stageId,GetCurrentGunItem().stageId,getGunItem.transform.position);
             gunitemHolder[currentGunItemSlotIndex] = getGunItem;
             gunItemSlot[currentGunItemSlotIndex] = getGunItemData;
         }
         else if (gunItemSlot.Count == 1)
         {
-            photonView.RPC(nameof(ShareShowWeapon), RpcTarget.All, true, getGunItem.itemId,getGunItem.stageId,Vector3.zero);
+            photonView.RPC(nameof(ShareShowWeapon), RpcTarget.All, true,false,getGunItem.itemId,getGunItem.stageId,404,Vector3.zero);
             gunitemHolder.Add(getGunItem);
             gunItemSlot.Add(getGunItemData);
         }
         else
         {
-            photonView.RPC(nameof(ShareShowWeapon), RpcTarget.All, false, getGunItem.itemId,getGunItem.stageId,Vector3.zero);
+            photonView.RPC(nameof(ShareShowWeapon), RpcTarget.All, false,false,getGunItem.itemId,getGunItem.stageId,404,Vector3.zero);
             gunitemHolder.Add(getGunItem);
             gunItemSlot.Add(getGunItemData);
         }
         hasHandWeapon.Value = true;
     }
-
-
 
     public GunItemData GetCurrentGunItemData()
     {
@@ -164,7 +162,6 @@ public class GunModel : MonoBehaviourPunCallbacks
 
     public void SwitchWeapon()
     {
-        Debug.Log(gameObject.name);
         photonView.RPC(nameof(ShareSwitchWeapon), RpcTarget.All, gunitemHolder[currentGunItemSlotIndex].itemId, gunitemHolder[GetShoulderItemIndex(currentGunItemSlotIndex)].itemId);
     }
 
