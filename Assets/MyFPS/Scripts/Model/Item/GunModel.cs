@@ -26,8 +26,9 @@ public class GunModel : MonoBehaviourPunCallbacks
     [HideInInspector] public Dictionary<int, GunItem> handItemDic = new();
     [HideInInspector] public Dictionary<int, GunItem> shoulderItemDic = new();
 
-    [HideInInspector] public ReactiveDictionary<WeaponPoint,GunItemData> gunItemDataSlot = new();
+    [HideInInspector] public Dictionary<WeaponPoint,GunItemData> gunItemDataSlot = new();
     [HideInInspector] public Dictionary<WeaponPoint, GunItem> gunItemSlot = new();
+    [HideInInspector] public Subject<GunSlotSubjectData> gunSlotSubject = new();
 
 
     private void Start()
@@ -47,6 +48,8 @@ public class GunModel : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("slot hand: " + gunItemSlot[WeaponPoint.Hand].magazineSize.Value);
+        Debug.Log("slot shoulder: " + gunItemSlot[WeaponPoint.Shoulder].magazineSize.Value);
     }
 
     public void OnclickGunShoot()
@@ -110,7 +113,7 @@ public class GunModel : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void ShareShowWeapon(bool isCarry, bool isChange ,int getItemID, int getItemStageID, int hasItemStageID , Vector3 itemPos)
+    private void ShareShowWeapon(bool isCarry, bool isChange ,int getItemID, int getItemStageID, int hasItemStageID ,int magazineSize , Vector3 itemPos)
     {
         StageItemManager.RemoveItem(getItemStageID);
         Dictionary<int, GunItem> targetDic;
@@ -119,10 +122,11 @@ public class GunModel : MonoBehaviourPunCallbacks
 
         if (isChange)
         {
-            foreach (Transform handItem in handWeaponPoint.transform) handItem.gameObject.SetActive(false);
+            gunItemSlot[WeaponPoint.Hand].gameObject.SetActive(false);
             Transform hasItem = StageItemManager.stageItemInfo[hasItemStageID].transform;
             hasItem.position = itemPos;
             hasItem.gameObject.SetActive(true);
+            hasItem.GetComponent<GunItem>().magazineSize.Value = magazineSize;
         }
 
         targetDic[getItemID].gameObject.SetActive(true);
@@ -131,31 +135,46 @@ public class GunModel : MonoBehaviourPunCallbacks
 
     public void GetGunItem(GunItem getGunItem,GunItemData getGunItemData)
     {
-
+        GunSlotSubjectData data = new();
         if (gunItemSlot.Count == 2)
         {
-            photonView.RPC(nameof(ShareShowWeapon),RpcTarget.All,false,true,getGunItem.itemId,getGunItem.stageId,GetCurrentGunItem().stageId,getGunItem.transform.position);
+            photonView.RPC(nameof(ShareShowWeapon),RpcTarget.All, false, true, getGunItem.itemId,　getGunItem.stageId, GetCurrentGunItem().stageId, GetCurrentGunItem().magazineSize.Value, getGunItem.transform.position);
             //gunitemHolder[currentGunItemSlotIndex] = getGunItem;
             //gunItemSlot[currentGunItemSlotIndex] = getGunItemData;
-            gunItemSlot[WeaponPoint.Hand] = getGunItem;
+            gunItemSlot[WeaponPoint.Hand] = handItemDic[getGunItem.itemId];
+            gunItemSlot[WeaponPoint.Hand].magazineSize.Value = getGunItem.magazineSize.Value;
             gunItemDataSlot[WeaponPoint.Hand] = getGunItemData;
+            data.gunSlotSubjectBehaviour = GunSlotSubjectBehaviour.Replace;
+            data.gunItem = handItemDic[getGunItem.itemId];
+
         }
         else if (gunItemSlot.Count == 1)
         {
-            photonView.RPC(nameof(ShareShowWeapon), RpcTarget.All, true,false,getGunItem.itemId,getGunItem.stageId,404,Vector3.zero);
+            photonView.RPC(nameof(ShareShowWeapon), RpcTarget.All, true, false, getGunItem.itemId,getGunItem.stageId, 404, 404, Vector3.zero);
             //gunitemHolder.Add(getGunItem);
             //gunItemSlot.Add(getGunItemData);
-            gunItemSlot.Add(WeaponPoint.Shoulder, getGunItem);
+            gunItemSlot.Add(WeaponPoint.Shoulder, shoulderItemDic[getGunItem.itemId]);
+            gunItemSlot[WeaponPoint.Shoulder].magazineSize.Value = getGunItem.magazineSize.Value;
             gunItemDataSlot.Add(WeaponPoint.Shoulder, getGunItemData);
+            data.gunSlotSubjectBehaviour = GunSlotSubjectBehaviour.Add;
+            data.gunItem = shoulderItemDic[getGunItem.itemId];
+
         }
         else
         {
-            photonView.RPC(nameof(ShareShowWeapon), RpcTarget.All, false,false,getGunItem.itemId,getGunItem.stageId,404,Vector3.zero);
+            photonView.RPC(nameof(ShareShowWeapon), RpcTarget.All, false, false, getGunItem.itemId, getGunItem.stageId, 404, 404, Vector3.zero);
             //gunitemHolder.Add(getGunItem);
             //gunItemSlot.Add(getGunItemData);
-            gunItemSlot.Add(WeaponPoint.Hand, getGunItem);
+            gunItemSlot.Add(WeaponPoint.Hand, handItemDic[getGunItem.itemId]);
+            gunItemSlot[WeaponPoint.Hand].magazineSize.Value = getGunItem.magazineSize.Value;
             gunItemDataSlot.Add(WeaponPoint.Hand,getGunItemData);
+            data.gunSlotSubjectBehaviour = GunSlotSubjectBehaviour.Add;
+            data.gunItem = handItemDic[getGunItem.itemId];
+
         }
+        data.gunItemData = getGunItemData;
+
+        gunSlotSubject.OnNext(data);
         hasHandWeapon.Value = true;
     }
 
@@ -190,11 +209,6 @@ public class GunModel : MonoBehaviourPunCallbacks
         shoulderItemDic[shoulderItemID].gameObject.SetActive(true);
     }
 
-    private int GetShoulderItemIndex(int currentItemIndex)
-    {
-        return currentItemIndex == 0 ? 1 : 0;
-    }
-
     public void ReloadGun()
     {
         BulletType bulletType = gunItemDataSlot[WeaponPoint.Hand].bulletType;
@@ -222,9 +236,21 @@ public class GunModel : MonoBehaviourPunCallbacks
         else canReload.Value = false;
     }
 
+    public class GunSlotSubjectData
+    {
+        public GunItem gunItem;
+        public GunItemData gunItemData;
+        public GunSlotSubjectBehaviour gunSlotSubjectBehaviour;
+    }
+
 }
 
 public enum WeaponPoint
 {
     Hand,Shoulder
+}
+
+public enum GunSlotSubjectBehaviour
+{
+    Add,Replace,Remove
 }

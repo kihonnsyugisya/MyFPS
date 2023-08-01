@@ -46,25 +46,51 @@ public class GunItemSlider : MonoBehaviour
 
 	}
 
-	public void SetGunItemSlotView(GunItemData gunItemData, GunItem gunItem, IntReactiveProperty bulletSize)
+	public void SetGunItemSlotView(GunModel.GunSlotSubjectData gunSlotSubjectData, IntReactiveProperty bulletSize)
 	{
 		var instance = Instantiate(gunItemSlotView, bannerGrid);
-		instance.button.image.sprite = gunItemData.itemeIcon;
-		gunItem.magazineSize.Subscribe(size => instance.magazineSize.text = size.ToString()).AddTo(this);
+		instance.button.image.sprite = gunSlotSubjectData.gunItemData.itemeIcon;
+		gunSlotSubjectData.gunItem.magazineSize.Subscribe(size => instance.magazineSize.text = size.ToString()).AddTo(this);
+		
 		bulletSize.Subscribe(size => instance.bulletSize.text = size.ToString()).AddTo(this);
-
 		var toggle = Instantiate(pagePrefab, paginationGrid);
 		toggle.group = paginationGrid.GetComponent<ToggleGroup>();
 		horizontalScrollSnap.Initialize();
 	}
 
-	public void ReplaceGunItemSlotView(int index, GunItemData gunItemData, GunItem gunItem, IntReactiveProperty bulletSize)
+	private void ReplaceGunItemSlotView(GunModel.GunSlotSubjectData gunSlotSubjectData, IntReactiveProperty bulletSize, int index)
 	{
 		GunItemSlotView gunItemSlotView = bannerGrid.GetChild(index).GetComponent<GunItemSlotView>();
-		gunItemSlotView.button.image.sprite = gunItemData.itemeIcon;
-		gunItem.magazineSize.Subscribe(size => gunItemSlotView.magazineSize.text = size.ToString()).AddTo(this);
+		gunItemSlotView.button.image.sprite = gunSlotSubjectData.gunItemData.itemeIcon;
+		gunSlotSubjectData.gunItem.magazineSize.Subscribe(size => {
+			gunItemSlotView.magazineSize.text = size.ToString();
+			Debug.Log(index + " 番目のSliderのマガジンサイズを " + size);
+		}).AddTo(this);
 		bulletSize.Subscribe(size => gunItemSlotView.bulletSize.text = size.ToString()).AddTo(this);
 		horizontalScrollSnap.Initialize();
+	}
+
+	public void SetGunItemSlotViewLogic(bool isFirst,GunModel.GunSlotSubjectData gunSlotSubjectData, IntReactiveProperty bulletSize, int index)
+	{
+        switch (gunSlotSubjectData.gunSlotSubjectBehaviour)
+        {
+            case GunSlotSubjectBehaviour.Add:
+				if (isFirst) ReplaceGunItemSlotView(gunSlotSubjectData, bulletSize, index); 
+				else SetGunItemSlotView(gunSlotSubjectData, bulletSize);
+                break;
+            case GunSlotSubjectBehaviour.Replace:
+				ReplaceGunItemSlotView(gunSlotSubjectData, bulletSize, index);
+				break;
+            case GunSlotSubjectBehaviour.Remove:
+                break;
+            default:
+                break;
+        }
+    }
+
+	public void SwitchMagazineSizeSubscribe()
+	{
+		//GunItemSlotView gunItemSlotView = bannerGrid.GetChild(index).GetComponent<GunItemSlotView>();
 	}
 
 }

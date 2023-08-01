@@ -45,15 +45,20 @@ public class Presenter : MonoBehaviour
             foreach (ItemInfoPlate currentDispItemPlate in model.avatarManager.itemManager.dispItemPlateList) if(currentDispItemPlate != null) currentDispItemPlate.gameObject.SetActive(!value);
         }).AddTo(this);
 
-        model.avatarManager.itemManager.gunModel.gunItemDataSlot.ObserveAdd().Subscribe(value => {
-            GunItem g = model.avatarManager.itemManager.gunModel.gunItemSlot[value.Key];
-            if (value.Key == WeaponPoint.Hand) view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(0,value.Value, g, model.avatarManager.itemManager.gunModel.bulletHolder[value.Value.bulletType]);
-            else view.oparetionView.gunItemSlider.SetGunItemSlotView(value.Value, g, model.avatarManager.itemManager.gunModel.bulletHolder[value.Value.bulletType]);
+        //model.avatarManager.itemManager.gunModel.gunItemDataSlot.ObserveAdd().Subscribe(value => {
+        //    GunItem g = model.avatarManager.itemManager.gunModel.gunItemSlot[value.Key];
+        //    if (value.Key == WeaponPoint.Hand) view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(0,value.Value, g, model.avatarManager.itemManager.gunModel.bulletHolder[value.Value.bulletType]);
+        //    else view.oparetionView.gunItemSlider.SetGunItemSlotView(value.Value, g, model.avatarManager.itemManager.gunModel.bulletHolder[value.Value.bulletType]);
+        //}).AddTo(this);
+
+        model.avatarManager.itemManager.gunModel.gunSlotSubject.Subscribe(value => {
+            view.oparetionView.gunItemSlider.SetGunItemSlotViewLogic(!model.avatarManager.itemManager.gunModel.hasHandWeapon.Value, value, model.avatarManager.itemManager.gunModel.bulletHolder[value.gunItemData.bulletType], view.oparetionView.gunItemSlider.horizontalScrollSnap._page.Value);
         }).AddTo(this);
-        model.avatarManager.itemManager.gunModel.gunItemDataSlot.ObserveReplace().Subscribe(value => {
-            GunItem g = model.avatarManager.itemManager.gunModel.gunItemSlot[value.Key];
-            view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(view.oparetionView.gunItemSlider.horizontalScrollSnap._page.Value, value.NewValue, g, model.avatarManager.itemManager.gunModel.bulletHolder[value.NewValue.bulletType]);
-        }).AddTo(this);
+
+        //model.avatarManager.itemManager.gunModel.gunItemDataSlot.ObserveReplace().Subscribe(value => {
+        //    GunItem g = model.avatarManager.itemManager.gunModel.gunItemSlot[value.Key];
+        //    view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(view.oparetionView.gunItemSlider.horizontalScrollSnap._page.Value, value.NewValue, g, model.avatarManager.itemManager.gunModel.bulletHolder[value.NewValue.bulletType]);
+        //}).AddTo(this);
 
         view.oparetionView.gunItemSlider.horizontalScrollSnap._page.SkipLatestValueOnSubscribe().Subscribe(value => {
             model.avatarManager.itemManager.gunModel.SwitchWeapon();
