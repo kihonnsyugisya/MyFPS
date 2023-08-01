@@ -56,6 +56,7 @@ public class GunModel : MonoBehaviourPunCallbacks
     {
         GunItem gunItem = GetCurrentGunItem();
         GunItemData gunItemData = GetCurrentGunItemData();
+        gunItem.gameObject.name = "koredaaaaa";
         if (gunItem.magazineSize.Value <= 0)
         {
             OnpointerUpGunShoot();
@@ -122,7 +123,7 @@ public class GunModel : MonoBehaviourPunCallbacks
 
         if (isChange)
         {
-            gunItemSlot[WeaponPoint.Hand].gameObject.SetActive(false);
+            foreach (Transform handItem in handWeaponPoint.transform) handItem.gameObject.SetActive(false);
             Transform hasItem = StageItemManager.stageItemInfo[hasItemStageID].transform;
             hasItem.position = itemPos;
             hasItem.gameObject.SetActive(true);
@@ -145,7 +146,7 @@ public class GunModel : MonoBehaviourPunCallbacks
             gunItemSlot[WeaponPoint.Hand].magazineSize.Value = getGunItem.magazineSize.Value;
             gunItemDataSlot[WeaponPoint.Hand] = getGunItemData;
             data.gunSlotSubjectBehaviour = GunSlotSubjectBehaviour.Replace;
-            data.gunItem = handItemDic[getGunItem.itemId];
+            //data.gunItem = handItemDic[getGunItem.itemId];
 
         }
         else if (gunItemSlot.Count == 1)
@@ -157,7 +158,7 @@ public class GunModel : MonoBehaviourPunCallbacks
             gunItemSlot[WeaponPoint.Shoulder].magazineSize.Value = getGunItem.magazineSize.Value;
             gunItemDataSlot.Add(WeaponPoint.Shoulder, getGunItemData);
             data.gunSlotSubjectBehaviour = GunSlotSubjectBehaviour.Add;
-            data.gunItem = shoulderItemDic[getGunItem.itemId];
+            //data.gunItem = shoulderItemDic[getGunItem.itemId];
 
         }
         else
@@ -169,9 +170,10 @@ public class GunModel : MonoBehaviourPunCallbacks
             gunItemSlot[WeaponPoint.Hand].magazineSize.Value = getGunItem.magazineSize.Value;
             gunItemDataSlot.Add(WeaponPoint.Hand,getGunItemData);
             data.gunSlotSubjectBehaviour = GunSlotSubjectBehaviour.Add;
-            data.gunItem = handItemDic[getGunItem.itemId];
+            //data.gunItem = handItemDic[getGunItem.itemId];
 
         }
+        data.gunItem = handItemDic[getGunItem.itemId];
         data.gunItemData = getGunItemData;
 
         gunSlotSubject.OnNext(data);
@@ -195,8 +197,10 @@ public class GunModel : MonoBehaviourPunCallbacks
         gunItemDataSlot[WeaponPoint.Shoulder] = dataTemp;
 
         var itemTemp = gunItemSlot[WeaponPoint.Hand];
-        gunItemSlot[WeaponPoint.Hand] = gunItemSlot[WeaponPoint.Shoulder];
-        gunItemSlot[WeaponPoint.Shoulder] = itemTemp;
+        gunItemSlot[WeaponPoint.Hand] = handItemDic[gunItemSlot[WeaponPoint.Shoulder].itemId];
+        gunItemSlot[WeaponPoint.Hand].magazineSize.Value = gunItemSlot[WeaponPoint.Shoulder].magazineSize.Value;
+        gunItemSlot[WeaponPoint.Shoulder] = shoulderItemDic[itemTemp.itemId];
+        gunItemSlot[WeaponPoint.Shoulder].magazineSize.Value = itemTemp.magazineSize.Value;
         photonView.RPC(nameof(ShareSwitchWeapon), RpcTarget.All, gunItemSlot[WeaponPoint.Hand].itemId, gunItemSlot[WeaponPoint.Shoulder].itemId);
     }
 

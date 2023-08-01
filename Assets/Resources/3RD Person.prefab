@@ -19396,7 +19396,7 @@ PrefabInstance:
         type: 3}
       propertyPath: gunEffect
       value: 
-      objectReference: {fileID: 2460065197369425837}
+      objectReference: {fileID: 4906807783801848383}
     - target: {fileID: 6426100039543270759, guid: 1d1e9c1df49b59a4d97d4c7f878511ed,
         type: 3}
       propertyPath: m_Enabled
@@ -19411,6 +19411,12 @@ PrefabInstance:
 --- !u!4 &992592789200308711 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 367836659441468497, guid: 1d1e9c1df49b59a4d97d4c7f878511ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 638583845721345462}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4906807783801848383 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5531774052838379401, guid: 1d1e9c1df49b59a4d97d4c7f878511ed,
     type: 3}
   m_PrefabInstance: {fileID: 638583845721345462}
   m_PrefabAsset: {fileID: 0}
