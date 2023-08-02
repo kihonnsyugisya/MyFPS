@@ -5,8 +5,8 @@ using UnityEngine.Pool;
 
 public class BulletPool : MonoBehaviour
 {
-    public ObjectPool<Bullet> shortBullets;
-    public ObjectPool<Bullet> longBullets;
+    public static ObjectPool<Bullet> shortBullets;
+    public static ObjectPool<Bullet> longBullets;
 
     [SerializeField] private Bullet shortBullet;
     [SerializeField] private Bullet longBullet;
@@ -38,7 +38,7 @@ public class BulletPool : MonoBehaviour
 
     }
 
-    public ObjectPool<Bullet> GetPool(BulletType bulletType)
+    public static ObjectPool<Bullet> GetPool(BulletType bulletType)
     {
         switch (bulletType)
         {
@@ -50,5 +50,11 @@ public class BulletPool : MonoBehaviour
                 break;
         }
         return shortBullets;
+    }
+
+    public static void Release(Bullet o)
+    {
+        o.rigid.velocity = Vector3.zero;
+        GetPool(o.bulletType).Release(o);
     }
 }

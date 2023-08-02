@@ -6,19 +6,19 @@ public class Bullet : Item
 {
     [HideInInspector] public float power;
     [HideInInspector] public int playerID;
+    [HideInInspector] public BulletPool bulletPool;
     public BulletType bulletType;
     public Rigidbody rigid;
     [SerializeField] private GameObject bulletHoleEffect;
-    private float lifeTime = 0;
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        lifeTime += Time.fixedDeltaTime;
-        if (lifeTime > 7)
-        {
-            Destroy(gameObject);
-        }
+        Invoke(nameof(StoryEnd),5f);
+    }
+
+    private void StoryEnd()
+    {
+        BulletPool.Release(this);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -26,14 +26,14 @@ public class Bullet : Item
         if (collision.gameObject.CompareTag("Item") || collision.gameObject.name == AvatarManager.avatarName) return;
         DispBulletHole(transform.position);
         Debug.Log(collision.gameObject.name + " にぶつかった by 弾");
-        Destroy(gameObject);
+        CancelInvoke();
+        BulletPool.Release(this);
     }
 
     private void DispBulletHole(Vector3 dispPoint)
     {
         if(bulletHoleEffect) Instantiate(bulletHoleEffect,dispPoint,Quaternion.identity);
     }
-
 
 }
 

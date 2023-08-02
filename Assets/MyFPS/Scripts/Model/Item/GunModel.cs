@@ -30,8 +30,6 @@ public class GunModel : MonoBehaviourPunCallbacks
         { BulletType.Shot, new IntReactiveProperty(8) },
     };
 
-    [HideInInspector] public BulletPool bulletPool;
-
     private void Start()
     {
         foreach (Transform handItem in handWeaponPoint.transform)
@@ -67,7 +65,7 @@ public class GunModel : MonoBehaviourPunCallbacks
     private void BulletFire(Vector3 instantiatePoint,float atkPoint,Vector3 aimPoint)
     {
         //GameObject bullet = Instantiate(testBullet, instantiatePoint, Quaternion.identity);
-        Bullet bullet = bulletPool.GetPool(GetCurrentGunItemData().bulletType).Get();
+        Bullet bullet = BulletPool.GetPool(GetCurrentGunItemData().bulletType).Get();
         bullet.transform.localPosition = instantiatePoint;
         bullet.rigid.AddForce(bullerFlyingDistance * atkPoint * ((aimPoint - instantiatePoint).normalized));
     }
