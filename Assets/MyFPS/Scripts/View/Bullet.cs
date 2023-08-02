@@ -10,12 +10,6 @@ public class Bullet : Item
     [SerializeField] private GameObject bulletHoleEffect;
     private float lifeTime = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -28,9 +22,9 @@ public class Bullet : Item
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Item") || collision.gameObject.name == "3RD Person") return;
+        if (collision.gameObject.CompareTag("Item") || collision.gameObject.name == AvatarManager.avatarName) return;
         DispBulletHole(transform.position);
-        Debug.Log(collision.gameObject.name);
+        Debug.Log(collision.gameObject.name + " にぶつかった by 弾");
         Destroy(gameObject);
     }
 

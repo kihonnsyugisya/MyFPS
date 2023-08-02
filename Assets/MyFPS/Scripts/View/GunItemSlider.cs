@@ -40,12 +40,6 @@ public class GunItemSlider : MonoBehaviour
 		horizontalScrollSnap.GetComponent<ScrollRect>().movementType = Elastic ? ScrollRect.MovementType.Elastic : ScrollRect.MovementType.Clamped;
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-
-	}
-
 	public void SetGunItemSlotView(GunItemData gunItemData, GunItem gunItem, IntReactiveProperty bulletSize)
 	{
 		var instance = Instantiate(gunItemSlotView, bannerGrid);

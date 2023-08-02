@@ -39,6 +39,16 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - SetPlayerList
+  - BulletFire
+  - SetGunModel
+  - ShareRandamPoint
+  - RequestRandamPoint
+  - ShareRandomInts
+  - RemoveItem
+  - SetItemManager
+  - ShareShowWeapon
+  - ShareSwitchWeapon
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

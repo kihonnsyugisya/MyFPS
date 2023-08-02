@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UniRx;
+using Photon.Realtime;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
@@ -31,7 +32,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         isConnectedMaster.Value = true;
-        PhotonNetwork.JoinRandomOrCreateRoom();
+        PhotonNetwork.JoinRandomRoom();
     }
 
     public override void OnJoinedRoom()
@@ -39,9 +40,16 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         isConnectedRandomRoom.Value = true;
     }
 
-    public override void OnJoinRoomFailed(short returnCode, string message)
+
+
+    public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("on join room field");
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 10;
+        roomOptions.IsOpen = roomOptions.PublishUserId = roomOptions.IsVisible = true;
+        PhotonNetwork.CreateRoom(null,roomOptions,null);
+        Debug.Log("make room");
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
