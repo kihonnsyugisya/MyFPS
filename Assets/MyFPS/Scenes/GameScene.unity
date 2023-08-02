@@ -2296,6 +2296,7 @@ GameObject:
   - component: {fileID: 589126597}
   - component: {fileID: 589126599}
   - component: {fileID: 589126598}
+  - component: {fileID: 589126600}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -2386,8 +2387,7 @@ MonoBehaviour:
   itemInfoPlateObj: {fileID: 31435178}
   gunModel: {fileID: 0}
   AimPoint: {fileID: 1350090158}
-  testBullet: {fileID: 7158560429425753788, guid: 7bcd4c39f6772416a92d5ccd95ea6465,
-    type: 3}
+  bulletPool: {fileID: 589126600}
   stateDrivenCamera: {fileID: 133893495}
 --- !u!114 &589126598
 MonoBehaviour:
@@ -2431,6 +2431,22 @@ MonoBehaviour:
   - {fileID: 1164594778}
   - {fileID: 697579662}
   - {fileID: 387627195}
+--- !u!114 &589126600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589126592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66eac38e32040e046a6141a9fb499002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shortBullet: {fileID: 4355213422532284574, guid: 7bcd4c39f6772416a92d5ccd95ea6465,
+    type: 3}
+  longBullet: {fileID: 4355213422532284574, guid: 1561ab6ded1ae49ac9858a13f0942077,
+    type: 3}
 --- !u!1 &614997214
 GameObject:
   m_ObjectHideFlags: 0

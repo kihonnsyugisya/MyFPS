@@ -7,6 +7,7 @@ public class Bullet : Item
     [HideInInspector] public float power;
     [HideInInspector] public int playerID;
     public BulletType bulletType;
+    public Rigidbody rigid;
     [SerializeField] private GameObject bulletHoleEffect;
     private float lifeTime = 0;
 

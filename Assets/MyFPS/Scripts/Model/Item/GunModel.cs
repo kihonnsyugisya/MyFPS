@@ -30,7 +30,7 @@ public class GunModel : MonoBehaviourPunCallbacks
         { BulletType.Shot, new IntReactiveProperty(8) },
     };
 
-
+    [HideInInspector] public BulletPool bulletPool;
 
     private void Start()
     {
@@ -63,12 +63,13 @@ public class GunModel : MonoBehaviourPunCallbacks
         }
     }
 
-    public GameObject testBullet;
     [PunRPC]
     private void BulletFire(Vector3 instantiatePoint,float atkPoint,Vector3 aimPoint)
     {
-        GameObject bullet = Instantiate(testBullet, instantiatePoint, Quaternion.identity);        
-        bullet.GetComponent<Rigidbody>().AddForce(bullerFlyingDistance * atkPoint * ((aimPoint - instantiatePoint).normalized));
+        //GameObject bullet = Instantiate(testBullet, instantiatePoint, Quaternion.identity);
+        Bullet bullet = bulletPool.GetPool(GetCurrentGunItemData().bulletType).Get();
+        bullet.transform.localPosition = instantiatePoint;
+        bullet.rigid.AddForce(bullerFlyingDistance * atkPoint * ((aimPoint - instantiatePoint).normalized));
     }
 
 
