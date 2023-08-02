@@ -45,23 +45,6 @@ public class Presenter : MonoBehaviour
             foreach (ItemInfoPlate currentDispItemPlate in model.avatarManager.itemManager.dispItemPlateList) if(currentDispItemPlate != null) currentDispItemPlate.gameObject.SetActive(!value);
         }).AddTo(this);
 
-        //model.avatarManager.itemManager.gunModel.gunItemDataSlot.ObserveAdd().Subscribe(value =>
-        //{
-        //    GunItem g = model.avatarManager.itemManager.gunModel.gunItemSlot[value.Key];
-        //    if (value.Key == WeaponPoint.Hand) view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(0, value.Value, g, model.avatarManager.itemManager.gunModel.bulletHolder[value.Value.bulletType]);
-        //    else view.oparetionView.gunItemSlider.SetGunItemSlotView(value.Value, g, model.avatarManager.itemManager.gunModel.bulletHolder[value.Value.bulletType]);
-        //}).AddTo(this);
-
-        //model.avatarManager.itemManager.gunModel.gunSlotSubject.Subscribe(value => {
-        //    view.oparetionView.gunItemSlider.SetGunItemSlotViewLogic(!model.avatarManager.itemManager.gunModel.hasHandWeapon.Value, value, model.avatarManager.itemManager.gunModel.bulletHolder[value.gunItemData.bulletType], view.oparetionView.gunItemSlider.horizontalScrollSnap._page.Value);
-        //}).AddTo(this);
-
-        //model.avatarManager.itemManager.gunModel.gunItemDataSlot.ObserveReplace().Subscribe(value =>
-        //{
-        //    GunItem g = model.avatarManager.itemManager.gunModel.gunItemSlot[value.Key];
-        //    view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(view.oparetionView.gunItemSlider.horizontalScrollSnap._page.Value, value.NewValue, g, model.avatarManager.itemManager.gunModel.bulletHolder[value.NewValue.bulletType]);
-        //}).AddTo(this);
-
         model.avatarManager.itemManager.gunModel.gunItemSlot.ObserveAdd().Subscribe(value => {
             GunItem g = model.avatarManager.itemManager.gunModel.gunitemHolder[value.Index];
             if (value.Index == 0) view.oparetionView.gunItemSlider.ReplaceGunItemSlotView(value.Index, value.Value, g, model.avatarManager.itemManager.gunModel.bulletHolder[value.Value.bulletType]);
@@ -83,16 +66,5 @@ public class Presenter : MonoBehaviour
             foreach (var gunButton in view.oparetionView.gunButtons) gunButton.gameObject.SetActive(value);
             view.oparetionView.gunItemSlider.gameObject.SetActive(value);
         }).AddTo(this);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //if (model.avatarManager.playerModel.isAiming)
-        //{
-        //    model.avatarManager.itemManager.currentGunItem.gunPoint.LookAt(model.avatarManager.playerModel.GetWorldPositionFromAimPoint());
-        //    model.avatarManager.playerModel.OnclickGunShoot(model.avatarManager.itemManager.gunItemSlot[model.avatarManager.itemManager.currentGunItemSlotIndex], model.avatarManager.itemManager.currentGunItem);
-
-        //}
     }
 }

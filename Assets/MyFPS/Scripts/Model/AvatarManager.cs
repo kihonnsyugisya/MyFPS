@@ -33,15 +33,6 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         debugtext.text = "region " + PhotonNetwork.CloudRegion + " roomName: " + PhotonNetwork.CurrentRoom.Name;
     }
 
-    private void Start()
-    {
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     [HideInInspector] public PlayerModel playerModel;
     public AudioClip orenoVoice;
     public Joystick moveJoystick;

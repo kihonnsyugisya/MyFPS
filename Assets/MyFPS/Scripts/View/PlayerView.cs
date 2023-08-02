@@ -10,10 +10,4 @@ public class PlayerView : MonoBehaviour
     public Transform shoulderWeaponPoint;
     public Transform handWeaponPoint;
     public string userID;
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
