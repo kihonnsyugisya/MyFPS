@@ -38,9 +38,9 @@ public class BulletPool : MonoBehaviour
 
     }
 
-    public static ObjectPool<Bullet> GetPool(BulletType bulletType)
+    public static ObjectPool<Bullet> GetPool(int bulletType)
     {
-        switch (bulletType)
+        switch ((BulletType)bulletType)
         {
             case BulletType.Short:
                 return shortBullets;
@@ -55,6 +55,6 @@ public class BulletPool : MonoBehaviour
     public static void Release(Bullet o)
     {
         o.rigid.velocity = Vector3.zero;
-        GetPool(o.bulletType).Release(o);
+        GetPool((int)o.bulletType).Release(o);
     }
 }
