@@ -2386,8 +2386,8 @@ MonoBehaviour:
   itemManager: {fileID: 0}
   itemInfoPlateObj: {fileID: 31435178}
   gunModel: {fileID: 0}
-  AimPoint: {fileID: 1350090158}
   bulletPool: {fileID: 589126600}
+  AimPoint: {fileID: 1350090158}
   stateDrivenCamera: {fileID: 133893495}
 --- !u!114 &589126598
 MonoBehaviour:
@@ -2447,6 +2447,7 @@ MonoBehaviour:
     type: 3}
   longBullet: {fileID: 4355213422532284574, guid: 1561ab6ded1ae49ac9858a13f0942077,
     type: 3}
+  hole: {fileID: 6225670105297062754, guid: 02ddfd41a15147c459c72beb818ae4e4, type: 3}
 --- !u!1 &614997214
 GameObject:
   m_ObjectHideFlags: 0
@@ -2882,7 +2883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &749044967
 MeshCollider:
   m_ObjectHideFlags: 0
