@@ -63,18 +63,18 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     }
 
     [HideInInspector] public GunModel gunModel;
+    public BulletPool bulletPool;
     public RectTransform AimPoint;
-    public GameObject testBullet;
     [PunRPC]
     private void SetGunModel(int viewID)
     {
         GameObject target = playerList[viewID].gameObject;
         PlayerView pv = target.GetComponent<PlayerView>();
         gunModel = target.AddComponent<GunModel>();
+        gunModel.bulletPool = bulletPool;
         gunModel.AimPoint = AimPoint;
         gunModel.shoulderWeaponPoint = pv.shoulderWeaponPoint;
         gunModel.handWeaponPoint = pv.handWeaponPoint;
-        gunModel.testBullet = testBullet;
     }
 
     public CinemachineStateDrivenCamera stateDrivenCamera;

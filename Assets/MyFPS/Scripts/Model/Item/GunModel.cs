@@ -29,8 +29,7 @@ public class GunModel : MonoBehaviourPunCallbacks
         { BulletType.Long, new IntReactiveProperty(2) },
         { BulletType.Shot, new IntReactiveProperty(8) },
     };
-
-
+    [HideInInspector] public BulletPool bulletPool;
 
     private void Start()
     {
@@ -58,17 +57,18 @@ public class GunModel : MonoBehaviourPunCallbacks
         else
         {
             if (!viewGunItem.gunEffect.activeSelf) viewGunItem.gunEffect.SetActive(true);
-            photonView.RPC(nameof(BulletFire),RpcTarget.All,gunItem.gunPoint.position,200f,GetAimPoint());
+            photonView.RPC(nameof(BulletFire),RpcTarget.All,gunItem.gunPoint.position,200f,GetAimPoint(),(int)GetCurrentGunItemData().bulletType);
             gunItem.magazineSize.Value--;
         }
     }
 
-    public GameObject testBullet;
     [PunRPC]
-    private void BulletFire(Vector3 instantiatePoint,float atkPoint,Vector3 aimPoint)
+    private void BulletFire(Vector3 instantiatePoint,float atkPoint,Vector3 aimPoint,int bulletType)
     {
-        GameObject bullet = Instantiate(testBullet, instantiatePoint, Quaternion.identity);        
-        bullet.GetComponent<Rigidbody>().AddForce(bullerFlyingDistance * atkPoint * ((aimPoint - instantiatePoint).normalized));
+        //GameObject bullet = Instantiate(testBullet, instantiatePoint, Quaternion.identity);
+        Bullet bullet = bulletPool.GetPool(bulletType).Get();
+        bullet.transform.localPosition = instantiatePoint;
+        bullet.rigid.AddForce(bullerFlyingDistance * atkPoint * ((aimPoint - instantiatePoint).normalized));
     }
 
 
