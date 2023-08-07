@@ -93,11 +93,8 @@ public class PlayerModel : MonoBehaviour
         if(camAngle.y < downLange) camAngle.y = downLange;
         eye.transform.position = camAngle;
 
-    }
+        rigidbody.angularVelocity = Vector3.zero;
 
-    // Update is called once per frame
-    void Update()
-    {
     }
 
     private void OnAnimatorIK(int layerIndex)
