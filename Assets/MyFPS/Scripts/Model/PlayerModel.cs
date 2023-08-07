@@ -107,8 +107,8 @@ public class PlayerModel : MonoBehaviour
 
     public void PlayJump()
     {
-        //rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        //Debug.Log("dddffs");
+        rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        Debug.Log("dddffs");
 
         //ジャンプ、エイム、ジョイスティック等の操作系UIはviewにわけること        
         //PlaySwitchWeapon();  
