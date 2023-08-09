@@ -44,6 +44,10 @@ public class Presenter : MonoBehaviour
             model.avatarManager.playerModel.gameObject.layer = value ? 2 : 0;
             foreach (ItemInfoPlate currentDispItemPlate in model.avatarManager.itemManager.dispItemPlateList) if (currentDispItemPlate != null) currentDispItemPlate.gameObject.SetActive(!value);
         }).AddTo(this);
+        model.avatarManager.playerModel.isGrounded.Subscribe(value => {
+            view.oparetionView.jumpButton.interactable = value;
+            model.avatarManager.playerModel.PlayJumpPose(value);
+        }).AddTo(this);
 
         model.avatarManager.itemManager.gunModel.gunItemSlot.ObserveAdd().Subscribe(value => {
             GunItem g = model.avatarManager.itemManager.gunModel.gunitemHolder[value.Index];
