@@ -29,7 +29,7 @@ public class GunModel : MonoBehaviourPunCallbacks
         { BulletType.Long, new IntReactiveProperty(2) },
         { BulletType.Shot, new IntReactiveProperty(8) },
     };
-    [HideInInspector] public BulletPool bulletPool;
+    [HideInInspector] public ObjectPools objectPool;
 
     private void Start()
     {
@@ -66,7 +66,7 @@ public class GunModel : MonoBehaviourPunCallbacks
     private void BulletFire(Vector3 instantiatePoint,float atkPoint,Vector3 aimPoint,int bulletType)
     {
         //GameObject bullet = Instantiate(testBullet, instantiatePoint, Quaternion.identity);
-        Bullet bullet = bulletPool.GetPool(bulletType).Get();
+        Bullet bullet = objectPool.GetPool(bulletType).Get();
         bullet.transform.localPosition = instantiatePoint;
         bullet.rigid.AddForce(bullerFlyingDistance * atkPoint * ((aimPoint - instantiatePoint).normalized));
     }

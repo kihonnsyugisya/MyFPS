@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class BulletPool : MonoBehaviour
+public class ObjectPools : MonoBehaviour
 {
     public ObjectPool<Bullet> shortBullets;
     public ObjectPool<Bullet> longBullets;
@@ -22,7 +22,7 @@ public class BulletPool : MonoBehaviour
             createFunc: () =>
             {
                 var d = Instantiate(shortBullet);
-                d.bulletPool = this;
+                d.objectPool = this;
                 return d;
             },
             actionOnGet: obj => obj.gameObject.SetActive(true),
@@ -38,7 +38,7 @@ public class BulletPool : MonoBehaviour
             createFunc: () =>
             {
                 var d = Instantiate(longBullet);
-                d.bulletPool = this;
+                d.objectPool = this;
                 return d;
             },
             actionOnGet: obj => obj.gameObject.SetActive(true),
@@ -54,7 +54,7 @@ public class BulletPool : MonoBehaviour
             createFunc: () =>
             {
                 var d = Instantiate(hole);
-                d.bulletPool = this;
+                d.objectPool = this;
                 return d;
             },
             actionOnGet: obj => obj.gameObject.SetActive(true),
