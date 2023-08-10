@@ -15,7 +15,7 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private float runAnimatonSpeed = 1f;
     [SerializeField] private float rotateSpeed = 0.7f;
     [SerializeField] private float walkInputRange = 0.65f;
-    [SerializeField] private float jumpForce = 200f;
+    [SerializeField] private float jumpForce = 280f;
 
     [HideInInspector] public Joystick moveJoystick;
     [HideInInspector] public Joystick rotateJoystick;
@@ -29,15 +29,13 @@ public class PlayerModel : MonoBehaviour
 
     private new Rigidbody rigidbody;
 
-    public float distToGround;
-    public bool isGrounded;
+    public BoolReactiveProperty isGrounded = new(false);
 
    
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        distToGround = GetComponent<Collider>().bounds.extents.y;
     }
 
     private void FixedUpdate()
@@ -49,6 +47,9 @@ public class PlayerModel : MonoBehaviour
         Quaternion rotation = transform.rotation * Quaternion.Euler(0, rotateJoystick.Horizontal * rotateSpeed, 0);
         float moveSpeed;
         float animSpeed;
+
+        isGrounded.Value = !(Physics.Raycast(transform.position, -Vector3.up, transform.position.y + 2f) && transform.position.y > 0.4f);
+        Debug.Log(isGrounded.Value + ": isGround");
 
         if (isAiming.Value)
         {
@@ -93,11 +94,8 @@ public class PlayerModel : MonoBehaviour
         if(camAngle.y < downLange) camAngle.y = downLange;
         eye.transform.position = camAngle;
 
-    }
+        rigidbody.angularVelocity = Vector3.zero;
 
-    // Update is called once per frame
-    void Update()
-    {
     }
 
     private void OnAnimatorIK(int layerIndex)
@@ -110,11 +108,16 @@ public class PlayerModel : MonoBehaviour
 
     public void PlayJump()
     {
-        //rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        //Debug.Log("dddffs");
+        rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
 
-        //ジャンプ、エイム、ジョイスティック等の操作系UIはviewにわけること        
-        //PlaySwitchWeapon();  
+    public void PlayJumpPose(bool isGrounded)
+    {
+        if (isGrounded) animator.SetLayerWeight(4, 0f);
+        else {
+            animator.SetLayerWeight(4, 1f);
+            animator.CrossFade("Jumping", 0f, 4);
+        }
     }
 
     public void PlaySwitchWeapon()
