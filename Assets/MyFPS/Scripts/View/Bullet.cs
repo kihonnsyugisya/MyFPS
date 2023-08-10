@@ -6,10 +6,10 @@ public class Bullet : Item
 {
     [HideInInspector] public float power;
     [HideInInspector] public int playerID;
+    [HideInInspector] public ObjectPools objectPool;
     public BulletType bulletType;
     public Rigidbody rigid;
     [SerializeField] private GameObject bulletHoleEffect;
-    public ObjectPools objectPool;
 
     private void OnEnable()
     {
