@@ -2575,6 +2575,7 @@ GameObject:
   - component: {fileID: 589126599}
   - component: {fileID: 589126598}
   - component: {fileID: 589126600}
+  - component: {fileID: 589126601}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -2667,6 +2668,7 @@ MonoBehaviour:
   objectPool: {fileID: 589126600}
   AimPoint: {fileID: 1350090158}
   stateDrivenCamera: {fileID: 133893495}
+  hitFeedBack: {fileID: 1948245093}
 --- !u!114 &589126598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2726,6 +2728,19 @@ MonoBehaviour:
   longBullet: {fileID: 4355213422532284574, guid: 1561ab6ded1ae49ac9858a13f0942077,
     type: 3}
   hole: {fileID: 6225670105297062754, guid: 02ddfd41a15147c459c72beb818ae4e4, type: 3}
+--- !u!114 &589126601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589126592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1ba15ee4864c144b8b5c646a2d46054, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitFeedBack: {fileID: 1948245093}
 --- !u!1 &614997214
 GameObject:
   m_ObjectHideFlags: 0

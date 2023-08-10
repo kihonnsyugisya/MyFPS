@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Cinemachine;
 using Photon.Realtime;
+using MoreMountains.Feedbacks;
 
 public class AvatarManager : MonoBehaviourPunCallbacks
 {   
@@ -28,6 +29,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         SetPlayerModel();
         SetCamera();
         SetAnimatorSyncSetting();
+        SetDamegeTextModel();
 
         Debug.Log(PhotonNetwork.CloudRegion + " " + PhotonNetwork.CurrentRoom.Name);
         debugtext.text = "region " + PhotonNetwork.CloudRegion + " roomName: " + PhotonNetwork.CurrentRoom.Name;
@@ -112,6 +114,13 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         Debug.Log("set list");
     }
     //PhotonNetwork.UseRpcMonoBehaviourCache = true;
+
+    public MMFeedbacks hitFeedBack;
+    private void SetDamegeTextModel()
+    {
+        var d = myAvatar.AddComponent<DamageTextModel>();
+        d.hitFeedBack = hitFeedBack;
+    }
 
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

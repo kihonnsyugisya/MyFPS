@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.Feedbacks;
+using Photon.Pun;
 
-public class DamageTextModel : MonoBehaviour
+public class DamageTextModel :MonoBehaviourPunCallbacks
 {
-    public MMFeedbacks hit;
+    [HideInInspector] public MMFeedbacks hitFeedBack;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,5 +18,16 @@ public class DamageTextModel : MonoBehaviour
     void Update()
     {
         
+    }
+
+    [PunRPC]
+    public void ShowDamageText(Vector3 impactPosition,float damage)
+    {
+        hitFeedBack.PlayFeedbacks(impactPosition,damage);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.gameObject.name + "がぶつかってきた");
     }
 }
