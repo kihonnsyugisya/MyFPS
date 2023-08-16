@@ -7,7 +7,9 @@ using Photon.Pun;
 public class GunModel : MonoBehaviourPunCallbacks
 {
 
-    [SerializeField] private int bullerFlyingDistance = 500;
+    //[SerializeField] private int bullerFlyingDistance = 500;
+    [SerializeField] private int bullerFlyingDistance = 5;
+
 
     [HideInInspector] public RectTransform AimPoint;
     [HideInInspector] public Transform shoulderWeaponPoint;

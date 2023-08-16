@@ -23,7 +23,7 @@ public class Bullet : Item
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Item") || collision.gameObject.name == AvatarManager.avatarName) return;
+        if (collision.gameObject.CompareTag("Item")) return;
         //DispBulletHole(transform.position);
         var h = objectPool.holes.Get();
         h.transform.SetLocalPositionAndRotation(transform.position,Quaternion.identity);

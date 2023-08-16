@@ -6,18 +6,14 @@ using Photon.Pun;
 
 public class DamageTextModel :MonoBehaviourPunCallbacks
 {
-    [HideInInspector] public MMFeedbacks hitFeedBack;
+    //[HideInInspector] public MMFeedbacks hitFeedBack;
+    public MMFeedbacks hitFeedBack;
+    [HideInInspector] public Transform feedBackLocation;
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("これを動的にアバター（じぶんだけ）にアタッチし、ダメージを受けたときに全員にそれを同期する");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     [PunRPC]
@@ -26,8 +22,14 @@ public class DamageTextModel :MonoBehaviourPunCallbacks
         hitFeedBack.PlayFeedbacks(impactPosition,damage);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(other.gameObject.name + "がぶつかってきた");
-    }
+        Debug.Log(collision.gameObject.name + "がぶつかってきた");
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            var d = collision.gameObject.GetComponent<Bullet>();
+            photonView.RPC(nameof(ShowDamageText),RpcTarget.All,feedBackLocation.position,d.power);
+        }
+    }  
+    
 }

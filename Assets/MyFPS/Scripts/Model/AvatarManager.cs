@@ -25,11 +25,11 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         myAvatar.name = avatarName;
         photonView.RPC(nameof(SetPlayerList), RpcTarget.AllBuffered, myViewID,PhotonNetwork.LocalPlayer.UserId);
         photonView.RPC(nameof(SetGunModel),RpcTarget.AllBuffered,myViewID);
+        photonView.RPC(nameof(SetDamegeTextModel),RpcTarget.AllBuffered,myViewID);
         SetItemManager();
         SetPlayerModel();
         SetCamera();
         SetAnimatorSyncSetting();
-        SetDamegeTextModel();
 
         Debug.Log(PhotonNetwork.CloudRegion + " " + PhotonNetwork.CurrentRoom.Name);
         debugtext.text = "region " + PhotonNetwork.CloudRegion + " roomName: " + PhotonNetwork.CurrentRoom.Name;
@@ -116,10 +116,13 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     //PhotonNetwork.UseRpcMonoBehaviourCache = true;
 
     public MMFeedbacks hitFeedBack;
-    private void SetDamegeTextModel()
+    [PunRPC]
+    private void SetDamegeTextModel(int viewID)
     {
-        var d = myAvatar.AddComponent<DamageTextModel>();
+        GameObject target = playerList[viewID].gameObject;
+        var d = target.AddComponent<DamageTextModel>();
         d.hitFeedBack = hitFeedBack;
+        d.feedBackLocation = playerList[viewID].eye;
     }
 
 
