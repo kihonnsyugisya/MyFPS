@@ -293,20 +293,20 @@ MonoBehaviour:
   CanSpawn: 1
   UseUnscaledTime: 0
   PoolerMode: 0
-  PooledSimpleMMFloatingText: {fileID: 7284800961402381166, guid: 0453e37c3c22e7145b8c23c7fa96de36,
+  PooledSimpleMMFloatingText: {fileID: 1418480443928390043, guid: 4c1c6a83883bc4142b27d3223056e9da,
     type: 3}
   PooledMultipleMMFloatingText: []
-  PoolSize: 15
+  PoolSize: 20
   NestWaitingPool: 1
   MutualizeWaitingPools: 1
   PoolCanExpand: 1
-  Lifetime: {x: 1, y: 1}
+  Lifetime: {x: 0.5, y: 0.5}
   SpawnOffsetMin: {x: 0, y: 0, z: 0}
   SpawnOffsetMax: {x: 0, y: 0, z: 0}
   AnimateMovement: 1
-  AnimateX: 0
-  RemapXZero: {x: 0, y: 0}
-  RemapXOne: {x: 1, y: 1}
+  AnimateX: 1
+  RemapXZero: {x: -0.02, y: 0.02}
+  RemapXOne: {x: -0.01, y: 0.01}
   AnimateXCurve:
     serializedVersion: 2
     m_Curve:
@@ -333,7 +333,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   AnimateY: 1
   RemapYZero: {x: 0, y: 0}
-  RemapYOne: {x: 5, y: 5}
+  RemapYOne: {x: 0.15, y: 0.2}
   AnimateYCurve:
     serializedVersion: 2
     m_Curve:
@@ -387,7 +387,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   AlignmentMode: 0
   FixedAlignment: {x: 0, y: 1, z: 0}
-  AlwaysFaceCamera: 0
+  AlwaysFaceCamera: 1
   AutoGrabMainCameraOnStart: 1
   TargetCamera: {fileID: 0}
   AnimateScale: 1
@@ -2668,7 +2668,7 @@ MonoBehaviour:
   objectPool: {fileID: 589126600}
   AimPoint: {fileID: 1350090158}
   stateDrivenCamera: {fileID: 133893495}
-  hitFeedBack: {fileID: 1948245093}
+  hitFeedBack: {fileID: 1948245095}
 --- !u!114 &589126598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2740,7 +2740,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ba15ee4864c144b8b5c646a2d46054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitFeedBack: {fileID: 1948245093}
+  hitFeedBack: {fileID: 0}
+  feedBackLocation: {fileID: 0}
 --- !u!1 &614997214
 GameObject:
   m_ObjectHideFlags: 0
@@ -4053,7 +4054,7 @@ MonoBehaviour:
           m_NumAlphaKeys: 2
         ForceLifetime: 0
         Lifetime: 0.5
-        PositionMode: 1
+        PositionMode: 2
         TargetTransform: {fileID: 0}
         Direction: {x: 0, y: 0, z: 0}
     - rid: 5900851538876694537
@@ -7318,7 +7319,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1948245094}
-  - component: {fileID: 1948245093}
+  - component: {fileID: 1948245095}
   m_Layer: 0
   m_Name: HitFeedbacks
   m_TagString: Untagged
@@ -7326,7 +7327,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1948245093
+--- !u!4 &1948245094
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948245092}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 38
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1948245095
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7415,7 +7431,7 @@ MonoBehaviour:
         m_Calls: []
   DebugActive: 0
   FeedbacksList:
-  - rid: 5900851538876694536
+  - rid: 5900851719842562049
   KeepPlayModeChanges: 0
   PerformanceMode: 0
   StopFeedbacksOnDisable: 0
@@ -7423,11 +7439,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5900851538876694536
+    - rid: 5900851719842562049
       type: {class: MMF_FloatingText, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks.MMTools}
       data:
         Active: 1
-        UniqueID: 1407304412
+        UniqueID: 857421418
         Label: Floating Text
         ChannelMode: 0
         Channel: 0
@@ -7489,10 +7505,10 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         RemapRangeFalloff: {x: 0, y: 1}
-        Owner: {fileID: 1948245093}
+        Owner: {fileID: 1948245095}
         DebugActive: 0
         Intensity: 1
-        Value: 0
+        Value: 100
         UseIntensityAsValue: 1
         RoundingMethod: 0
         ForceColor: 0
@@ -7528,24 +7544,9 @@ MonoBehaviour:
           m_NumAlphaKeys: 2
         ForceLifetime: 0
         Lifetime: 0.5
-        PositionMode: 1
+        PositionMode: 2
         TargetTransform: {fileID: 0}
         Direction: {x: 0, y: 0, z: 0}
---- !u!4 &1948245094
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1948245092}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 38
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1984925465 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: fe027b143936e95418d2d7b2ddf9a754,

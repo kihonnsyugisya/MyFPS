@@ -22,7 +22,6 @@ public class ObjectPools : MonoBehaviour
             createFunc: () =>
             {
                 var d = Instantiate(shortBullet);
-                d.gameObject.tag = "Bullet";
                 d.objectPool = this;
                 return d;
             },

@@ -6,29 +6,27 @@ using Photon.Pun;
 
 public class DamageTextModel :MonoBehaviourPunCallbacks
 {
-    //[HideInInspector] public MMFeedbacks hitFeedBack;
-    public MMFeedbacks hitFeedBack;
+    [HideInInspector] public MMFeedbacks hitFeedBack;
     [HideInInspector] public Transform feedBackLocation;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Debug.Log("これを動的にアバター（じぶんだけ）にアタッチし、ダメージを受けたときに全員にそれを同期する");
-    }
-
     [PunRPC]
-    public void ShowDamageText(Vector3 impactPosition,float damage)
+    public void ShowDamageText(float damage)
     {
-        hitFeedBack.PlayFeedbacks(impactPosition,damage);
+        if (photonView.IsMine) return;
+        Debug.Log("position " + feedBackLocation.parent.name + "ダメージ " + damage +" 実行者 " + gameObject.name);
+        hitFeedBack.PlayFeedbacks(feedBackLocation.position,damage);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name + "がぶつかってきた");
+        Debug.Log(collision.gameObject.name + "がぶつかってきた By " + gameObject.name);
         if (collision.gameObject.CompareTag("Bullet"))
         {
             var d = collision.gameObject.GetComponent<Bullet>();
-            photonView.RPC(nameof(ShowDamageText),RpcTarget.All,feedBackLocation.position,d.power);
+            photonView.RPC(nameof(ShowDamageText), RpcTarget.Others, d.power);
+        }
+        else {
+            Debug.Log(collision.gameObject.tag + " これです。");
         }
     }  
     

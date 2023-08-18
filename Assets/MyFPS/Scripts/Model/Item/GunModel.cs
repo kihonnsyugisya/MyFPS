@@ -70,6 +70,7 @@ public class GunModel : MonoBehaviourPunCallbacks
         //GameObject bullet = Instantiate(testBullet, instantiatePoint, Quaternion.identity);
         Bullet bullet = objectPool.GetPool(bulletType).Get();
         bullet.transform.localPosition = instantiatePoint;
+        bullet.tag = "Bullet";
         bullet.rigid.AddForce(bullerFlyingDistance * atkPoint * ((aimPoint - instantiatePoint).normalized));
     }
 
