@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Bullet : Item
 {
-    [HideInInspector] public float power;
     [HideInInspector] public int playerID;
     [HideInInspector] public ObjectPools objectPool;
+    public float power;
     public BulletType bulletType;
     public Rigidbody rigid;
     [SerializeField] private GameObject bulletHoleEffect;

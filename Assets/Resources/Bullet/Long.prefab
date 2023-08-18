@@ -150,9 +150,9 @@ MonoBehaviour:
   itemType: 0
   itemInfoPlate: {fileID: 0}
   stageId: 0
-  power: 0
   playerID: 0
   objectPool: {fileID: 0}
+  power: 85
   bulletType: 1
   rigid: {fileID: 971726962186218597}
   bulletHoleEffect: {fileID: 5947612808105206249, guid: 02ddfd41a15147c459c72beb818ae4e4,
