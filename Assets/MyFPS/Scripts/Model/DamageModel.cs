@@ -4,7 +4,7 @@ using UnityEngine;
 using MoreMountains.Feedbacks;
 using Photon.Pun;
 
-public class DamageTextModel :MonoBehaviourPunCallbacks
+public class DamageModel :MonoBehaviourPunCallbacks
 {
     [HideInInspector] public MMFeedbacks hitFeedBack;
     [HideInInspector] public Transform feedBackLocation;
@@ -24,6 +24,7 @@ public class DamageTextModel :MonoBehaviourPunCallbacks
         {
             var d = collision.gameObject.GetComponent<Bullet>();
             photonView.RPC(nameof(ShowDamageText), RpcTarget.Others, d.power);
+
         }
         else {
             Debug.Log(collision.gameObject.tag + " これです。");

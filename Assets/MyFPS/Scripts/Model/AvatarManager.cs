@@ -120,7 +120,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     private void SetDamegeTextModel(int viewID)
     {
         GameObject target = playerList[viewID].gameObject;
-        var d = target.AddComponent<DamageTextModel>();
+        var d = target.AddComponent<DamageModel>();
         d.hitFeedBack = hitFeedBack;
         d.feedBackLocation = playerList[viewID].eye;
     }
