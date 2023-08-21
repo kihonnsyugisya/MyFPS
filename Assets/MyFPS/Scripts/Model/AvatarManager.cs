@@ -116,13 +116,14 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     //PhotonNetwork.UseRpcMonoBehaviourCache = true;
 
     public MMFeedbacks hitFeedBack;
+    [HideInInspector] public DamageModel damageModel;
     [PunRPC]
     private void SetDamegeTextModel(int viewID)
     {
         GameObject target = playerList[viewID].gameObject;
-        var d = target.AddComponent<DamageModel>();
-        d.hitFeedBack = hitFeedBack;
-        d.feedBackLocation = playerList[viewID].eye;
+        damageModel = target.AddComponent<DamageModel>();
+        damageModel.hitFeedBack = hitFeedBack;
+        damageModel.feedBackLocation = playerList[viewID].eye;
     }
 
 

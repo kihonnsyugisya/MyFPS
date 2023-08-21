@@ -39,7 +39,7 @@ public class Presenter : MonoBehaviour
             model.avatarManager.itemManager.gunModel.ReloadGun();
             model.avatarManager.itemManager.gunModel.canReload.Value = false;
         }).AddTo(this);
-        view.oparetionView.jumpButton.OnClickAsObservable().Subscribe(_ => model.avatarManager.playerModel.PlayJump()).AddTo(this);
+        view.oparetionView.jumpButton.OnClickAsObservable().Subscribe(_ => model.avatarManager.playerModel.PlayJump()).AddTo(this);        
         model.avatarManager.playerModel.isAiming.Subscribe(value => {
             model.avatarManager.playerModel.gameObject.layer = value ? 2 : 0;
             foreach (ItemInfoPlate currentDispItemPlate in model.avatarManager.itemManager.dispItemPlateList) if (currentDispItemPlate != null) currentDispItemPlate.gameObject.SetActive(!value);
@@ -69,6 +69,10 @@ public class Presenter : MonoBehaviour
             if (value) model.avatarManager.playerModel.PlayHasGun();
             foreach (var gunButton in view.oparetionView.gunButtons) gunButton.gameObject.SetActive(value);
             view.oparetionView.gunItemSlider.gameObject.SetActive(value);
+        }).AddTo(this);
+
+        model.avatarManager.damageModel.hp.Subscribe(value => {
+            view.oparetionView.DecreaseHpGage();
         }).AddTo(this);
     }
 }

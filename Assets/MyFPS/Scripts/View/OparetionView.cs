@@ -1,3 +1,5 @@
+using MoreMountains.Feedbacks;
+using MoreMountains.Tools;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +12,8 @@ public class OparetionView : MonoBehaviour
     public Button reLoadButton;
     public Button aimButton;
     public GunItemSlider gunItemSlider;
+    public MMProgressBar lifeGage;
+    public MMFeedbacks damageFeedBack;
     [HideInInspector] public List<Button> gunButtons;
 
     private void Awake()
@@ -19,4 +23,10 @@ public class OparetionView : MonoBehaviour
             gunShootingButton,reLoadButton,aimButton
         };
     }
+
+    public void DecreaseHpGage()
+    { 
+        
+    }
+
 }

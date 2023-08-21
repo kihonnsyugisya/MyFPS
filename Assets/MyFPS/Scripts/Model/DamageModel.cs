@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.Feedbacks;
 using Photon.Pun;
+using UniRx;
 
 public class DamageModel :MonoBehaviourPunCallbacks
 {
     [HideInInspector] public MMFeedbacks hitFeedBack;
     [HideInInspector] public Transform feedBackLocation;
+    [HideInInspector] public IntReactiveProperty hp = new(100);
 
     [PunRPC]
     public void ShowDamageText(float damage)
@@ -24,7 +26,7 @@ public class DamageModel :MonoBehaviourPunCallbacks
         {
             var d = collision.gameObject.GetComponent<Bullet>();
             photonView.RPC(nameof(ShowDamageText), RpcTarget.Others, d.power);
-
+            hp.Value -= (int)d.power;
         }
         else {
             Debug.Log(collision.gameObject.tag + " これです。");
