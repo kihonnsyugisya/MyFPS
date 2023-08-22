@@ -9,7 +9,8 @@ public class DamageModel :MonoBehaviourPunCallbacks
 {
     [HideInInspector] public MMFeedbacks hitFeedBack;
     [HideInInspector] public Transform feedBackLocation;
-    [HideInInspector] public IntReactiveProperty hp = new(100);
+    [HideInInspector] public Subject<int> damageSubject = new();
+    private int hp = 100;
 
     [PunRPC]
     public void ShowDamageText(float damage)
@@ -26,7 +27,8 @@ public class DamageModel :MonoBehaviourPunCallbacks
         {
             var d = collision.gameObject.GetComponent<Bullet>();
             photonView.RPC(nameof(ShowDamageText), RpcTarget.Others, d.power);
-            hp.Value -= (int)d.power;
+            hp -= (int)d.power;
+            damageSubject.OnNext((int)d.power);
         }
         else {
             Debug.Log(collision.gameObject.tag + " これです。");

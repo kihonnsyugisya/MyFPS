@@ -24,9 +24,14 @@ public class OparetionView : MonoBehaviour
         };
     }
 
-    public void DecreaseHpGage()
-    { 
-        
+    public void DecreaseHpGage(int damage)
+    {
+        int timer = damage / 10;
+        for (int i = 0; i <= timer; i++)
+        {
+            lifeGage.Minus10Percent();
+        }
+        damageFeedBack.PlayFeedbacks();
     }
 
 }

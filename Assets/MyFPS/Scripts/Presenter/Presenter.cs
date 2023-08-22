@@ -71,8 +71,8 @@ public class Presenter : MonoBehaviour
             view.oparetionView.gunItemSlider.gameObject.SetActive(value);
         }).AddTo(this);
 
-        model.avatarManager.damageModel.hp.Subscribe(value => {
-            view.oparetionView.DecreaseHpGage();
+        model.avatarManager.damageModel.damageSubject.Subscribe(damage => {
+            view.oparetionView.DecreaseHpGage(damage);
         }).AddTo(this);
     }
 }
