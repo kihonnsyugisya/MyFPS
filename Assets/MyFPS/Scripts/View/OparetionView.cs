@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class OparetionView : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class OparetionView : MonoBehaviour
     public Button reLoadButton;
     public Button aimButton;
     public GunItemSlider gunItemSlider;
+    public TextMeshProUGUI hpText;
     public MMProgressBar lifeGage;
     public MMFeedbacks damageFeedBack;
     [HideInInspector] public List<Button> gunButtons;

@@ -74,5 +74,9 @@ public class Presenter : MonoBehaviour
         model.avatarManager.damageModel.damageSubject.Subscribe(damage => {
             view.oparetionView.DecreaseHpGage(damage);
         }).AddTo(this);
+
+        model.avatarManager.damageModel.hp.Subscribe(hp => {
+            view.oparetionView.hpText.text = hp.ToString();
+        }).AddTo(this);
     }
 }

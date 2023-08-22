@@ -2895,6 +2895,7 @@ MonoBehaviour:
   AimPoint: {fileID: 1350090158}
   stateDrivenCamera: {fileID: 133893495}
   hitFeedBack: {fileID: 1948245095}
+  damageModel: {fileID: 0}
 --- !u!114 &589126598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2968,6 +2969,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitFeedBack: {fileID: 0}
   feedBackLocation: {fileID: 0}
+  hp:
+    value: 100
 --- !u!1 &614997214
 GameObject:
   m_ObjectHideFlags: 0
@@ -4099,6 +4102,7 @@ MonoBehaviour:
   reLoadButton: {fileID: 1483832861}
   aimButton: {fileID: 871778938}
   gunItemSlider: {fileID: 633480318}
+  hpText: {fileID: 139359809}
   lifeGage: {fileID: 1862656837}
   damageFeedBack: {fileID: 1289775847}
   gunButtons: []
