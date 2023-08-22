@@ -78,5 +78,9 @@ public class Presenter : MonoBehaviour
         model.avatarManager.damageModel.hp.Subscribe(hp => {
             view.oparetionView.hpText.text = hp.ToString();
         }).AddTo(this);
+
+        model.avatarManager.damageModel.isDead.Subscribe(value => {
+            if (value) model.avatarManager.playerModel.PlayDead();
+        }).AddTo(this);
     }
 }

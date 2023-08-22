@@ -154,4 +154,9 @@ public class PlayerModel : MonoBehaviour
         animator.SetTrigger("Reload");
     }
 
+    public void PlayDead()
+    {
+        animator.SetTrigger("Dead");
+    }
+
 }
