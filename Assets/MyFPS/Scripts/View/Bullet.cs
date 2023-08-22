@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Bullet : Item
 {
-    [HideInInspector] public float power;
     [HideInInspector] public int playerID;
+    [HideInInspector] public ObjectPools objectPool;
+    public float power;
     public BulletType bulletType;
     public Rigidbody rigid;
     [SerializeField] private GameObject bulletHoleEffect;
-    public BulletPool bulletPool;
 
     private void OnEnable()
     {
@@ -18,18 +18,18 @@ public class Bullet : Item
 
     private void StoryEnd()
     {
-        bulletPool.ReleaseBullet(this);
+        objectPool.ReleaseBullet(this);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Item") || collision.gameObject.name == AvatarManager.avatarName) return;
+        if (collision.gameObject.CompareTag("Item")) return;
         //DispBulletHole(transform.position);
-        var h = bulletPool.holes.Get();
+        var h = objectPool.holes.Get();
         h.transform.SetLocalPositionAndRotation(transform.position,Quaternion.identity);
         Debug.Log(collision.gameObject.name + " にぶつかった by 弾");
         CancelInvoke();
-        bulletPool.ReleaseBullet(this);
+        objectPool.ReleaseBullet(this);
     }
 
 }

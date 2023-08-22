@@ -93,6 +93,7 @@ public class ItemManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("nanndeyanenn");
         if (!other.CompareTag("Item")) return;
         if (other.TryGetComponent(out Item item))
         {

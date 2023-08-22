@@ -15,7 +15,7 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private float runAnimatonSpeed = 1f;
     [SerializeField] private float rotateSpeed = 0.7f;
     [SerializeField] private float walkInputRange = 0.65f;
-    [SerializeField] private float jumpForce = 280f;
+    [SerializeField] private float jumpForce = 200f;
 
     [HideInInspector] public Joystick moveJoystick;
     [HideInInspector] public Joystick rotateJoystick;
@@ -49,7 +49,6 @@ public class PlayerModel : MonoBehaviour
         float animSpeed;
 
         isGrounded.Value = !(Physics.Raycast(transform.position, -Vector3.up, transform.position.y + 2f) && transform.position.y > 0.4f);
-        Debug.Log(isGrounded.Value + ": isGround");
 
         if (isAiming.Value)
         {
@@ -108,7 +107,7 @@ public class PlayerModel : MonoBehaviour
 
     public void PlayJump()
     {
-        rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Acceleration);
     }
 
     public void PlayJumpPose(bool isGrounded)

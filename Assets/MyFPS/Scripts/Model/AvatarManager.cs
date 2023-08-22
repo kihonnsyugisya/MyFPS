@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Cinemachine;
 using Photon.Realtime;
+using MoreMountains.Feedbacks;
 
 public class AvatarManager : MonoBehaviourPunCallbacks
 {   
@@ -24,6 +25,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         myAvatar.name = avatarName;
         photonView.RPC(nameof(SetPlayerList), RpcTarget.AllBuffered, myViewID,PhotonNetwork.LocalPlayer.UserId);
         photonView.RPC(nameof(SetGunModel),RpcTarget.AllBuffered,myViewID);
+        photonView.RPC(nameof(SetDamegeTextModel),RpcTarget.AllBuffered,myViewID);
         SetItemManager();
         SetPlayerModel();
         SetCamera();
@@ -63,7 +65,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     }
 
     [HideInInspector] public GunModel gunModel;
-    public BulletPool bulletPool;
+    public ObjectPools objectPool;
     public RectTransform AimPoint;
     [PunRPC]
     private void SetGunModel(int viewID)
@@ -71,7 +73,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         GameObject target = playerList[viewID].gameObject;
         PlayerView pv = target.GetComponent<PlayerView>();
         gunModel = target.AddComponent<GunModel>();
-        gunModel.bulletPool = bulletPool;
+        gunModel.objectPool = objectPool;
         gunModel.AimPoint = AimPoint;
         gunModel.shoulderWeaponPoint = pv.shoulderWeaponPoint;
         gunModel.handWeaponPoint = pv.handWeaponPoint;
@@ -112,6 +114,17 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         Debug.Log("set list");
     }
     //PhotonNetwork.UseRpcMonoBehaviourCache = true;
+
+    public MMFeedbacks hitFeedBack;
+    [HideInInspector] public DamageModel damageModel;
+    [PunRPC]
+    private void SetDamegeTextModel(int viewID)
+    {
+        GameObject target = playerList[viewID].gameObject;
+        damageModel = target.AddComponent<DamageModel>();
+        damageModel.hitFeedBack = hitFeedBack;
+        damageModel.feedBackLocation = playerList[viewID].eye;
+    }
 
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

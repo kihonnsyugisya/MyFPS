@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(ParticleSystem))]
 public class CFX_AutoDestructShuriken : MonoBehaviour
 {
-	public BulletPool bulletPool;
+	public ObjectPools objectPool;
 
 	void OnEnable()
 	{
@@ -18,7 +18,7 @@ public class CFX_AutoDestructShuriken : MonoBehaviour
 			yield return new WaitForSeconds(0.5f);
 			if(!GetComponent<ParticleSystem>().IsAlive(true))
 			{
-				bulletPool.RereaseHole(this);
+				objectPool.RereaseHole(this);
 				break;
 			}
 		}

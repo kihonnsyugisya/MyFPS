@@ -7,7 +7,9 @@ using Photon.Pun;
 public class GunModel : MonoBehaviourPunCallbacks
 {
 
-    [SerializeField] private int bullerFlyingDistance = 500;
+    //[SerializeField] private int bullerFlyingDistance = 500;
+    [SerializeField] private int bullerFlyingDistance = 5;
+
 
     [HideInInspector] public RectTransform AimPoint;
     [HideInInspector] public Transform shoulderWeaponPoint;
@@ -29,7 +31,7 @@ public class GunModel : MonoBehaviourPunCallbacks
         { BulletType.Long, new IntReactiveProperty(2) },
         { BulletType.Shot, new IntReactiveProperty(8) },
     };
-    [HideInInspector] public BulletPool bulletPool;
+    [HideInInspector] public ObjectPools objectPool;
 
     private void Start()
     {
@@ -66,8 +68,9 @@ public class GunModel : MonoBehaviourPunCallbacks
     private void BulletFire(Vector3 instantiatePoint,float atkPoint,Vector3 aimPoint,int bulletType)
     {
         //GameObject bullet = Instantiate(testBullet, instantiatePoint, Quaternion.identity);
-        Bullet bullet = bulletPool.GetPool(bulletType).Get();
+        Bullet bullet = objectPool.GetPool(bulletType).Get();
         bullet.transform.localPosition = instantiatePoint;
+        bullet.tag = "Bullet";
         bullet.rigid.AddForce(bullerFlyingDistance * atkPoint * ((aimPoint - instantiatePoint).normalized));
     }
 

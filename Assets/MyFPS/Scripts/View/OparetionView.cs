@@ -1,7 +1,10 @@
+using MoreMountains.Feedbacks;
+using MoreMountains.Tools;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class OparetionView : MonoBehaviour
 {
@@ -10,6 +13,9 @@ public class OparetionView : MonoBehaviour
     public Button reLoadButton;
     public Button aimButton;
     public GunItemSlider gunItemSlider;
+    public TextMeshProUGUI hpText;
+    public MMProgressBar lifeGage;
+    public MMFeedbacks damageFeedBack;
     [HideInInspector] public List<Button> gunButtons;
 
     private void Awake()
@@ -19,4 +25,15 @@ public class OparetionView : MonoBehaviour
             gunShootingButton,reLoadButton,aimButton
         };
     }
+
+    public void DecreaseHpGage(int damage)
+    {
+        int timer = damage / 10;
+        for (int i = 0; i <= timer; i++)
+        {
+            lifeGage.Minus10Percent();
+        }
+        damageFeedBack.PlayFeedbacks();
+    }
+
 }
