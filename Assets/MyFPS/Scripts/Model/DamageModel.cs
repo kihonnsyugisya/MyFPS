@@ -31,7 +31,11 @@ public class DamageModel :MonoBehaviourPunCallbacks
             photonView.RPC(nameof(ShowDamageText), RpcTarget.Others, d.power);
             hp.Value -= (int)d.power;
             damageSubject.OnNext((int)d.power);
-            if (hp.Value <= 0) isDead.Value = true;
+            if (hp.Value <= 0) 
+            {
+                isDead.Value = true;
+                Debug.Log(AvatarManager.playerList[d.playerID].name + "に殺された");
+            }
         }
         else {
             Debug.Log(collision.gameObject.tag + " これです。");

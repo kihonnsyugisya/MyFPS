@@ -59,18 +59,19 @@ public class GunModel : MonoBehaviourPunCallbacks
         else
         {
             if (!viewGunItem.gunEffect.activeSelf) viewGunItem.gunEffect.SetActive(true);
-            photonView.RPC(nameof(BulletFire),RpcTarget.All,gunItem.gunPoint.position,200f,GetAimPoint(),(int)GetCurrentGunItemData().bulletType);
+            photonView.RPC(nameof(BulletFire),RpcTarget.All,gunItem.gunPoint.position,200f,GetAimPoint(),(int)GetCurrentGunItemData().bulletType,AvatarManager.myViewID);
             gunItem.magazineSize.Value--;
         }
     }
 
     [PunRPC]
-    private void BulletFire(Vector3 instantiatePoint,float atkPoint,Vector3 aimPoint,int bulletType)
+    private void BulletFire(Vector3 instantiatePoint,float atkPoint,Vector3 aimPoint,int bulletType,int viewID)
     {
         //GameObject bullet = Instantiate(testBullet, instantiatePoint, Quaternion.identity);
         Bullet bullet = objectPool.GetPool(bulletType).Get();
         bullet.transform.localPosition = instantiatePoint;
         bullet.tag = "Bullet";
+        bullet.playerID = viewID;
         bullet.rigid.AddForce(bullerFlyingDistance * atkPoint * ((aimPoint - instantiatePoint).normalized));
     }
 
