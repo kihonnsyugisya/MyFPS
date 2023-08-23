@@ -80,7 +80,13 @@ public class Presenter : MonoBehaviour
         }).AddTo(this);
 
         model.avatarManager.damageModel.isDead.Subscribe(value => {
-            if (value) model.avatarManager.playerModel.PlayDead();
+            if (value)
+            {
+                model.avatarManager.playerModel.PlayDead();
+                view.oparetionView.UndispOparationCanvas();
+                view.oparetionView.ShowResultView(model.avatarManager.damageModel.killerName);
+            }
+
         }).AddTo(this);
     }
 }

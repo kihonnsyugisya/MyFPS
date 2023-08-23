@@ -8,6 +8,8 @@ using TMPro;
 
 public class OparetionView : MonoBehaviour
 {
+    public Transform OparetionCanvas;
+    public GameObject ResultPanel;
     public Button gunShootingButton;
     public Button jumpButton;
     public Button reLoadButton;
@@ -16,6 +18,8 @@ public class OparetionView : MonoBehaviour
     public TextMeshProUGUI hpText;
     public MMProgressBar lifeGage;
     public MMFeedbacks damageFeedBack;
+
+    public TextMeshProUGUI killerName;
     [HideInInspector] public List<Button> gunButtons;
 
     private void Awake()
@@ -34,6 +38,21 @@ public class OparetionView : MonoBehaviour
             lifeGage.Minus10Percent();
         }
         damageFeedBack.PlayFeedbacks();
+    }
+
+    public void UndispOparationCanvas()
+    {
+        foreach (Transform item in OparetionCanvas)
+        {
+            item.gameObject.SetActive(false);
+        }
+    }
+
+    public void ShowResultView(string killerName)
+    {
+        ResultPanel.SetActive(true);
+        this.killerName.text = killerName;
+
     }
 
 }
