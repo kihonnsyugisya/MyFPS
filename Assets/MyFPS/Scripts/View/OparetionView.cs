@@ -22,6 +22,7 @@ public class OparetionView : MonoBehaviour
     public MMFeedbacks damageFeedBack;
 
     public TextMeshProUGUI killerName;
+    public Button goToLobyButton;
     [HideInInspector] public List<Button> gunButtons;
 
     private void Awake()

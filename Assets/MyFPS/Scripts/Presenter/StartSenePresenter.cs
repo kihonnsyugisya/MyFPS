@@ -11,10 +11,9 @@ public class StartSenePresenter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startSceneModel.photonManager.isConnectedMaster.Subscribe(_=> startSceneVeiw.SuccessMaster()).AddTo(this);
         startSceneModel.photonManager.isConnectedRandomRoom.Subscribe(value => {
             if (value)
-            {
+            {                
                 startSceneVeiw.SuccessRandomRoom();
                 startSceneModel.MoveToGameScene();
             }
@@ -25,9 +24,13 @@ public class StartSenePresenter : MonoBehaviour
             .ThrottleFirst(TimeSpan.FromMilliseconds(5000))
             .Subscribe(_=> {
                 startSceneVeiw.ShowConnectionStatusMessage(true);
-                startSceneModel.photonManager.ConnectionMastarServer();
+                startSceneModel.photonManager.GoToRandomMatchRoom();
             })
             .AddTo(this);
+
+        
+
+        startSceneModel.photonManager.ConnectionMastarServer();
     }
 
 

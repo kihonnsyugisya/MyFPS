@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
+using System;
 
 public class Presenter : MonoBehaviour
 {
@@ -90,5 +91,12 @@ public class Presenter : MonoBehaviour
             }
 
         }).AddTo(this);
+
+        view.oparetionView.goToLobyButton.OnClickAsObservable().TakeUntilDestroy(this).ThrottleFirst(TimeSpan.FromMilliseconds(5000))
+            .Subscribe(_=> {
+                AvatarManager.playerList.Clear();
+                StageItemManager.stageItemInfo.Clear();
+                PhotonManager.GoToLoby();
+            }).AddTo(this);
     }
 }
