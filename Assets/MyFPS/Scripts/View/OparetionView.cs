@@ -22,6 +22,7 @@ public class OparetionView : MonoBehaviour
     public MMFeedbacks damageFeedBack;
 
     public TextMeshProUGUI killerName;
+    public TextMeshProUGUI rankingText;
     public Button goToLobyButton;
     [HideInInspector] public List<Button> gunButtons;
 
@@ -62,5 +63,16 @@ public class OparetionView : MonoBehaviour
         stateDrivenCamera.ChildCameras[1].LookAt = p.Aim;
         stateDrivenCamera.m_AnimatedTarget = p.GetComponent<Animator>();
     }
+
+    public void DispRankingText(int rest)
+    { 
+        rankingText.text = rest.ToString();
+    }
+
+    public void DispKillAnnounce(string victim,string killer)
+    {
+        Debug.Log(killer + " が " + victim + "を殺した");
+    }
+
 
 }

@@ -36,12 +36,20 @@ public class DamageModel :MonoBehaviourPunCallbacks
             {
                 killerID = d.playerID;
                 isDead.Value = true;
+                photonView.RPC(nameof(SendPlayerListDead),RpcTarget.AllBuffered,AvatarManager.myViewID, AvatarManager.playerList[d.playerID].name);
                 Debug.Log(AvatarManager.playerList[d.playerID].name + "に殺された");
             }
         }
         else {
             Debug.Log(collision.gameObject.tag + " これです。");
         }
-    }  
+    }
+
+    [PunRPC]
+    private void SendPlayerListDead(int myViewID,string killerName)
+    {
+        AvatarManager.playerList[myViewID].killerName = killerName;
+        AvatarManager.playerList.Remove(myViewID);
+    }
     
 }

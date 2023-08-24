@@ -29,7 +29,6 @@ public class StartSenePresenter : MonoBehaviour
             .AddTo(this);
 
         
-
         startSceneModel.photonManager.ConnectionMastarServer();
     }
 

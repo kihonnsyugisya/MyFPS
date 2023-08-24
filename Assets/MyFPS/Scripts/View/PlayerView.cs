@@ -10,4 +10,5 @@ public class PlayerView : MonoBehaviour
     public Transform shoulderWeaponPoint;
     public Transform handWeaponPoint;
     public string userID;
+    [HideInInspector] public string killerName;
 }

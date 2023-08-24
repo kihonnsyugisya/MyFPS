@@ -98,5 +98,14 @@ public class Presenter : MonoBehaviour
                 StageItemManager.stageItemInfo.Clear();
                 PhotonManager.GoToLoby();
             }).AddTo(this);
+
+        AvatarManager.playerList.ObserveAdd().Subscribe(player => { 
+            view.oparetionView.DispRankingText(AvatarManager.playerList.Count);
+        }).AddTo(this);
+
+        AvatarManager.playerList.ObserveRemove().Subscribe(player => {
+            view.oparetionView.DispRankingText(AvatarManager.playerList.Count);
+            //view.oparetionView.DispKillAnnounce();
+        }).AddTo(this);
     }
 }

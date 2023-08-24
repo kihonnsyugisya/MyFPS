@@ -5,6 +5,7 @@ using Photon.Pun;
 using Cinemachine;
 using Photon.Realtime;
 using MoreMountains.Feedbacks;
+using UniRx;
 
 public class AvatarManager : MonoBehaviourPunCallbacks
 {   
@@ -13,7 +14,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     private PlayerView playerView;
     public static string avatarName = "3RD Person";
     public static int myViewID;
-    public static Dictionary<int, PlayerView> playerList = new();
+    public static ReactiveDictionary<int, PlayerView> playerList = new();
 
     public TMPro.TextMeshProUGUI debugtext;
 
@@ -147,7 +148,5 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         }
         Debug.Log(player.NickName + " が退出しました");
     }
-
-
 
 }
