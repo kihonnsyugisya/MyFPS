@@ -57,8 +57,9 @@ public class OparetionView : MonoBehaviour
         this.killerName.text = p.name;
         await Task.Delay(4500);
         stateDrivenCamera.Follow = p.transform;
-        stateDrivenCamera.LookAt = stateDrivenCamera.ChildCameras[1].LookAt = p.eye;
-        stateDrivenCamera.m_AnimatedTarget = p.GetComponent<Animator>();        
+        stateDrivenCamera.LookAt = p.eye;
+        stateDrivenCamera.ChildCameras[1].LookAt = p.Aim;
+        stateDrivenCamera.m_AnimatedTarget = p.GetComponent<Animator>();
     }
 
 }

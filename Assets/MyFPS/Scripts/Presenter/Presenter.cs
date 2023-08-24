@@ -82,6 +82,7 @@ public class Presenter : MonoBehaviour
         model.avatarManager.damageModel.isDead.Subscribe(value => {
             if (value)
             {
+                model.avatarManager.itemManager.UnDispItemInfoPlate();
                 model.avatarManager.playerModel.PlayDead();
                 view.oparetionView.UndispOparationCanvas();
                 int killerID = model.avatarManager.myAvatar.GetComponent<DamageModel>().killerID;
