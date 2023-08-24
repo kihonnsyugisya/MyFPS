@@ -12,7 +12,7 @@ public class DamageModel :MonoBehaviourPunCallbacks
     [HideInInspector] public Subject<int> damageSubject = new();
     [HideInInspector] public IntReactiveProperty hp = new(100);
     [HideInInspector] public BoolReactiveProperty isDead = new(false);
-    [HideInInspector] public string killerName;
+    [HideInInspector] public int killerID;
 
     [PunRPC]
     public void ShowDamageText(float damage)
@@ -34,7 +34,7 @@ public class DamageModel :MonoBehaviourPunCallbacks
             damageSubject.OnNext((int)d.power);
             if (hp.Value <= 0) 
             {
-                killerName = AvatarManager.playerList[d.playerID].name;
+                killerID = d.playerID;
                 isDead.Value = true;
                 Debug.Log(AvatarManager.playerList[d.playerID].name + "に殺された");
             }

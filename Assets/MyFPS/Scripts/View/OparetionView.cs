@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Cinemachine;
+using System.Threading.Tasks;
 
 public class OparetionView : MonoBehaviour
 {
@@ -48,11 +50,15 @@ public class OparetionView : MonoBehaviour
         }
     }
 
-    public void ShowResultView(string killerName)
+    public async void ShowResultView(CinemachineStateDrivenCamera stateDrivenCamera, int killerID)
     {
+        PlayerView p = AvatarManager.playerList[killerID];
         ResultPanel.SetActive(true);
-        this.killerName.text = killerName;
-
+        this.killerName.text = p.name;
+        await Task.Delay(4500);
+        stateDrivenCamera.Follow = p.transform;
+        stateDrivenCamera.LookAt = stateDrivenCamera.ChildCameras[1].LookAt = p.eye;
+        stateDrivenCamera.m_AnimatedTarget = p.GetComponent<Animator>();        
     }
 
 }

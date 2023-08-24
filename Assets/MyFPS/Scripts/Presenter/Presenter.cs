@@ -84,7 +84,8 @@ public class Presenter : MonoBehaviour
             {
                 model.avatarManager.playerModel.PlayDead();
                 view.oparetionView.UndispOparationCanvas();
-                view.oparetionView.ShowResultView(model.avatarManager.damageModel.killerName);
+                int killerID = model.avatarManager.myAvatar.GetComponent<DamageModel>().killerID;
+                view.oparetionView.ShowResultView(model.avatarManager.stateDrivenCamera, killerID);
             }
 
         }).AddTo(this);
