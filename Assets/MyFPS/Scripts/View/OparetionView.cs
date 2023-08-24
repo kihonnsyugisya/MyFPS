@@ -5,9 +5,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Cinemachine;
+using System.Threading.Tasks;
 
 public class OparetionView : MonoBehaviour
 {
+    public Transform OparetionCanvas;
+    public GameObject ResultPanel;
     public Button gunShootingButton;
     public Button jumpButton;
     public Button reLoadButton;
@@ -16,6 +20,9 @@ public class OparetionView : MonoBehaviour
     public TextMeshProUGUI hpText;
     public MMProgressBar lifeGage;
     public MMFeedbacks damageFeedBack;
+
+    public TextMeshProUGUI killerName;
+    public Button goToLobyButton;
     [HideInInspector] public List<Button> gunButtons;
 
     private void Awake()
@@ -34,6 +41,26 @@ public class OparetionView : MonoBehaviour
             lifeGage.Minus10Percent();
         }
         damageFeedBack.PlayFeedbacks();
+    }
+
+    public void UndispOparationCanvas()
+    {
+        foreach (Transform item in OparetionCanvas)
+        {
+            item.gameObject.SetActive(false);
+        }
+    }
+
+    public async void ShowResultView(CinemachineStateDrivenCamera stateDrivenCamera, int killerID)
+    {
+        PlayerView p = AvatarManager.playerList[killerID];
+        ResultPanel.SetActive(true);
+        this.killerName.text = p.name;
+        await Task.Delay(4500);
+        stateDrivenCamera.Follow = p.transform;
+        stateDrivenCamera.LookAt = p.eye;
+        stateDrivenCamera.ChildCameras[1].LookAt = p.Aim;
+        stateDrivenCamera.m_AnimatedTarget = p.GetComponent<Animator>();
     }
 
 }

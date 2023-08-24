@@ -11,6 +11,8 @@ public class DamageModel :MonoBehaviourPunCallbacks
     [HideInInspector] public Transform feedBackLocation;
     [HideInInspector] public Subject<int> damageSubject = new();
     [HideInInspector] public IntReactiveProperty hp = new(100);
+    [HideInInspector] public BoolReactiveProperty isDead = new(false);
+    [HideInInspector] public int killerID;
 
     [PunRPC]
     public void ShowDamageText(float damage)
@@ -23,12 +25,19 @@ public class DamageModel :MonoBehaviourPunCallbacks
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.gameObject.name + "がぶつかってきた By " + gameObject.name);
+        if (isDead.Value) return;
         if (collision.gameObject.CompareTag("Bullet"))
         {
             var d = collision.gameObject.GetComponent<Bullet>();
             photonView.RPC(nameof(ShowDamageText), RpcTarget.Others, d.power);
             hp.Value -= (int)d.power;
             damageSubject.OnNext((int)d.power);
+            if (hp.Value <= 0) 
+            {
+                killerID = d.playerID;
+                isDead.Value = true;
+                Debug.Log(AvatarManager.playerList[d.playerID].name + "に殺された");
+            }
         }
         else {
             Debug.Log(collision.gameObject.tag + " これです。");

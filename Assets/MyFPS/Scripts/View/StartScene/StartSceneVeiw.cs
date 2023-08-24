@@ -26,11 +26,6 @@ public class StartSceneVeiw : MonoBehaviour
         connetionStatusMessage.gameObject.SetActive(isShow);
     }
 
-    public void SuccessMaster()
-    {
-        connetionStatusMessage.text = "connect room...";
-    }
-
     public void SuccessRandomRoom()
     {
         connetionStatusMessage.text = "joind random room!";

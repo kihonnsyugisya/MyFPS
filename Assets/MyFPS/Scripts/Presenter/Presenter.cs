@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
+using System;
 
 public class Presenter : MonoBehaviour
 {
@@ -78,5 +79,24 @@ public class Presenter : MonoBehaviour
         model.avatarManager.damageModel.hp.Subscribe(hp => {
             view.oparetionView.hpText.text = hp.ToString();
         }).AddTo(this);
+
+        model.avatarManager.damageModel.isDead.Subscribe(value => {
+            if (value)
+            {
+                model.avatarManager.itemManager.UnDispItemInfoPlate();
+                model.avatarManager.playerModel.PlayDead();
+                view.oparetionView.UndispOparationCanvas();
+                int killerID = model.avatarManager.myAvatar.GetComponent<DamageModel>().killerID;
+                view.oparetionView.ShowResultView(model.avatarManager.stateDrivenCamera, killerID);
+            }
+
+        }).AddTo(this);
+
+        view.oparetionView.goToLobyButton.OnClickAsObservable().TakeUntilDestroy(this).ThrottleFirst(TimeSpan.FromMilliseconds(5000))
+            .Subscribe(_=> {
+                AvatarManager.playerList.Clear();
+                StageItemManager.stageItemInfo.Clear();
+                PhotonManager.GoToLoby();
+            }).AddTo(this);
     }
 }

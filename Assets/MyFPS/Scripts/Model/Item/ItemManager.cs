@@ -86,9 +86,13 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-
-    public void UseItem()
-    { }
+    public void UnDispItemInfoPlate()
+    {
+        foreach (var item in dispItemPlateList)
+        {
+            item.gameObject.SetActive(false);
+        }
+    }
 
 
     private void OnTriggerEnter(Collider other)

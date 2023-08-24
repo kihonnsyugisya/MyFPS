@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UniRx;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
@@ -31,7 +32,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        isConnectedMaster.Value = true;
+        isConnectedMaster.Value = true;        
+    }
+
+    public void GoToRandomMatchRoom()
+    {
         PhotonNetwork.JoinRandomRoom();
     }
 
@@ -57,6 +62,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log("on created room field"); 
     }
 
+    public static void GoToLoby()
+    {
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadSceneAsync("StartScene");
+        //PhotonNetwork.LoadLevel("StartScene");
+    }
     
 
 
