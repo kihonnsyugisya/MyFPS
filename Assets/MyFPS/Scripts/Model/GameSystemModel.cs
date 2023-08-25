@@ -2,23 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
-using MoreMountains.Feedbacks;
 using Photon.Pun;
 
-public class GameSystemModel : MonoBehaviourPunCallbacks
+public class GameSystemModel 
 {
     public static ReactiveDictionary<int, PlayerView> playerList = new();
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public static void SetPlayerList(in int viewID, in string userID)
     {
