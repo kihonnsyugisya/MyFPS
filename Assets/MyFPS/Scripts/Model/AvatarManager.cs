@@ -11,7 +11,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks
 {   
     public List<Transform> spawnPoint = new();
     [HideInInspector] public GameObject myAvatar;
-    private PlayerView playerView;
+    [HideInInspector] public PlayerView playerView;
     public static string avatarName = "3RD Person";
     public static int myViewID;
     public static ReactiveDictionary<int, PlayerView> playerList = new();
@@ -141,6 +141,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         {
             if (roomPlayer.Value.userID == player.UserId)
             {
+                playerList[roomPlayer.Key].killerID = 0;
                 playerList.Remove(roomPlayer.Key);
                 Debug.Log(roomPlayer.Key + "　をリストから削除");
                 return;
