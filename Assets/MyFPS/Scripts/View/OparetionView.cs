@@ -23,7 +23,11 @@ public class OparetionView : MonoBehaviour
 
     public TextMeshProUGUI killerName;
     public TextMeshProUGUI rankingText;
+    public TextMeshProUGUI killCountText;
     public Button goToLobyButton;
+    public TextMeshProUGUI announceText;
+    public TextMeshProUGUI killedName;
+
     [HideInInspector] public List<Button> gunButtons;
 
     private void Awake()
@@ -69,10 +73,24 @@ public class OparetionView : MonoBehaviour
         rankingText.text = rest.ToString();
     }
 
-    public void DispKillAnnounce(string victim,string killer)
+    //asyncをなくしたら、引数にinをつけてくれ
+    public async void DispKillAnnounce(string victim,string killerName)
     {
-        Debug.Log(killer + " が " + victim + "を殺した");
+        announceText.gameObject.SetActive(true);
+        announceText.text = killerName + " が " + victim + "を殺した";
+        await Task.Delay(4000);
+        announceText.gameObject.SetActive(false);
     }
 
+    //asyncをなくしたら、引数にinをつけてくれ
+    public async void DispKilledLog(string killed)
+    {
+        var killLogPanel = killedName.transform.parent.gameObject;
+        killLogPanel.SetActive(true);
+        killedName.text = killed;
+        await Task.Delay(4000);
+        killLogPanel.SetActive(false);
+        killerName.text = "";
+    }
 
 }

@@ -105,7 +105,13 @@ public class Presenter : MonoBehaviour
 
         AvatarManager.playerList.ObserveRemove().Subscribe(player => {
             view.oparetionView.DispRankingText(AvatarManager.playerList.Count);
-            //view.oparetionView.DispKillAnnounce();
+            view.oparetionView.DispKillAnnounce(player.Value.name,player.Value.killerName);
+            if (player.Value.killerID == AvatarManager.myViewID)
+            {
+                model.avatarManager.playerView.killedInfo.Add(player.Key,player.Value.name);
+                view.oparetionView.killCountText.text = model.avatarManager.playerView.killedInfo.Count.ToString();
+                view.oparetionView.DispKilledLog(player.Value.name);
+            }
         }).AddTo(this);
     }
 }
