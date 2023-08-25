@@ -24,6 +24,8 @@ public class OparetionView : MonoBehaviour
     public TextMeshProUGUI killerName;
     public TextMeshProUGUI rankingText;
     public Button goToLobyButton;
+    public TextMeshProUGUI announceText;
+
     [HideInInspector] public List<Button> gunButtons;
 
     private void Awake()
@@ -69,9 +71,14 @@ public class OparetionView : MonoBehaviour
         rankingText.text = rest.ToString();
     }
 
-    public void DispKillAnnounce(string victim,string killer)
+    public async void DispKillAnnounce(string victim,string killer)
     {
         Debug.Log(killer + " が " + victim + "を殺した");
+        string message = killer + " が " + victim + "を殺した";
+        announceText.gameObject.SetActive(true);
+        announceText.text = message;
+        await Task.Delay(4000);
+        announceText.gameObject.SetActive(false);
     }
 
 
