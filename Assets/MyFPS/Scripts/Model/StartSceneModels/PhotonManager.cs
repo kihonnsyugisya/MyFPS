@@ -68,7 +68,28 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         SceneManager.LoadSceneAsync("StartScene");
         //PhotonNetwork.LoadLevel("StartScene");
     }
-    
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        Debug.Log(newPlayer.NickName + ": on player enter");
+    }
+
+
+    public override void OnPlayerLeftRoom(Player player)
+    {
+
+        foreach (var roomPlayer in GameSystemModel.playerList)
+        {
+            if (roomPlayer.Value.userID == player.UserId)
+            {
+                GameSystemModel.playerList[roomPlayer.Key].killerID = 0;
+                GameSystemModel.playerList.Remove(roomPlayer.Key);
+                Debug.Log(roomPlayer.Key + "　をリストから削除");
+                return;
+            }
+        }
+        Debug.Log(player.NickName + " が退出しました");
+    }
 
 
 }

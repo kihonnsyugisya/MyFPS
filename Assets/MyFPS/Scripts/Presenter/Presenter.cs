@@ -94,17 +94,17 @@ public class Presenter : MonoBehaviour
 
         view.oparetionView.goToLobyButton.OnClickAsObservable().TakeUntilDestroy(this).ThrottleFirst(TimeSpan.FromMilliseconds(5000))
             .Subscribe(_=> {
-                AvatarManager.playerList.Clear();
+                GameSystemModel.playerList.Clear();
                 StageItemManager.stageItemInfo.Clear();
                 PhotonManager.GoToLoby();
             }).AddTo(this);
 
-        AvatarManager.playerList.ObserveAdd().Subscribe(player => { 
-            view.oparetionView.DispRankingText(AvatarManager.playerList.Count);
+        GameSystemModel.playerList.ObserveAdd().Subscribe(player => { 
+            view.oparetionView.DispRankingText(GameSystemModel.playerList.Count);
         }).AddTo(this);
 
-        AvatarManager.playerList.ObserveRemove().Subscribe(player => {
-            view.oparetionView.DispRankingText(AvatarManager.playerList.Count);
+        GameSystemModel.playerList.ObserveRemove().Subscribe(player => {
+            view.oparetionView.DispRankingText(GameSystemModel.playerList.Count);
             view.oparetionView.DispKillAnnounce(player.Value.name,player.Value.killerName);
             if (player.Value.killerID == AvatarManager.myViewID)
             {

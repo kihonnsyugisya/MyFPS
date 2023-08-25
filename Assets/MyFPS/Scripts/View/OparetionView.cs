@@ -58,7 +58,7 @@ public class OparetionView : MonoBehaviour
 
     public async void ShowResultView(CinemachineStateDrivenCamera stateDrivenCamera, int killerID)
     {
-        PlayerView p = AvatarManager.playerList[killerID];
+        PlayerView p = GameSystemModel.playerList[killerID];
         ResultPanel.SetActive(true);
         this.killerName.text = p.name;
         await Task.Delay(4500);
