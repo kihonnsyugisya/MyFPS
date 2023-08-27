@@ -44,12 +44,5 @@ public class DamageModel :MonoBehaviourPunCallbacks
             Debug.Log(collision.gameObject.tag + " これです。");
         }
     }
-
-    [PunRPC]
-    private void SendPlayerListDead(int myViewID,string killerName,int killerID)
-    {
-        Debug.Log(gameObject.name + " SendPlayerListDead");
-        GameSystemModel.SendPlayerListDead(in myViewID, in killerName, in killerID);
-    }
     
 }

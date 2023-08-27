@@ -18,10 +18,11 @@ public class GameSystemModel
         Debug.Log("set list");
     }
 
-    public static void SendPlayerListDead(in int myViewID, in string killerName,in int killerID)
+    public static void RemovePlayerList(in int playerID, in string killerName, in int killerID)
     {
-        playerList[myViewID].killerName = killerName;
-        playerList[myViewID].killerID = killerID;
-        playerList.Remove(myViewID);
+        playerList[playerID].killerName = killerName;
+        playerList[playerID].killerID = killerID;
+        playerList.Remove(playerID);
+
     }
 }

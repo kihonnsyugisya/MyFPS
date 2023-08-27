@@ -118,9 +118,13 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     private void SetDamegeTextModel(int viewID)
     {
         GameObject target = GameSystemModel.playerList[viewID].gameObject;
-        damageModel = target.AddComponent<DamageModel>();
-        damageModel.hitFeedBack = hitFeedBack;
-        damageModel.feedBackLocation = GameSystemModel.playerList[viewID].eye;
+        var d = target.AddComponent<DamageModel>();
+        d.hitFeedBack = hitFeedBack;
+        d.feedBackLocation = GameSystemModel.playerList[viewID].eye;
+        if (viewID == myViewID)
+        {
+            damageModel = d;
+        }
     }
 
 }
