@@ -111,7 +111,9 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     }
 
     public MMFeedbacks hitFeedBack;
-    [HideInInspector] public DamageModel damageModel;
+    public DamageModel damageModel;
+    //[HideInInspector] public DamageModel damageModel;
+
     [PunRPC]
     private void SetDamegeTextModel(int viewID)
     {

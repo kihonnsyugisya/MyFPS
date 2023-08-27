@@ -34,9 +34,10 @@ public class DamageModel :MonoBehaviourPunCallbacks
             damageSubject.OnNext((int)d.power);
             if (hp.Value <= 0) 
             {
+                Debug.Log(" OnCollisionEnter");
                 killerID = d.playerID;
                 isDead.Value = true;
-                photonView.RPC(nameof(SendPlayerListDead),RpcTarget.AllBuffered,AvatarManager.myViewID, GameSystemModel.playerList[d.playerID].name,killerID);
+                GameSystemModel.RemovePlayerList(gameObject.GetPhotonView().ViewID, GameSystemModel.playerList[d.playerID].name, killerID);
             }
         }
         else {
@@ -47,6 +48,7 @@ public class DamageModel :MonoBehaviourPunCallbacks
     [PunRPC]
     private void SendPlayerListDead(int myViewID,string killerName,int killerID)
     {
+        Debug.Log(gameObject.name + " SendPlayerListDead");
         GameSystemModel.SendPlayerListDead(in myViewID, in killerName, in killerID);
     }
     

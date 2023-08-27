@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571337, b: 0.3069219, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3468,7 +3468,6 @@ GameObject:
   - component: {fileID: 589126599}
   - component: {fileID: 589126598}
   - component: {fileID: 589126600}
-  - component: {fileID: 589126601}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -3623,25 +3622,6 @@ MonoBehaviour:
   longBullet: {fileID: 4355213422532284574, guid: 1561ab6ded1ae49ac9858a13f0942077,
     type: 3}
   hole: {fileID: 6225670105297062754, guid: 02ddfd41a15147c459c72beb818ae4e4, type: 3}
---- !u!114 &589126601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 589126592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1ba15ee4864c144b8b5c646a2d46054, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitFeedBack: {fileID: 0}
-  feedBackLocation: {fileID: 0}
-  hp:
-    value: 100
-  isDead:
-    value: 0
-  killerID: 0
 --- !u!1 &595902105
 GameObject:
   m_ObjectHideFlags: 0
