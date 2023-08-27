@@ -18,13 +18,13 @@ public class DamageModel :MonoBehaviourPunCallbacks
     public void ShowDamageText(float damage)
     {
         if (photonView.IsMine) return;
-        Debug.Log("position " + feedBackLocation.parent.name + "ダメージ " + damage +" 実行者 " + gameObject.name);
+        //Debug.Log("position " + feedBackLocation.parent.name + "ダメージ " + damage +" 実行者 " + gameObject.name);
         hitFeedBack.PlayFeedbacks(feedBackLocation.position,damage);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name + "がぶつかってきた By " + gameObject.name);
+        //Debug.Log(collision.gameObject.name + "がぶつかってきた By " + gameObject.name);
         if (isDead.Value) return;
         if (collision.gameObject.CompareTag("Bullet"))
         {
@@ -34,15 +34,21 @@ public class DamageModel :MonoBehaviourPunCallbacks
             damageSubject.OnNext((int)d.power);
             if (hp.Value <= 0) 
             {
-                Debug.Log(" OnCollisionEnter");
+                //Debug.Log(" OnCollisionEnter");
                 killerID = d.playerID;
                 isDead.Value = true;
-                GameSystemModel.RemovePlayerList(gameObject.GetPhotonView().ViewID, GameSystemModel.playerList[d.playerID].name, killerID);
+                photonView.RPC(nameof(ShareRemovePlayerList),RpcTarget.All, gameObject.GetPhotonView().ViewID, GameSystemModel.playerList[d.playerID].name, killerID);
             }
         }
         else {
-            Debug.Log(collision.gameObject.tag + " これです。");
+            //Debug.Log(collision.gameObject.tag + " これです。");
         }
+    }
+
+    [PunRPC]
+    private void ShareRemovePlayerList(int playerID,string killerName,int killerID)
+    {
+        GameSystemModel.RemovePlayerList(in playerID, in killerName, in killerID);
     }
     
 }

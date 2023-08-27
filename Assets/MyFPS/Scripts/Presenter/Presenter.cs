@@ -110,22 +110,22 @@ public class Presenter : MonoBehaviour
             {              
                 if (model.avatarManager.playerView.killedInfo.TryAdd(player.Key, player.Value.name))
                 {
-                    Debug.Log("player.Value.killerID == AvatarManager.myViewID");
+                    //Debug.Log("player.Value.killerID == AvatarManager.myViewID");
                     view.oparetionView.killCountText.text = model.avatarManager.playerView.killedInfo.Count.ToString();
                     view.oparetionView.DispKilledLog(player.Value.name);
                 }
             }
         }).AddTo(this);
 
-        var keyStream = Observable.EveryUpdate().Select(_ => Input.anyKey).Where(xs => Input.anyKeyDown).Subscribe(_=> {
-            foreach (var Ga in GameSystemModel.playerList)
-            {
-                Debug.Log(Ga.Value.name);
-            }
-            foreach (var mode in model.avatarManager.playerView.killedInfo)
-            {
-                Debug.Log(mode.Value + "var mode in model.avatarManager.playerView.killedInfo");
-            }            
-        });
+        //var keyStream = Observable.EveryUpdate().Select(_ => Input.anyKey).Where(xs => Input.anyKeyDown).Subscribe(_=> {
+        //    foreach (var Ga in GameSystemModel.playerList)
+        //    {
+        //        Debug.Log(Ga.Value.name);
+        //    }
+        //    foreach (var mode in model.avatarManager.playerView.killedInfo)
+        //    {
+        //        Debug.Log(mode.Value + "var mode in model.avatarManager.playerView.killedInfo");
+        //    }            
+        //});
     }
 }

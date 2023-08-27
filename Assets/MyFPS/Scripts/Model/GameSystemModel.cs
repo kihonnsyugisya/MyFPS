@@ -22,7 +22,9 @@ public class GameSystemModel
     {
         playerList[playerID].killerName = killerName;
         playerList[playerID].killerID = killerID;
-        playerList.Remove(playerID);
-
+        if (playerList.TryGetValue(playerID,out _))
+        {
+            playerList.Remove(playerID);
+        }
     }
 }
