@@ -27,4 +27,14 @@ public class GameSystemModel
             playerList.Remove(playerID);
         }
     }
+
+    public static void RemovePlayerList(in int playerID)
+    {
+        playerList[playerID].killerID = 0;
+        if (playerList.TryGetValue(playerID, out _))
+        {
+            playerList.Remove(playerID);
+        }
+    }
+
 }

@@ -702,6 +702,7 @@ MonoBehaviour:
     value: 0
   isConnectedRandomRoom:
     value: 0
+  roomMaxPlayer: 2
 --- !u!1 &1747876510
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     [HideInInspector] public BoolReactiveProperty isConnectedMaster = new(false);
     [HideInInspector] public BoolReactiveProperty isConnectedRandomRoom = new(false);
 
+    [SerializeField] private int roomMaxPlayer;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +44,13 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         isConnectedRandomRoom.Value = true;
+
+        // ルームが満員になったら、以降そのルームへの参加を不許可にする
+        if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            Debug.Log("満員(" + PhotonNetwork.CurrentRoom.MaxPlayers + ")になったので締め切りました");
+        }
     }
 
 
@@ -51,7 +59,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("on join room field");
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 10;
+        roomOptions.MaxPlayers = roomMaxPlayer;
         roomOptions.IsOpen = roomOptions.PublishUserId = roomOptions.IsVisible = true;
         PhotonNetwork.CreateRoom(null,roomOptions,null);
         Debug.Log("make room");
@@ -77,18 +85,27 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player player)
     {
-
+        Debug.Log("1");
         foreach (var roomPlayer in GameSystemModel.playerList)
         {
             if (roomPlayer.Value.userID == player.UserId)
             {
-                GameSystemModel.playerList[roomPlayer.Key].killerID = 0;
-                GameSystemModel.playerList.Remove(roomPlayer.Key);
+                Debug.Log("2");
+                //GameSystemModel.playerList[roomPlayer.Key].killerID = 0;
+                //GameSystemModel.playerList.Remove(roomPlayer.Key);
+                photonView.RPC(nameof(ShareRemovePlayerList),RpcTarget.All,roomPlayer.Key);
                 Debug.Log(roomPlayer.Key + "　をリストから削除");
                 return;
             }
         }
         Debug.Log(player.NickName + " が退出しました");
+    }
+
+    [PunRPC]
+    private void ShareRemovePlayerList(int playerID)
+    {
+        Debug.Log("3");
+        GameSystemModel.RemovePlayerList(in playerID);
     }
 
 
