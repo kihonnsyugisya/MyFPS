@@ -80,29 +80,17 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player player)
     {
-        Debug.Log("1");
         foreach (var roomPlayer in GameSystemModel.playerList)
         {
             if (roomPlayer.Value.userID == player.UserId)
             {
-                Debug.Log("2");
-                GameSystemModel.playerList[roomPlayer.Key].killerID = 0;
-                GameSystemModel.playerList.Remove(roomPlayer.Key);
-                //photonView.RPC(nameof(ShareRemovePlayerList),RpcTarget.All,roomPlayer.Key);
+                GameSystemModel.RemovePlayerList(roomPlayer.Key);
                 Debug.Log(roomPlayer.Key + "　をリストから削除");
                 return;
             }
         }
         Debug.Log(player.NickName + " が退出しました");
     }
-
-    [PunRPC]
-    private void ShareRemovePlayerList(int playerID)
-    {
-        Debug.Log("3");
-        GameSystemModel.RemovePlayerList(in playerID);
-    }
-
 
 }
 
