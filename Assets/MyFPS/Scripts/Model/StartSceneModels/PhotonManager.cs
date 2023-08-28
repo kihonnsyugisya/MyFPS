@@ -16,14 +16,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        
+        DontDestroyOnLoad(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void ConnectionMastarServer()
     {
@@ -91,9 +86,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             if (roomPlayer.Value.userID == player.UserId)
             {
                 Debug.Log("2");
-                //GameSystemModel.playerList[roomPlayer.Key].killerID = 0;
-                //GameSystemModel.playerList.Remove(roomPlayer.Key);
-                photonView.RPC(nameof(ShareRemovePlayerList),RpcTarget.All,roomPlayer.Key);
+                GameSystemModel.playerList[roomPlayer.Key].killerID = 0;
+                GameSystemModel.playerList.Remove(roomPlayer.Key);
+                //photonView.RPC(nameof(ShareRemovePlayerList),RpcTarget.All,roomPlayer.Key);
                 Debug.Log(roomPlayer.Key + "　をリストから削除");
                 return;
             }

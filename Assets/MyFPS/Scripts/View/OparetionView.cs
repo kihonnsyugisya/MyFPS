@@ -74,10 +74,13 @@ public class OparetionView : MonoBehaviour
     }
 
     //asyncをなくしたら、引数にinをつけてくれ
-    public async void DispKillAnnounce(string victim,string killerName)
+    public async void DispAnnounce(string leftPlayer,string killerName,int killerID)
     {
         announceText.gameObject.SetActive(true);
-        announceText.text = killerName + " が " + victim + "を殺した";
+        string announceMessage;
+        if (killerID == 0) announceMessage = leftPlayer + " lefted";
+        else announceMessage = killerName + " が " + leftPlayer + "を殺した";
+        announceText.text = announceMessage;
         await Task.Delay(4000);
         announceText.gameObject.SetActive(false);
     }

@@ -105,7 +105,7 @@ public class Presenter : MonoBehaviour
 
         GameSystemModel.playerList.ObserveRemove().Subscribe(player => {
             view.oparetionView.DispRankingText(GameSystemModel.playerList.Count);
-            view.oparetionView.DispKillAnnounce(player.Value.name,player.Value.killerName);
+            view.oparetionView.DispAnnounce(player.Value.name,player.Value.killerName,player.Value.killerID);
             if (player.Value.killerID == AvatarManager.myViewID)
             {              
                 if (model.avatarManager.playerView.killedInfo.TryAdd(player.Key, player.Value.name))
