@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using Photon.Pun;
+using System.Linq;
 
 public class GameSystemModel 
 {
     public static ReactiveDictionary<int, PlayerView> playerList = new();
+
     // Start is called before the first frame update
 
 
@@ -36,5 +38,17 @@ public class GameSystemModel
             playerList.Remove(playerID);
         }
     }
+
+    public static void PlaceAllPlayer(in Transform[] spawnPoints)
+    {
+        int count = playerList.Count();
+        foreach (var pair in playerList.OrderBy(player => player.Key))
+        {
+            pair.Value.transform.position = spawnPoints[count].position;
+            count--;
+        }
+    }
+
+
 
 }

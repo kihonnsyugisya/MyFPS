@@ -10,6 +10,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 {
     [HideInInspector] public BoolReactiveProperty isConnectedMaster = new(false);
     [HideInInspector] public BoolReactiveProperty isConnectedRandomRoom = new(false);
+    [HideInInspector] public BoolReactiveProperty isMaxRoomPlayer = new(false);
+
 
     [SerializeField] private int roomMaxPlayer;
 
@@ -44,6 +46,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
+            isMaxRoomPlayer.Value = true;
             Debug.Log("満員(" + PhotonNetwork.CurrentRoom.MaxPlayers + ")になったので締め切りました");
         }
     }
