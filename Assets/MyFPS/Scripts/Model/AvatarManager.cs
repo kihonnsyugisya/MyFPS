@@ -7,8 +7,11 @@ using Photon.Realtime;
 using MoreMountains.Feedbacks;
 
 public class AvatarManager : MonoBehaviourPunCallbacks
-{   
-    public List<Transform> spawnPoint = new();
+{
+    public Transform initSpawnPointsObj;
+    public Transform nextSpawnPointsObj;
+    [HideInInspector] public List<Transform> initSpawnPoints = new();
+    [HideInInspector] public List<Transform> nextSpawnPoints = new();
     [HideInInspector] public GameObject myAvatar;
     [HideInInspector] public PlayerView playerView;
     public static string avatarName = "3RD Person";
@@ -18,7 +21,9 @@ public class AvatarManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        myAvatar = PhotonNetwork.Instantiate(avatarName, spawnPoint[Random.Range(0, spawnPoint.Count)].position, Quaternion.identity);
+        foreach (Transform point in initSpawnPointsObj) initSpawnPoints.Add(point);
+        foreach (Transform point in nextSpawnPointsObj) nextSpawnPoints.Add(point);
+        myAvatar = PhotonNetwork.Instantiate(avatarName, initSpawnPoints[Random.Range(0, initSpawnPoints.Count)].position, Quaternion.identity);
         myViewID = myAvatar.GetPhotonView().ViewID;
         playerView = myAvatar.GetComponent<PlayerView>();
         myAvatar.name = avatarName;

@@ -27,7 +27,6 @@ public class StartSenePresenter : MonoBehaviour
                 startSceneModel.photonManager.GoToRandomMatchRoom();
             })
             .AddTo(this);
-
         
         startSceneModel.photonManager.ConnectionMastarServer();
     }

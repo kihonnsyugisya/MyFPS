@@ -117,6 +117,10 @@ public class Presenter : MonoBehaviour
             }
         }).AddTo(this);
 
+        GameSystemModel.isRoomMaxPlayer.Where(value => value == true).Subscribe(_=> {
+            GameSystemModel.PlaceAllPlayer(in model.avatarManager.nextSpawnPoints);
+        }).AddTo(this);
+
         //var keyStream = Observable.EveryUpdate().Select(_ => Input.anyKey).Where(xs => Input.anyKeyDown).Subscribe(_=> {
         //    foreach (var Ga in GameSystemModel.playerList)
         //    {
