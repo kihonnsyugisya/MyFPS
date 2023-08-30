@@ -101,6 +101,11 @@ public class Presenter : MonoBehaviour
 
         GameSystemModel.playerList.ObserveAdd().Subscribe(player => { 
             view.oparetionView.DispRankingText(GameSystemModel.playerList.Count);
+            if (PhotonManager.isRoomMaxPlayer())
+            {
+                GameSystemModel.PlaceAllPlayer(in model.avatarManager.nextSpawnPoints);
+
+            }
         }).AddTo(this);
 
         GameSystemModel.playerList.ObserveRemove().Subscribe(player => {
@@ -115,10 +120,6 @@ public class Presenter : MonoBehaviour
                     view.oparetionView.DispKilledLog(player.Value.name);
                 }
             }
-        }).AddTo(this);
-
-        GameSystemModel.isRoomMaxPlayer.Where(value => value == true).Subscribe(_=> {
-            GameSystemModel.PlaceAllPlayer(in model.avatarManager.nextSpawnPoints);
         }).AddTo(this);
 
         //var keyStream = Observable.EveryUpdate().Select(_ => Input.anyKey).Where(xs => Input.anyKeyDown).Subscribe(_=> {

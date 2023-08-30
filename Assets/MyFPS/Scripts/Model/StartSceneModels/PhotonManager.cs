@@ -39,20 +39,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         isConnectedRandomRoom.Value = true;
-
-        // ルームが満員になったら、以降そのルームへの参加を不許可にする
-        if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
-        {
-            PhotonNetwork.CurrentRoom.IsOpen = false;
-            photonView.RPC(nameof(GameStart),RpcTarget.All);
-            Debug.Log("満員(" + PhotonNetwork.CurrentRoom.MaxPlayers + ")になったので締め切りました");
-        }
-    }
-
-    [PunRPC]
-    private void GameStart()
-    {
-        GameSystemModel.isRoomMaxPlayer.Value = true;
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -95,6 +81,15 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             }
         }
         Debug.Log(player.NickName + " が退出しました");
+    }
+
+    public static bool isRoomMaxPlayer()
+    {
+        if (GameSystemModel.playerList.Count >= PhotonNetwork.CurrentRoom.MaxPlayers)
+        {
+            return true;
+        }
+        else return false;
     }
 
 }

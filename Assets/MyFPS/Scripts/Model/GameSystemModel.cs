@@ -8,7 +8,6 @@ using System.Linq;
 public class GameSystemModel 
 {
     public static ReactiveDictionary<int, PlayerView> playerList = new();
-    public static BoolReactiveProperty isRoomMaxPlayer = new(false);
 
     // Start is called before the first frame update
 
@@ -42,11 +41,13 @@ public class GameSystemModel
 
     public static void PlaceAllPlayer(in List<Transform> spawnPoints)
     {
-        int count = playerList.Count();
+        int count = 0;
+        Debug.Log(playerList.Count + "count");
         foreach (var pair in playerList.OrderBy(player => player.Key))
         {
+            Debug.Log(pair.Key + "key");
             pair.Value.transform.position = spawnPoints[count].position;
-            count--;
+            count++;
         }
     }
 
