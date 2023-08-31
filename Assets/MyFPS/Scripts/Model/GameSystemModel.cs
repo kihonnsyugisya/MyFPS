@@ -8,7 +8,7 @@ using System.Linq;
 public class GameSystemModel 
 {
     public static ReactiveDictionary<int, PlayerView> playerList = new();
-
+    public static bool isGameStart = false;
     // Start is called before the first frame update
 
 
@@ -49,6 +49,21 @@ public class GameSystemModel
             pair.Value.transform.position = spawnPoints[count].position;
             count++;
         }
+    }
+
+    public static bool CheckVictory()
+    {
+        if (isGameStart && playerList.Count == 1)
+        {
+            return true;
+        }
+        else return false;
+    }
+
+    public static void ResetField()
+    {
+        playerList.Clear();
+        isGameStart = false;
     }
 
 

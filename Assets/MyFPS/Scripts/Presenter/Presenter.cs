@@ -94,7 +94,7 @@ public class Presenter : MonoBehaviour
 
         view.oparetionView.goToLobyButton.OnClickAsObservable().TakeUntilDestroy(this).ThrottleFirst(TimeSpan.FromMilliseconds(5000))
             .Subscribe(_=> {
-                GameSystemModel.playerList.Clear();
+                GameSystemModel.ResetField();
                 StageItemManager.stageItemInfo.Clear();
                 PhotonManager.GoToLoby();
             }).AddTo(this);
@@ -104,7 +104,7 @@ public class Presenter : MonoBehaviour
             if (PhotonManager.isRoomMaxPlayer())
             {
                 GameSystemModel.PlaceAllPlayer(in model.avatarManager.nextSpawnPoints);
-
+                GameSystemModel.isGameStart = true;
             }
         }).AddTo(this);
 
@@ -120,7 +120,9 @@ public class Presenter : MonoBehaviour
                     view.oparetionView.DispKilledLog(player.Value.name);
                 }
             }
+            if (GameSystemModel.CheckVictory()) { }
         }).AddTo(this);
+
 
         //var keyStream = Observable.EveryUpdate().Select(_ => Input.anyKey).Where(xs => Input.anyKeyDown).Subscribe(_=> {
         //    foreach (var Ga in GameSystemModel.playerList)
