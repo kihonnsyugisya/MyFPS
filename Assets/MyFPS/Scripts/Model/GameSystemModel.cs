@@ -22,10 +22,10 @@ public class GameSystemModel
 
     public static void RemovePlayerList(in int playerID, in string killerName, in int killerID)
     {
-        playerList[playerID].killerName = killerName;
-        playerList[playerID].killerID = killerID;
-        if (playerList.TryGetValue(playerID,out _))
+        if (playerList.TryGetValue(playerID,out PlayerView p))
         {
+            p.killerName = killerName;
+            p.killerID = killerID;
             playerList.Remove(playerID);
         }
     }
@@ -65,7 +65,4 @@ public class GameSystemModel
         playerList.Clear();
         isGameStart = false;
     }
-
-
-
 }

@@ -209,6 +209,7 @@ public class GunModel : MonoBehaviourPunCallbacks
 
     public void CheckCanReload()
     {
+        //if (!gunItemSlot[currentGunItemSlotIndex]) return;                
         GunItemData currentGunData = gunItemSlot[currentGunItemSlotIndex];
         GunItem currentGunItem = gunitemHolder[currentGunItemSlotIndex];
         if (bulletHolder[currentGunData.bulletType].Value > 0 && currentGunItem.magazineSize.Value < currentGunData.magazineSize)

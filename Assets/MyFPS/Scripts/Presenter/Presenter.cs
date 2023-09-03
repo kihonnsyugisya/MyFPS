@@ -92,7 +92,7 @@ public class Presenter : MonoBehaviour
 
         }).AddTo(this);
 
-        view.oparetionView.goToLobyButton.OnClickAsObservable().TakeUntilDestroy(this).ThrottleFirst(TimeSpan.FromMilliseconds(5000))
+        view.oparetionView.resultPanel.goToLobyButton.OnClickAsObservable().TakeUntilDestroy(this).ThrottleFirst(TimeSpan.FromMilliseconds(5000))
             .Subscribe(_=> {
                 GameSystemModel.ResetField();
                 StageItemManager.stageItemInfo.Clear();
@@ -123,8 +123,7 @@ public class Presenter : MonoBehaviour
             if (GameSystemModel.CheckVictory())
             {
                 model.avatarManager.itemManager.UnDispItemInfoPlate();
-                view.oparetionView.UndispOparationCanvas();
-                view.oparetionView.victoryPanel.DispVicoryPanel(player.Value.killerName);
+                view.oparetionView.DispVictoryPanel(player.Value.killerName);
             }
         }).AddTo(this);
 

@@ -10,7 +10,7 @@ public class VictoryPanel : MonoBehaviour
     public MMFeedbacks victoryFeedbacks;
     public TextMeshProUGUI winner;
 
-    public void DispVicoryPanel(string winnerName)
+    public void DispVictoryPanel(in string winnerName)
     {
         victoryFeedbacks.gameObject.SetActive(true);
         winner.text = winnerName;

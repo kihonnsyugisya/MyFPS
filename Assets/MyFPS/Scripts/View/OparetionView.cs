@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 public class OparetionView : MonoBehaviour
 {
     public Transform OparetionCanvas;
-    public GameObject ResultPanel;
+    public ResultPanel resultPanel;
     public Button gunShootingButton;
     public Button jumpButton;
     public Button reLoadButton;
@@ -21,10 +21,9 @@ public class OparetionView : MonoBehaviour
     public MMProgressBar lifeGage;
     public MMFeedbacks damageFeedBack;
 
-    public TextMeshProUGUI killerName;
+    
     public TextMeshProUGUI rankingText;
     public TextMeshProUGUI killCountText;
-    public Button goToLobyButton;
     public TextMeshProUGUI announceText;
     public TextMeshProUGUI killedName;
     public VictoryPanel victoryPanel;
@@ -60,8 +59,8 @@ public class OparetionView : MonoBehaviour
     public async void ShowResultView(CinemachineStateDrivenCamera stateDrivenCamera, int killerID)
     {
         PlayerView p = GameSystemModel.playerList[killerID];
-        ResultPanel.SetActive(true);
-        this.killerName.text = p.name;
+        resultPanel.DispResultPanel(true);
+        resultPanel.killerName.text = p.name;
         await Task.Delay(4500);
         stateDrivenCamera.Follow = p.transform;
         stateDrivenCamera.LookAt = p.eye;
@@ -94,6 +93,15 @@ public class OparetionView : MonoBehaviour
         killedName.text = killed;
         await Task.Delay(4000);
         killLogPanel.SetActive(false);
-        killerName.text = "";
+        resultPanel.killerName.text = "";
+    }
+
+    public async void DispVictoryPanel(string winnerName)
+    {
+        resultPanel.DispResultPanel(false);
+        UndispOparationCanvas();
+        victoryPanel.DispVictoryPanel(in winnerName);
+        await Task.Delay(2000);
+        resultPanel.DispGoToLobyButton();
     }
 }
