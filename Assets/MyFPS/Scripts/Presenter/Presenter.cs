@@ -120,7 +120,12 @@ public class Presenter : MonoBehaviour
                     view.oparetionView.DispKilledLog(player.Value.name);
                 }
             }
-            if (GameSystemModel.CheckVictory()) { }
+            if (GameSystemModel.CheckVictory())
+            {
+                model.avatarManager.itemManager.UnDispItemInfoPlate();
+                view.oparetionView.UndispOparationCanvas();
+                view.oparetionView.victoryPanel.DispVicoryPanel(player.Value.killerName);
+            }
         }).AddTo(this);
 
 

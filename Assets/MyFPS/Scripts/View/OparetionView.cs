@@ -27,6 +27,7 @@ public class OparetionView : MonoBehaviour
     public Button goToLobyButton;
     public TextMeshProUGUI announceText;
     public TextMeshProUGUI killedName;
+    public VictoryPanel victoryPanel;
 
     [HideInInspector] public List<Button> gunButtons;
 
@@ -95,5 +96,4 @@ public class OparetionView : MonoBehaviour
         killLogPanel.SetActive(false);
         killerName.text = "";
     }
-
 }
