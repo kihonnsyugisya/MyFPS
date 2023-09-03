@@ -100,7 +100,7 @@ public class StageItemManager : MonoBehaviourPunCallbacks
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        Debug.Log(newMasterClient.UserId + " がマスターに任命");
+        Debug.Log(newMasterClient.UserId + " がマスターに任命(stageItemManagerから実行)");
         if(PhotonNetwork.IsMasterClient) photonView.RPC(nameof(ShareRandomInts), RpcTarget.OthersBuffered, randomInts.ToArray());
 
     }

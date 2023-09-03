@@ -21,13 +21,12 @@ public class StartSenePresenter : MonoBehaviour
 
         startSceneVeiw.randomMatchButton.OnClickAsObservable()
             .TakeUntilDestroy(this)
-            .ThrottleFirst(TimeSpan.FromMilliseconds(5000))
+            .ThrottleFirst(TimeSpan.FromMilliseconds(2000))
             .Subscribe(_=> {
                 startSceneVeiw.ShowConnectionStatusMessage(true);
                 startSceneModel.photonManager.GoToRandomMatchRoom();
             })
             .AddTo(this);
-
         
         startSceneModel.photonManager.ConnectionMastarServer();
     }

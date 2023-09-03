@@ -92,26 +92,51 @@ public class Presenter : MonoBehaviour
 
         }).AddTo(this);
 
-        view.oparetionView.goToLobyButton.OnClickAsObservable().TakeUntilDestroy(this).ThrottleFirst(TimeSpan.FromMilliseconds(5000))
+        view.oparetionView.resultPanel.goToLobyButton.OnClickAsObservable().TakeUntilDestroy(this).ThrottleFirst(TimeSpan.FromMilliseconds(5000))
             .Subscribe(_=> {
-                AvatarManager.playerList.Clear();
+                GameSystemModel.ResetField();
                 StageItemManager.stageItemInfo.Clear();
                 PhotonManager.GoToLoby();
             }).AddTo(this);
 
-        AvatarManager.playerList.ObserveAdd().Subscribe(player => { 
-            view.oparetionView.DispRankingText(AvatarManager.playerList.Count);
-        }).AddTo(this);
-
-        AvatarManager.playerList.ObserveRemove().Subscribe(player => {
-            view.oparetionView.DispRankingText(AvatarManager.playerList.Count);
-            view.oparetionView.DispKillAnnounce(player.Value.name,player.Value.killerName);
-            if (player.Value.killerID == AvatarManager.myViewID)
+        GameSystemModel.playerList.ObserveAdd().Subscribe(player => { 
+            view.oparetionView.DispRankingText(GameSystemModel.playerList.Count);
+            if (PhotonManager.isRoomMaxPlayer())
             {
-                model.avatarManager.playerView.killedInfo.Add(player.Key,player.Value.name);
-                view.oparetionView.killCountText.text = model.avatarManager.playerView.killedInfo.Count.ToString();
-                view.oparetionView.DispKilledLog(player.Value.name);
+                GameSystemModel.PlaceAllPlayer(in model.avatarManager.nextSpawnPoints);
+                GameSystemModel.isGameStart = true;
             }
         }).AddTo(this);
+
+        GameSystemModel.playerList.ObserveRemove().Subscribe(player => {
+            view.oparetionView.DispRankingText(GameSystemModel.playerList.Count);
+            view.oparetionView.DispAnnounce(player.Value.name,player.Value.killerName,player.Value.killerID);
+            if (player.Value.killerID == AvatarManager.myViewID)
+            {              
+                if (model.avatarManager.playerView.killedInfo.TryAdd(player.Key, player.Value.name))
+                {
+                    //Debug.Log("player.Value.killerID == AvatarManager.myViewID");
+                    view.oparetionView.killCountText.text = model.avatarManager.playerView.killedInfo.Count.ToString();
+                    view.oparetionView.DispKilledLog(player.Value.name);
+                }
+            }
+            if (GameSystemModel.CheckVictory())
+            {
+                model.avatarManager.itemManager.UnDispItemInfoPlate();
+                view.oparetionView.DispVictoryPanel(player.Value.killerName);
+            }
+        }).AddTo(this);
+
+
+        //var keyStream = Observable.EveryUpdate().Select(_ => Input.anyKey).Where(xs => Input.anyKeyDown).Subscribe(_=> {
+        //    foreach (var Ga in GameSystemModel.playerList)
+        //    {
+        //        Debug.Log(Ga.Value.name);
+        //    }
+        //    foreach (var mode in model.avatarManager.playerView.killedInfo)
+        //    {
+        //        Debug.Log(mode.Value + "var mode in model.avatarManager.playerView.killedInfo");
+        //    }            
+        //});
     }
 }

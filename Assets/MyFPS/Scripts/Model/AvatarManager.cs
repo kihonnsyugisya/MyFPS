@@ -5,22 +5,25 @@ using Photon.Pun;
 using Cinemachine;
 using Photon.Realtime;
 using MoreMountains.Feedbacks;
-using UniRx;
 
 public class AvatarManager : MonoBehaviourPunCallbacks
-{   
-    public List<Transform> spawnPoint = new();
+{
+    public Transform initSpawnPointsObj;
+    public Transform nextSpawnPointsObj;
+    [HideInInspector] public List<Transform> initSpawnPoints = new();
+    [HideInInspector] public List<Transform> nextSpawnPoints = new();
     [HideInInspector] public GameObject myAvatar;
     [HideInInspector] public PlayerView playerView;
     public static string avatarName = "3RD Person";
     public static int myViewID;
-    public static ReactiveDictionary<int, PlayerView> playerList = new();
 
     public TMPro.TextMeshProUGUI debugtext;
 
     private void Awake()
     {
-        myAvatar = PhotonNetwork.Instantiate(avatarName, spawnPoint[Random.Range(0, spawnPoint.Count)].position, Quaternion.identity);
+        foreach (Transform point in initSpawnPointsObj) initSpawnPoints.Add(point);
+        foreach (Transform point in nextSpawnPointsObj) nextSpawnPoints.Add(point);
+        myAvatar = PhotonNetwork.Instantiate(avatarName, initSpawnPoints[Random.Range(0, initSpawnPoints.Count)].position, Quaternion.identity);
         myViewID = myAvatar.GetPhotonView().ViewID;
         playerView = myAvatar.GetComponent<PlayerView>();
         myAvatar.name = avatarName;
@@ -71,7 +74,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetGunModel(int viewID)
     {
-        GameObject target = playerList[viewID].gameObject;
+        GameObject target = GameSystemModel.playerList[viewID].gameObject;
         PlayerView pv = target.GetComponent<PlayerView>();
         gunModel = target.AddComponent<GunModel>();
         gunModel.objectPool = objectPool;
@@ -107,47 +110,26 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void SetPlayerList(int viewID,string userID)
+    private void SetPlayerList(int viewID, string userID)
     {
-        PlayerView pv = PhotonView.Find(viewID).GetComponent<PlayerView>();
-        pv.userID = userID;
-        playerList.Add(viewID, pv);
-        Debug.Log("set list");
+        GameSystemModel.SetPlayerList(in viewID,in userID);
     }
-    //PhotonNetwork.UseRpcMonoBehaviourCache = true;
 
     public MMFeedbacks hitFeedBack;
-    [HideInInspector] public DamageModel damageModel;
+    public DamageModel damageModel;
+    //[HideInInspector] public DamageModel damageModel;
+
     [PunRPC]
     private void SetDamegeTextModel(int viewID)
     {
-        GameObject target = playerList[viewID].gameObject;
-        damageModel = target.AddComponent<DamageModel>();
-        damageModel.hitFeedBack = hitFeedBack;
-        damageModel.feedBackLocation = playerList[viewID].eye;
-    }
-
-
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        Debug.Log(newPlayer.NickName + ": on player enter");
-    }
-
-
-    public override void OnPlayerLeftRoom(Player player)
-    {
-
-        foreach (var roomPlayer in playerList)
+        GameObject target = GameSystemModel.playerList[viewID].gameObject;
+        var d = target.AddComponent<DamageModel>();
+        d.hitFeedBack = hitFeedBack;
+        d.feedBackLocation = GameSystemModel.playerList[viewID].eye;
+        if (viewID == myViewID)
         {
-            if (roomPlayer.Value.userID == player.UserId)
-            {
-                playerList[roomPlayer.Key].killerID = 0;
-                playerList.Remove(roomPlayer.Key);
-                Debug.Log(roomPlayer.Key + "　をリストから削除");
-                return;
-            }
+            damageModel = d;
         }
-        Debug.Log(player.NickName + " が退出しました");
     }
 
 }

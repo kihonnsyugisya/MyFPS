@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 public class OparetionView : MonoBehaviour
 {
     public Transform OparetionCanvas;
-    public GameObject ResultPanel;
+    public ResultPanel resultPanel;
     public Button gunShootingButton;
     public Button jumpButton;
     public Button reLoadButton;
@@ -21,12 +21,12 @@ public class OparetionView : MonoBehaviour
     public MMProgressBar lifeGage;
     public MMFeedbacks damageFeedBack;
 
-    public TextMeshProUGUI killerName;
+    
     public TextMeshProUGUI rankingText;
     public TextMeshProUGUI killCountText;
-    public Button goToLobyButton;
     public TextMeshProUGUI announceText;
     public TextMeshProUGUI killedName;
+    public VictoryPanel victoryPanel;
 
     [HideInInspector] public List<Button> gunButtons;
 
@@ -58,9 +58,9 @@ public class OparetionView : MonoBehaviour
 
     public async void ShowResultView(CinemachineStateDrivenCamera stateDrivenCamera, int killerID)
     {
-        PlayerView p = AvatarManager.playerList[killerID];
-        ResultPanel.SetActive(true);
-        this.killerName.text = p.name;
+        PlayerView p = GameSystemModel.playerList[killerID];
+        resultPanel.DispResultPanel(true);
+        resultPanel.killerName.text = p.name;
         await Task.Delay(4500);
         stateDrivenCamera.Follow = p.transform;
         stateDrivenCamera.LookAt = p.eye;
@@ -74,10 +74,13 @@ public class OparetionView : MonoBehaviour
     }
 
     //asyncをなくしたら、引数にinをつけてくれ
-    public async void DispKillAnnounce(string victim,string killerName)
+    public async void DispAnnounce(string leftPlayer,string killerName,int killerID)
     {
         announceText.gameObject.SetActive(true);
-        announceText.text = killerName + " が " + victim + "を殺した";
+        string announceMessage;
+        if (killerID == 0) announceMessage = leftPlayer + " lefted";
+        else announceMessage = killerName + " が " + leftPlayer + "を殺した";
+        announceText.text = announceMessage;
         await Task.Delay(4000);
         announceText.gameObject.SetActive(false);
     }
@@ -90,7 +93,15 @@ public class OparetionView : MonoBehaviour
         killedName.text = killed;
         await Task.Delay(4000);
         killLogPanel.SetActive(false);
-        killerName.text = "";
+        resultPanel.killerName.text = "";
     }
 
+    public async void DispVictoryPanel(string winnerName)
+    {
+        resultPanel.DispResultPanel(false);
+        UndispOparationCanvas();
+        victoryPanel.DispVictoryPanel(in winnerName);
+        await Task.Delay(2000);
+        resultPanel.DispGoToLobyButton();
+    }
 }
