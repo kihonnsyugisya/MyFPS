@@ -15,7 +15,7 @@ public class ConfigPanel : MonoBehaviour
     public Button shareXButton;
     public Button reviewButton;
 
-    public void DispConfigPanel(bool isShow)
+    public void DispConfigPanel(in bool isShow)
     {
         configPanelObj.SetActive(isShow);
     }
