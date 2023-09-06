@@ -37,6 +37,10 @@ public class StartSenePresenter : MonoBehaviour
             startSceneVeiw.bottomButtons.SetActive(true);
             startSceneVeiw.configPanel.DispConfigPanel(false);
         });
+
+        startSceneVeiw.configPanel.nickNameInputField.onEndEdit.AddListener(nickName => {
+            startSceneVeiw.nickNameText.text = nickName;
+        });
         
         startSceneModel.photonManager.ConnectionMastarServer();
 

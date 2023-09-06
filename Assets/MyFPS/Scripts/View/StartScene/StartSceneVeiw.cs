@@ -9,6 +9,8 @@ public class StartSceneVeiw : MonoBehaviour
     public Button randomMatchButton;
     public TextMeshProUGUI connetionStatusMessage;
 
+    public TextMeshProUGUI nickNameText;
+
     public ConfigPanel configPanel;
     public Button configButton;
 
