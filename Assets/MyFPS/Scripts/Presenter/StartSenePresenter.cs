@@ -27,8 +27,24 @@ public class StartSenePresenter : MonoBehaviour
                 startSceneModel.photonManager.GoToRandomMatchRoom();
             })
             .AddTo(this);
+
+        startSceneVeiw.configButton.onClick.AddListener(()=> {
+            startSceneVeiw.bottomButtons.SetActive(false);
+            startSceneVeiw.configPanel.DispConfigPanel(true);
+        });
+
+        startSceneVeiw.configPanel.backButton.onClick.AddListener(()=> {
+            startSceneVeiw.bottomButtons.SetActive(true);
+            startSceneVeiw.configPanel.DispConfigPanel(false);
+        });
+
+        startSceneVeiw.configPanel.nickNameInputField.onEndEdit.AddListener(nickName => {
+            startSceneVeiw.nickNameText.text = nickName;
+        });
         
         startSceneModel.photonManager.ConnectionMastarServer();
+
+
     }
 
 

@@ -9,11 +9,12 @@ public class StartSceneVeiw : MonoBehaviour
     public Button randomMatchButton;
     public TextMeshProUGUI connetionStatusMessage;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public TextMeshProUGUI nickNameText;
+
+    public ConfigPanel configPanel;
+    public Button configButton;
+
+    public GameObject bottomButtons;
 
     // Update is called once per frame
     void Update()
@@ -30,4 +31,5 @@ public class StartSceneVeiw : MonoBehaviour
     {
         connetionStatusMessage.text = "joind random room!";
     }
+
 }
