@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "49947313560",
+    "project_id": "my-fps-d55f3",
+    "storage_bucket": "my-fps-d55f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49947313560:android:f7ed27b9bc7ef697e497ed",
+        "android_client_info": {
+          "package_name": "com.kihonnsyugisya.MyFPS"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "49947313560-sbt947lu0n6kvukp4ugjboior37mm771.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKeXCNVVieF5z83y3l45JMGaRA93vR6Yo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49947313560-sbt947lu0n6kvukp4ugjboior37mm771.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "49947313560-0fueojitolf7e8pjd73abo2itss0qts3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kihonnsyugisya.MyFPS"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
