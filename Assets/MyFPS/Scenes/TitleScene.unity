@@ -295,7 +295,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -1433}
+  m_AnchoredPosition: {x: 0, y: -1382}
   m_SizeDelta: {x: 400, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &147649356
@@ -337,7 +337,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1814208752}
   toggleTransition: 1
   graphic: {fileID: 459091366}
@@ -1270,6 +1270,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9c623f5d776342ef97adecf3bc00652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  model: {fileID: 1974677420}
+  view: {fileID: 1813743768}
 --- !u!4 &801616253
 Transform:
   m_ObjectHideFlags: 0
@@ -2735,8 +2737,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -1630}
-  m_SizeDelta: {x: 600, y: 160}
+  m_AnchoredPosition: {x: 0, y: -1536}
+  m_SizeDelta: {x: 500, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1809191009
 MonoBehaviour:
@@ -2849,6 +2851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3adf452858e4e4600a038e46d4783c49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  termsOfService: {fileID: 2003362734}
 --- !u!4 &1813743769
 Transform:
   m_ObjectHideFlags: 0
@@ -3127,6 +3130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 144d83052f77648199301b8d4acbfed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPrivacyPolicyRead:
+    value: 0
 --- !u!4 &1974677421
 Transform:
   m_ObjectHideFlags: 0
@@ -3154,6 +3159,7 @@ GameObject:
   - component: {fileID: 2003362732}
   - component: {fileID: 2003362731}
   - component: {fileID: 2003362730}
+  - component: {fileID: 2003362734}
   m_Layer: 5
   m_Name: TermsOfService Canvas
   m_TagString: Untagged
@@ -3247,6 +3253,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &2003362734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003362729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0462db64472354bfa98ac157863a0996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollRect: {fileID: 644013836}
+  agree: {fileID: 147649356}
+  nextButton: {fileID: 1809191009}
 --- !u!1 &2062900410
 GameObject:
   m_ObjectHideFlags: 0

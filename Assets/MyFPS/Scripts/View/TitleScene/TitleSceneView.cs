@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TitleSceneView : MonoBehaviour
 {
+    public TermsOfService termsOfService;
     // Start is called before the first frame update
     void Start()
     {
