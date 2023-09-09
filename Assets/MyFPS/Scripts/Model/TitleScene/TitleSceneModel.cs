@@ -5,17 +5,10 @@ using UniRx;
 
 public class TitleSceneModel : MonoBehaviour
 {
-    public BoolReactiveProperty isPrivacyPolicyRead = new(false);
+    public AuthModel authModel;
 
-    // Start is called before the first frame update
-    void Start()
+    public void SignIn()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        authModel.Init();
     }
 }
