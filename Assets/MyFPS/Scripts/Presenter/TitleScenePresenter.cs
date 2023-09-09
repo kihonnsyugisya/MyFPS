@@ -13,17 +13,37 @@ public class TitleScenePresenter : MonoBehaviour
     void Start()
     {
 
-        view.titleCanvas.AddScreenTapEvent().OnPointerClickAsObservable().Subscribe(_=> {
-            model.SignIn();
+        model.authModel.isLogin.Where(value => value == true).Subscribe(_=> {
+            view.titleCanvas.AddScreenTapEvent().OnPointerClickAsObservable().TakeUntilDestroy(this).ThrottleFirst(System.TimeSpan.FromMilliseconds(3000)).Subscribe(_ => {
+                if (model.authModel.isFirstLogin)
+                {
+                    view.termsOfService.scrollRect.verticalScrollbar.OnValueChangedAsObservable().Where(value => value < 0).First().Subscribe(value => {
+                        view.termsOfService.agree.interactable = true;
+                    }).AddTo(this);
+
+                    view.termsOfService.agree.onValueChanged.AddListener(value => {
+                        view.termsOfService.nextButton.interactable = value;
+                    });
+
+                    view.termsOfService.nextButton.OnClickAsObservable().TakeUntilDestroy(this).ThrottleFirst(System.TimeSpan.FromMilliseconds(3000)).Subscribe(_=> {
+                        model.MoveToStartScene();
+                    });
+
+                    view.termsOfService.gameObject.SetActive(true);
+                }
+                else {
+                    model.MoveToStartScene();
+                }
+            }).AddTo(this);
         }).AddTo(this);
 
-        view.termsOfService.scrollRect.verticalScrollbar.OnValueChangedAsObservable().Where(value => value < 0).First().Subscribe(value => {
-            view.termsOfService.agree.interactable = true;
-        }).AddTo(this);
+        model.authModel.Init();
 
-        view.termsOfService.agree.onValueChanged.AddListener(value => {
-            view.termsOfService.nextButton.interactable = value;
-        });
+
+
+
+        view.authremobedebugbutton.onClick.AddListener(()=> model.authModel.Delete());
+
     }
 
     // Update is called once per frame
