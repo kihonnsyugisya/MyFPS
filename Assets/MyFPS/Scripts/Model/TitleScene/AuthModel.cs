@@ -8,8 +8,8 @@ public class AuthModel : MonoBehaviour
 {
     public FirebaseAuth auth;
     public FirebaseUser user;
-    public BoolReactiveProperty isLogin = new(false);
-    public bool isFirstLogin = false;
+    [HideInInspector] public BoolReactiveProperty isLogin = new(false);
+    [HideInInspector] public bool isFirstLogin = false;
     //private void Awake()
     //{
 

@@ -13,4 +13,9 @@ public class TitleSceneModel : MonoBehaviour
         SceneManager.LoadSceneAsync("StartScene");
     }
 
+    public void MoveToTutorialScene()
+    {
+        SceneManager.LoadSceneAsync("TutrialScene");
+    }
+
 }
