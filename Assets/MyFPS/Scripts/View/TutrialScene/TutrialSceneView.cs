@@ -20,4 +20,10 @@ public class TutrialSceneView : MonoBehaviour
     {
         
     }
+
+    public void ShowRetryNickNameAlert()
+    {
+        inputField.text = "";
+        Debug.Log("nannbyouka tekisuto hyoujisuru");
+    }
 }

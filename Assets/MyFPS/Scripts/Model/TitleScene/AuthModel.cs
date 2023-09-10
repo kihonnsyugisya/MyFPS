@@ -6,33 +6,10 @@ using UniRx;
 
 public class AuthModel : MonoBehaviour
 {
-    public FirebaseAuth auth;
-    public FirebaseUser user;
+    static public FirebaseAuth auth;
+    private FirebaseUser user;
     [HideInInspector] public BoolReactiveProperty isLogin = new(false);
     [HideInInspector] public bool isFirstLogin = false;
-    //private void Awake()
-    //{
-
-    //Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
-    //    var dependencyStatus = task.Result;
-    //    if (dependencyStatus == Firebase.DependencyStatus.Available)
-    //    {
-    //        // Create and hold a reference to your FirebaseApp,
-    //        // where app is a Firebase.FirebaseApp property of your application class.
-    //        auth = FirebaseAuth.DefaultInstance;
-    //        if (auth.CurrentUser.UserId == null) isFirstLogin = true;
-    //        else isFirstLogin = false;
-    //        // Set a flag here to indicate whether Firebase is ready to use by your app.
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError(System.String.Format(
-    //          "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
-    //        // Firebase Unity SDK is not safe to use here.
-    //    }
-    //});
-
-    //}
 
     public void Init()
     {
@@ -80,11 +57,11 @@ public class AuthModel : MonoBehaviour
 
     // Handle removing subscription and reference to the Auth instance.
     // Automatically called by a Monobehaviour after Destroy is called on it.
-    void OnDestroy()
-    {
-        auth.StateChanged -= AuthStateChanged;
-        auth = null;
-    }
+    //void OnDestroy()
+    //{
+    //    auth.StateChanged -= AuthStateChanged;
+    //    auth = null;
+    //}
 
     private void Create()
     {
@@ -105,6 +82,27 @@ public class AuthModel : MonoBehaviour
                 result.User.DisplayName, result.User.UserId);
 
             isLogin.Value = isFirstLogin = true;
+        });
+    }
+
+    public static void UpdateNickName(string nickName)
+    {
+        var profile = new UserProfile {
+            DisplayName = nickName,
+        };
+        auth.CurrentUser.UpdateUserProfileAsync(profile).ContinueWith(task => {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("UpdateUserProfileAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("UpdateUserProfileAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            Debug.Log("User profile updated successfully.");
         });
     }
 

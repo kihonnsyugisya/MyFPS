@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TutrialSceneModel : MonoBehaviour
 {
+    public NGWordSettings nGWordSettings;
+
     // Start is called before the first frame update
     void Start()
     {

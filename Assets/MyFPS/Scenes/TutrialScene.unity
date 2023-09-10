@@ -159,7 +159,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 304.56, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &100438730
@@ -707,8 +707,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08e4ddd6bc4054b33ba3a3d7cbbabd05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputField: {fileID: 0}
-  submitButton: {fileID: 0}
+  inputField: {fileID: 141525261}
+  submitButton: {fileID: 605063420}
 --- !u!4 &294910233
 Transform:
   m_ObjectHideFlags: 0
@@ -1416,6 +1416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beaf93d8f2527429099cb02f67029c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nGWordSettings: {fileID: 11400000, guid: 05d3678abdd0e4981a4184a3a68d3333, type: 2}
 --- !u!4 &1449629167
 Transform:
   m_ObjectHideFlags: 0
@@ -1467,7 +1468,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 147.91, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1614949974
