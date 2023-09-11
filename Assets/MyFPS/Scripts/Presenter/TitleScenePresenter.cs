@@ -26,7 +26,7 @@ public class TitleScenePresenter : MonoBehaviour
                     });
 
                     view.termsOfService.nextButton.OnClickAsObservable().TakeUntilDestroy(this).ThrottleFirst(System.TimeSpan.FromMilliseconds(3000)).Subscribe(_=> {
-                        model.MoveToStartScene();
+                        model.MoveToTutorialScene();
                     });
 
                     view.termsOfService.gameObject.SetActive(true);
@@ -46,9 +46,4 @@ public class TitleScenePresenter : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
