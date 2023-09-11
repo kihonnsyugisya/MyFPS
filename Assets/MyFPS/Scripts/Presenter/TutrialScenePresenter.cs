@@ -14,15 +14,17 @@ public class TutrialScenePresenter : MonoBehaviour
             bool check = model.nGWordSettings.IsWordSafe(value);
             if (check)
             {
-                AuthModel.UpdateNickName(value);
+                view.submitButton.interactable = true;
+                view.submitButton.OnClickAsObservable().TakeUntilDestroy(this).ThrottleFirst(System.TimeSpan.FromMilliseconds(2000)).Subscribe(_ => {
+                    AuthModel.UpdateNickName(value);
+                });
             }
             else {
+                view.submitButton.interactable = false;
                 view.ShowRetryNickNameAlert();
             }
         });
 
-        view.submitButton.OnClickAsObservable().TakeUntilDestroy(this).ThrottleFirst(System.TimeSpan.FromMilliseconds(2000)).Subscribe(_=> {
 
-        });
     }
 }
