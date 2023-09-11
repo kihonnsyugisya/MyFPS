@@ -6,21 +6,21 @@ using Firebase.Extensions;
 
 public class FireStoreModel : MonoBehaviour
 {
-    public static FirebaseFirestore db;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static DocumentReference userRef;
+    const string USER_COLLECTION = "users";
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void Init()
+    public static void Init(in string UID)
     { 
-        db = FirebaseFirestore.DefaultInstance;
+        userRef = FirebaseFirestore.DefaultInstance.Collection(USER_COLLECTION).Document(UID);
+    }
+
+    public static async void AddInitialUserData(UserData initialData)
+    {
+        await userRef.SetAsync(initialData);
+    }
+
+    public static async void UpdateLastLogin()
+    {
+        await userRef.UpdateAsync("LastLogin", Timestamp.GetCurrentTimestamp());
     }
 }
