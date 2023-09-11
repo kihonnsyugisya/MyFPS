@@ -1,20 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutrialSceneModel : MonoBehaviour
 {
     public NGWordSettings nGWordSettings;
 
-    // Start is called before the first frame update
-    void Start()
+    public void MoveToStartScene()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        SceneManager.LoadSceneAsync("StartScene");
     }
 }

@@ -17,6 +17,7 @@ public class TutrialScenePresenter : MonoBehaviour
                 view.submitButton.interactable = true;
                 view.submitButton.OnClickAsObservable().TakeUntilDestroy(this).ThrottleFirst(System.TimeSpan.FromMilliseconds(2000)).Subscribe(_ => {
                     AuthModel.UpdateNickName(value);
+                    model.MoveToStartScene();
                 });
             }
             else {
