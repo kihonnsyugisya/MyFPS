@@ -15,14 +15,12 @@ public class NGWordSettings : ScriptableObject
         foreach (string ngWord in ngWords)
         {
             string escapedNgWord = Regex.Escape(ngWord); // 正規表現パターン内の特殊文字をエスケープ
-            string pattern = @"\b" + escapedNgWord + @"\b"; // 単語単位でのマッチング
-            if (Regex.IsMatch(input, pattern, RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(input, escapedNgWord, RegexOptions.IgnoreCase))
             {
                 // NGワードが含まれていた場合、falseを返します
                 return false;
             }
         }
-
 
         // NGワードが含まれていない場合、trueを返します
         return true;
