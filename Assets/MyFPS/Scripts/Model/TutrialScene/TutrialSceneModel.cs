@@ -14,10 +14,8 @@ public class TutrialSceneModel : MonoBehaviour
         var ud = new UserData
         {
             CreatedDate = Timestamp.GetCurrentTimestamp(),
-            Level = 0,
-
-            
-
+            LastLogin = Timestamp.GetCurrentTimestamp(),
+            Level = 0,            
         };
         FireStoreModel.AddInitialUserData(ud);
         SceneManager.LoadSceneAsync("StartScene");
