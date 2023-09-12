@@ -85,27 +85,6 @@ public class AuthModel : MonoBehaviour
         });
     }
 
-    public static void UpdateNickName(string nickName)
-    {
-        var profile = new UserProfile {
-            DisplayName = nickName,
-        };
-        auth.CurrentUser.UpdateUserProfileAsync(profile).ContinueWith(task => {
-            if (task.IsCanceled)
-            {
-                Debug.LogError("UpdateUserProfileAsync was canceled.");
-                return;
-            }
-            if (task.IsFaulted)
-            {
-                Debug.LogError("UpdateUserProfileAsync encountered an error: " + task.Exception);
-                return;
-            }
-
-            Debug.Log("User profile updated successfully.");
-        });
-    }
-
     public void Delete()
     {
         FirebaseUser user = auth.CurrentUser;

@@ -9,7 +9,7 @@ public class TitleSceneModel : MonoBehaviour
 {
     public AuthModel authModel;
 
-    public async Task MoveToStartScene()
+    public async void MoveToStartScene()
     {
         Debug.Log("ログイン処理を行なってから画面遷移　lastlogin:leble,resource check");
         FireStoreModel.Init(AuthModel.auth.CurrentUser.UserId);

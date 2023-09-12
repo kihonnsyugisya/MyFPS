@@ -30,7 +30,7 @@ public class FireStoreModel
     {
         await userRef.UpdateAsync("Level", newLevel);
     }
-    public static async Task UpdateNickName(float newName)
+    public static async Task UpdateNickName(string newName)
     {
         await userRef.UpdateAsync("NickName", newName);
     }

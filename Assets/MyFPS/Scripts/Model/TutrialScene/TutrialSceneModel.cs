@@ -10,14 +10,19 @@ public class TutrialSceneModel : MonoBehaviour
 
     public void MoveToStartScene()
     {
+        SceneManager.LoadSceneAsync("StartScene");
+    }
+
+    public async void SetInitalUserData(string nickName)
+    {
         FireStoreModel.Init(AuthModel.auth.CurrentUser.UserId);
         var ud = new UserData
         {
             CreatedDate = Timestamp.GetCurrentTimestamp(),
             LastLogin = Timestamp.GetCurrentTimestamp(),
-            Level = 0,            
+            Level = 0,
+            NickName = nickName,
         };
-        FireStoreModel.AddInitialUserData(ud);
-        SceneManager.LoadSceneAsync("StartScene");
+        await FireStoreModel.AddInitialUserData(ud);
     }
 }
