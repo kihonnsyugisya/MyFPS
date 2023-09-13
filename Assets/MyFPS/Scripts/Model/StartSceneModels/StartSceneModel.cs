@@ -8,9 +8,12 @@ using UniRx;
 public class StartSceneModel : MonoBehaviour
 {
     [HideInInspector] public PhotonManager photonManager;
+    public NGWordSettings nGWordSettings;
 
     public void MoveToGameScene()
     {
         PhotonNetwork.LoadLevel("GameScene");
     }
+
+
 }

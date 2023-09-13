@@ -6,43 +6,51 @@ using System;
 
 public class StartSenePresenter : MonoBehaviour
 {
-    public StartSceneModel startSceneModel;
-    public StartSceneVeiw startSceneVeiw;
+    public StartSceneModel model;
+    public StartSceneVeiw view;
     // Start is called before the first frame update
     void Start()
     {
-        startSceneModel.photonManager.isConnectedRandomRoom.Subscribe(value => {
+        model.photonManager.isConnectedRandomRoom.Subscribe(value => {
             if (value)
             {                
-                startSceneVeiw.SuccessRandomRoom();
-                startSceneModel.MoveToGameScene();
+                view.SuccessRandomRoom();
+                model.MoveToGameScene();
             }
         }).AddTo(this);
 
-        startSceneVeiw.randomMatchButton.OnClickAsObservable()
+        view.randomMatchButton.OnClickAsObservable()
             .TakeUntilDestroy(this)
             .ThrottleFirst(TimeSpan.FromMilliseconds(2000))
             .Subscribe(_=> {
-                startSceneVeiw.ShowConnectionStatusMessage(true);
-                startSceneModel.photonManager.GoToRandomMatchRoom();
+                view.ShowConnectionStatusMessage(true);
+                model.photonManager.GoToRandomMatchRoom();
             })
             .AddTo(this);
 
-        startSceneVeiw.configButton.onClick.AddListener(()=> {
-            startSceneVeiw.bottomButtons.SetActive(false);
-            startSceneVeiw.configPanel.DispConfigPanel(true);
+        view.configButton.onClick.AddListener(()=> {
+            view.bottomButtons.SetActive(false);
+            view.configPanel.DispConfigPanel(true);
         });
 
-        startSceneVeiw.configPanel.backButton.onClick.AddListener(()=> {
-            startSceneVeiw.bottomButtons.SetActive(true);
-            startSceneVeiw.configPanel.DispConfigPanel(false);
+        view.configPanel.backButton.onClick.AddListener(()=> {
+            view.bottomButtons.SetActive(true);
+            view.configPanel.DispConfigPanel(false);
         });
 
-        startSceneVeiw.configPanel.nickNameInputField.onEndEdit.AddListener(nickName => {
-            startSceneVeiw.nickNameText.text = nickName;
+        view.configPanel.nickNameInputField.onEndEdit.AddListener(nickName => {
+            bool check = model.nGWordSettings.IsWordSafe(nickName);
+            if (check)
+            {
+                view.nickNameText.text = nickName;
+                FireStoreModel.UpdateNickName(nickName);
+            }
+            else {
+                view.configPanel.ShowNGNickNameArelt();
+            }
         });
         
-        startSceneModel.photonManager.ConnectionMastarServer();
+        model.photonManager.ConnectionMastarServer();
 
 
     }
