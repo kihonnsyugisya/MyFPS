@@ -5,7 +5,7 @@
     "com.google.firebase.auth": "file:../Assets/GooglePackages/com.google.firebase.auth-11.3.0.tgz",
     "com.google.firebase.firestore": "file:../Assets/GooglePackages/com.google.firebase.firestore-11.3.0.tgz",
     "com.google.firebase.storage": "file:../Assets/GooglePackages/com.google.firebase.storage-11.3.0.tgz",
-    "com.unity.addressables": "1.21.14",
+    "com.unity.addressables": "1.21.17",
     "com.unity.cinemachine": "2.9.7",
     "com.unity.collab-proxy": "2.0.4",
     "com.unity.feature.mobile": "1.0.0",

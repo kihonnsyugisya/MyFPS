@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/MyFPS/Scenes/TitleScene.unity
+    guid: 6c5bb186070329a4ebde0ac68e20ed94
+  - enabled: 1
+    path: Assets/MyFPS/Scenes/TutrialScene.unity
+    guid: 24faf3070581b4f69bbc7cfc49c8a94c
+  - enabled: 1
     path: Assets/MyFPS/Scenes/StartScene.unity
     guid: 66d08c37c83eba743916104bc2043dcb
   - enabled: 1
@@ -17,12 +23,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Feel/FeelDemos/Tactical/FeelTactical.unity
     guid: aa587231e6b483c4ebaf5ea1bb49be63
-  - enabled: 1
-    path: Assets/MyFPS/Scenes/TitleScene.unity
-    guid: 6c5bb186070329a4ebde0ac68e20ed94
-  - enabled: 1
-    path: Assets/MyFPS/Scenes/TutrialScene.unity
-    guid: 24faf3070581b4f69bbc7cfc49c8a94c
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: f7c9aa698d2cc48bd84e4ad3f69d8af3,
       type: 2}
