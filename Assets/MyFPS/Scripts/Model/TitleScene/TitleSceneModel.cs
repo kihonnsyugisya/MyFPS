@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 public class TitleSceneModel : MonoBehaviour
 {
     public AuthModel authModel;
+    public ResourceModel resourceModel;
 
     public async void MoveToStartScene()
     {
@@ -16,6 +17,7 @@ public class TitleSceneModel : MonoBehaviour
         await FireStoreModel.UpdateLastLogin();
         var ud = await FireStoreModel.GetUserDataAsync();
         Debug.Log("リソースmodelからチェックメソッドを呼び出す");
+        await resourceModel.LoadAvatarModels();
         SceneManager.LoadSceneAsync("StartScene");
     }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571337, b: 0.3069219, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3070,6 +3070,7 @@ GameObject:
   - component: {fileID: 1974677421}
   - component: {fileID: 1974677420}
   - component: {fileID: 1974677422}
+  - component: {fileID: 1974677423}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -3090,6 +3091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   authModel: {fileID: 1974677422}
+  resourceModel: {fileID: 1974677423}
 --- !u!4 &1974677421
 Transform:
   m_ObjectHideFlags: 0
@@ -3120,6 +3122,19 @@ MonoBehaviour:
   isLogin:
     value: 0
   isFirstLogin: 0
+--- !u!114 &1974677423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974677419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3637c4d0f82d94d8fbcae79ee81c37ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  avatars: []
 --- !u!1 &2003362729
 GameObject:
   m_ObjectHideFlags: 0
