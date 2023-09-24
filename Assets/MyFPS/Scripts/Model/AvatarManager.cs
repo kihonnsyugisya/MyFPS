@@ -30,8 +30,8 @@ public class AvatarManager : MonoBehaviourPunCallbacks
         myAvatar = PhotonNetwork.Instantiate(avatarName, initSpawnPoints[Random.Range(0, initSpawnPoints.Count)].position, Quaternion.identity);
         myViewID = myAvatar.GetPhotonView().ViewID;
         playerView = myAvatar.GetComponent<PlayerView>();
-        myAvatar.name = avatarName;
-        photonView.RPC(nameof(SetPlayerList), RpcTarget.AllBuffered, myViewID,PhotonNetwork.LocalPlayer.UserId);
+        myAvatar.name = FireStoreModel.userDataCash.NickName;
+        photonView.RPC(nameof(SetPlayerList), RpcTarget.AllBuffered, myViewID,PhotonNetwork.LocalPlayer.UserId,PhotonNetwork.NickName);
         photonView.RPC(nameof(SetGunModel),RpcTarget.AllBuffered,myViewID);
         photonView.RPC(nameof(SetDamegeTextModel),RpcTarget.AllBuffered,myViewID);
         SetItemManager();
@@ -114,9 +114,9 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void SetPlayerList(int viewID, string userID)
+    private void SetPlayerList(int viewID, string userID, string nickName )
     {
-        GameSystemModel.SetPlayerList(in viewID,in userID);
+        GameSystemModel.SetPlayerList(in viewID,in userID, in nickName);
     }
 
     public MMFeedbacks hitFeedBack;

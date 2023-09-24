@@ -12,12 +12,14 @@ public class GameSystemModel
     // Start is called before the first frame update
 
 
-    public static void SetPlayerList(in int viewID, in string userID)
+    public static void SetPlayerList(in int viewID, in string userID, in string nickName)
     {
         PlayerView pv = PhotonView.Find(viewID).GetComponent<PlayerView>();
         pv.userID = userID;
+        pv.nickName = nickName;
         playerList.Add(viewID, pv);
         Debug.Log("set list");
+        
     }
 
     public static void RemovePlayerList(in int playerID, in string killerName, in int killerID)

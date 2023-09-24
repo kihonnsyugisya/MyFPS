@@ -117,7 +117,7 @@ public class Presenter : MonoBehaviour
                 {
                     //Debug.Log("player.Value.killerID == AvatarManager.myViewID");
                     view.oparetionView.killCountText.text = model.avatarManager.playerView.killedInfo.Count.ToString();
-                    view.oparetionView.DispKilledLog(player.Value.name);
+                    view.oparetionView.DispKilledLog(player.Value.nickName);
                 }
             }
             if (GameSystemModel.CheckVictory())

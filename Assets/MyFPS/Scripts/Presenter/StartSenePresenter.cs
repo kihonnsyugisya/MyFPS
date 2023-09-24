@@ -11,6 +11,8 @@ public class StartSenePresenter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        view.SetNickName(FireStoreModel.userDataCash.NickName);
+
         model.photonManager.isConnectedRandomRoom.Subscribe(value => {
             if (value)
             {                
@@ -44,6 +46,7 @@ public class StartSenePresenter : MonoBehaviour
             {
                 view.nickNameText.text = nickName;
                 FireStoreModel.UpdateNickName(nickName);
+                view.SetNickName(nickName);
             }
             else {
                 view.configPanel.ShowNGNickNameArelt();
