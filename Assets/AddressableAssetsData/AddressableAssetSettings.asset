@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: e87e3330ad89745c2bf308c2b822dcdd
   m_currentHash:
     serializedVersion: 2
-    Hash: d290fc2dd8de05d6120616e2fe7c963e
+    Hash: 0ef1e19c9ff34c9495e48a800f42f9e9
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
-  m_overridePlayerVersion: 1.0.3
+  m_overridePlayerVersion: 1.0.4
   m_GroupAssets:
   - {fileID: 11400000, guid: 968a794c376294f6e822d27fa88aca44, type: 2}
   - {fileID: 11400000, guid: 510f332f9100f464cae772eddbac9de8, type: 2}
