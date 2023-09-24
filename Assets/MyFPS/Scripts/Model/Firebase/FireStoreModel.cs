@@ -48,6 +48,7 @@ public class FireStoreModel
             Debug.Log($"CreatedData: {result.CreatedDate}");
             Debug.Log($"LastLogin: {result.LastLogin}");
             Debug.Log($"ResorceVersion: {result.ResorceVersion}");
+            Debug.Log($"Avatar: {result.Avatar }");
         }
         else
         {

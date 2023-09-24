@@ -11,5 +11,5 @@ public class UserData
     [FirestoreProperty] public Timestamp CreatedDate { get; set; }
     [FirestoreProperty] public Timestamp LastLogin { get; set; }
     [FirestoreProperty] public float Level { get; set; }
-
+    [FirestoreProperty] public string Avatar { get; set; }
 }

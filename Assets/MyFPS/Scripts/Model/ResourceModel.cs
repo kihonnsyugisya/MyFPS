@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 public class ResourceModel : MonoBehaviourPunCallbacks, IPunPrefabPool
 {
-    const string avatarGroupName = "AvatarRemoteGroup";
-    public List<GameObject> avatars = new();
+    
+    public static List<GameObject> avatars = new();
+    public AssetLabelReference avatarLabel;
 
     public void Destroy(GameObject gameObject)
     {
@@ -18,12 +19,14 @@ public class ResourceModel : MonoBehaviourPunCallbacks, IPunPrefabPool
 
     public GameObject Instantiate(string prefabId, Vector3 position, Quaternion rotation)
     {
+        Debug.Log("instantiate call");
         foreach (var s in avatars)
         {
             if (s.name == prefabId)
             {
                 var go = Instantiate(s, position, rotation);
-                go.SetActive(false);
+                //go.SetActive(false);
+                Debug.Log("instantiate");
                 return go;
             }
         }
@@ -39,8 +42,8 @@ public class ResourceModel : MonoBehaviourPunCallbacks, IPunPrefabPool
 
     public async Task LoadAvatarModels()
     {
-        Debug.Log("callll");
-        AsyncOperationHandle<IList<GameObject>> handle = Addressables.LoadAssetsAsync<GameObject>(avatarGroupName, null);
+        if (avatars.Count != 0) return;
+        AsyncOperationHandle<IList<GameObject>> handle = Addressables.LoadAssetsAsync<GameObject>(avatarLabel, null);
         // ロードが完了するまで待機
         await handle.Task;
 
@@ -48,20 +51,16 @@ public class ResourceModel : MonoBehaviourPunCallbacks, IPunPrefabPool
         {
             // ロードが成功したらリストに追加
             avatars.AddRange(handle.Result);
-            foreach (var avatar in avatars)
-            {
-                Debug.Log(avatar.name);
-            }
             // ロードされたプレハブの数を表示
             Debug.Log("Loaded " + avatars.Count + " GameObjects");
         }
         else
         {
-            Debug.LogError("Failed to load assets from group: " + avatarGroupName);
+            Debug.LogError("Failed to load assets from group: " + avatarLabel);
         }
 
         // ロードハンドルをリリース
-        Addressables.Release(handle);
+        //Addressables.Release(handle);
     }
 
 

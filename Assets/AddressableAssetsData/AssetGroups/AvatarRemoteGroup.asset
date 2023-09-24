@@ -20,17 +20,26 @@ MonoBehaviour:
   - m_GUID: 65f82aae33ffbd34ebc8f6737172ac2d
     m_Address: man_butler
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Avatar
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5be1d507b292d1c4fa7bec88361366a9
     m_Address: man_carpenter
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Avatar
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e7731e319bf5d884289e05d643be0d5f
     m_Address: man_casual
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Avatar
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b4470d05b906c644eb4cc807dea6ea7c
+    m_Address: 3RDPerson
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Avatar
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: c1136516aa92f44b78ecb26c99810adc, type: 2}
