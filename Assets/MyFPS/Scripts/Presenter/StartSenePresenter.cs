@@ -40,12 +40,12 @@ public class StartSenePresenter : MonoBehaviour
             view.configPanel.DispConfigPanel(false);
         });
 
-        view.configPanel.nickNameInputField.onEndEdit.AddListener(nickName => {
+        view.configPanel.nickNameInputField.onEndEdit.AddListener(async nickName => {
             bool check = model.nGWordSettings.IsWordSafe(nickName);
             if (check)
             {
                 view.nickNameText.text = nickName;
-                FireStoreModel.UpdateNickName(nickName);
+                await FireStoreModel.UpdateNickName(nickName);
                 view.SetNickName(nickName);
             }
             else {
