@@ -80,7 +80,7 @@ public class Presenter : MonoBehaviour
             view.oparetionView.hpText.text = hp.ToString();
         }).AddTo(this);
 
-        model.avatarManager.damageModel.isDead.Subscribe(value => {
+        model.avatarManager.damageModel.isDead.Subscribe(async value => {
             if (value)
             {
                 model.avatarManager.itemManager.UnDispItemInfoPlate();
@@ -88,6 +88,13 @@ public class Presenter : MonoBehaviour
                 view.oparetionView.UndispOparationCanvas();
                 int killerID = model.avatarManager.myAvatar.GetComponent<DamageModel>().killerID;
                 view.oparetionView.ShowResultView(model.avatarManager.stateDrivenCamera, killerID);
+                var pv = model.avatarManager.playerView;
+                if (pv.killedInfo.Count > 0)
+                {
+                    await FireStoreModel.IncrementKillCount(pv.killedInfo.Count);
+                }
+                await FireStoreModel.IncrementDeathCount();
+                
             }
 
         }).AddTo(this);
@@ -108,7 +115,7 @@ public class Presenter : MonoBehaviour
             }
         }).AddTo(this);
 
-        GameSystemModel.playerList.ObserveRemove().Subscribe(player => {
+        GameSystemModel.playerList.ObserveRemove().Subscribe(async player => {
             view.oparetionView.DispRankingText(GameSystemModel.playerList.Count);
             view.oparetionView.DispAnnounce(player.Value.name,player.Value.killerName,player.Value.killerID);
             if (player.Value.killerID == AvatarManager.myViewID)
@@ -124,6 +131,9 @@ public class Presenter : MonoBehaviour
             {
                 model.avatarManager.itemManager.UnDispItemInfoPlate();
                 view.oparetionView.DispVictoryPanel(player.Value.killerName);
+                var pv = model.avatarManager.playerView;
+                await FireStoreModel.IncrementKillCount(pv.killedInfo.Count);
+                await FireStoreModel.IncrementDeathCount();
             }
         }).AddTo(this);
 

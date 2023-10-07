@@ -25,7 +25,7 @@ public class FireStoreModel
     {
         var now = Timestamp.GetCurrentTimestamp();
         await userRef.UpdateAsync("LastLogin", now);
-        userDataCash.LastLogin = now;
+        //userDataCash.LastLogin = now;
     }
 
     public static async Task UpdateNickName(string newName)
@@ -34,15 +34,17 @@ public class FireStoreModel
         userDataCash.NickName = newName;
     }
 
-    public static async Task IncrementKillCount()
+    public static async Task IncrementKillCount(int killCount)
     {
-        int current = userDataCash.KillCount;
+        int current = userDataCash.KillCount + killCount;
         Dictionary<string, object> data = new()
         {
-            { "KillCount",  current ++ }
+            { "KillCount",  current }
         };
         await userRef.UpdateAsync(data);
-        userDataCash.KillCount++;
+        userDataCash.KillCount = current;
+        Debug.Log("killcount cash: " + userDataCash.KillCount + "に更新");
+        Debug.Log("killcount store" + current + "に更新");
     }
 
     public static async Task IncrementDeathCount()
