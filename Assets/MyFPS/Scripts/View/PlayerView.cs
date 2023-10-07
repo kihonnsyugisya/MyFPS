@@ -11,6 +11,7 @@ public class PlayerView : MonoBehaviour
     public Transform shoulderWeaponPoint;
     public Transform handWeaponPoint;
     public string userID;
+    public string nickName;
 
     /// <Summary>
     /// 殺された相手のID 

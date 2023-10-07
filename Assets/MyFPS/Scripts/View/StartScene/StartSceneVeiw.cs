@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
 
 public class StartSceneVeiw : MonoBehaviour
 {
@@ -30,6 +31,13 @@ public class StartSceneVeiw : MonoBehaviour
     public void SuccessRandomRoom()
     {
         connetionStatusMessage.text = "joind random room!";
+    }
+
+    public void SetNickName(in string nickName)
+    {
+        nickNameText.text = nickName;
+        configPanel.nickNameInputField.text = nickName;
+        PhotonNetwork.NickName = nickName;
     }
 
 }

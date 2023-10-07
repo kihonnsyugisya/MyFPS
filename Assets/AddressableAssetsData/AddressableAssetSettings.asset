@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: e87e3330ad89745c2bf308c2b822dcdd
   m_currentHash:
     serializedVersion: 2
-    Hash: 1ede84587dd8b480b66bb0cbb13bee59
+    Hash: 0ef1e19c9ff34c9495e48a800f42f9e9
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
@@ -42,10 +42,12 @@ MonoBehaviour:
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
-  m_overridePlayerVersion: t1
+  m_overridePlayerVersion: 1.0.4
   m_GroupAssets:
   - {fileID: 11400000, guid: 968a794c376294f6e822d27fa88aca44, type: 2}
   - {fileID: 11400000, guid: 510f332f9100f464cae772eddbac9de8, type: 2}
+  - {fileID: 11400000, guid: 87f9801d95839864fb1d5121585c9108, type: 2}
+  - {fileID: 11400000, guid: b52fed1df76bbc6468db0dfe2f50b5b3, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -66,7 +68,7 @@ MonoBehaviour:
       - m_Id: 146dc2b423f5e41e091384c493c9c1b6
         m_Value: ServerData/[BuildTarget]
       - m_Id: 7ffb83845155b4615bdd55b6cb09be29
-        m_Value: http://[PrivateIpAddress]:[HostingServicePort]
+        m_Value: https://cold-ebino-4959.zombie.jp/myfps/addressable/1.0/
     m_ProfileEntryNames:
     - m_Id: 92414264c6ba44bf1829ea5bdc11dfbe
       m_Name: BuildTarget
@@ -87,6 +89,7 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - Avatar
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 542edf24a2b814105a42024526b32b32, type: 2}

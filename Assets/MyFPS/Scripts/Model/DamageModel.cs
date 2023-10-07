@@ -37,7 +37,7 @@ public class DamageModel :MonoBehaviourPunCallbacks
                 //Debug.Log(" OnCollisionEnter");
                 killerID = d.playerID;
                 isDead.Value = true;
-                photonView.RPC(nameof(ShareRemovePlayerList),RpcTarget.All, gameObject.GetPhotonView().ViewID, GameSystemModel.playerList[d.playerID].name, killerID);
+                photonView.RPC(nameof(ShareRemovePlayerList),RpcTarget.All, gameObject.GetPhotonView().ViewID, GameSystemModel.playerList[d.playerID].nickName, killerID);
             }
         }
         else {

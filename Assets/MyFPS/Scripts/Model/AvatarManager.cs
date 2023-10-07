@@ -14,7 +14,7 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     [HideInInspector] public List<Transform> nextSpawnPoints = new();
     [HideInInspector] public GameObject myAvatar;
     [HideInInspector] public PlayerView playerView;
-    public static string avatarName = "3RD Person";
+    public string avatarName;
     public static int myViewID;
 
     public TMPro.TextMeshProUGUI debugtext;
@@ -23,11 +23,15 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     {
         foreach (Transform point in initSpawnPointsObj) initSpawnPoints.Add(point);
         foreach (Transform point in nextSpawnPointsObj) nextSpawnPoints.Add(point);
+        //avatarName = FireStoreModel.userDataCash.Avatar;
+
+        avatarName = ResourceModel.avatars[Random.Range(0,ResourceModel.avatars.Count)].name;
+
         myAvatar = PhotonNetwork.Instantiate(avatarName, initSpawnPoints[Random.Range(0, initSpawnPoints.Count)].position, Quaternion.identity);
         myViewID = myAvatar.GetPhotonView().ViewID;
         playerView = myAvatar.GetComponent<PlayerView>();
-        myAvatar.name = avatarName;
-        photonView.RPC(nameof(SetPlayerList), RpcTarget.AllBuffered, myViewID,PhotonNetwork.LocalPlayer.UserId);
+        myAvatar.name = FireStoreModel.userDataCash.NickName;
+        photonView.RPC(nameof(SetPlayerList), RpcTarget.AllBuffered, myViewID,PhotonNetwork.LocalPlayer.UserId,PhotonNetwork.NickName);
         photonView.RPC(nameof(SetGunModel),RpcTarget.AllBuffered,myViewID);
         photonView.RPC(nameof(SetDamegeTextModel),RpcTarget.AllBuffered,myViewID);
         SetItemManager();
@@ -110,9 +114,9 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void SetPlayerList(int viewID, string userID)
+    private void SetPlayerList(int viewID, string userID, string nickName )
     {
-        GameSystemModel.SetPlayerList(in viewID,in userID);
+        GameSystemModel.SetPlayerList(in viewID,in userID, in nickName);
     }
 
     public MMFeedbacks hitFeedBack;

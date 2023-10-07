@@ -22,6 +22,7 @@ public class TutrialSceneModel : MonoBehaviour
             LastLogin = Timestamp.GetCurrentTimestamp(),
             Level = 0,
             NickName = nickName,
+            Avatar = "3RDPerson"
         };
         await FireStoreModel.AddInitialUserData(ud);
     }

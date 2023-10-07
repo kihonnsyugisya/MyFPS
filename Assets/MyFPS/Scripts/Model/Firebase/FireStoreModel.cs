@@ -23,16 +23,61 @@ public class FireStoreModel
 
     public static async Task UpdateLastLogin()
     {
-        await userRef.UpdateAsync("LastLogin", Timestamp.GetCurrentTimestamp());
+        var now = Timestamp.GetCurrentTimestamp();
+        await userRef.UpdateAsync("LastLogin", now);
+        //userDataCash.LastLogin = now;
     }
 
-    public static async Task UpdateResorceVersion(float newLevel)
-    {
-        await userRef.UpdateAsync("Level", newLevel);
-    }
     public static async Task UpdateNickName(string newName)
     {
         await userRef.UpdateAsync("NickName", newName);
+        userDataCash.NickName = newName;
+    }
+
+    public static async Task IncrementKillCount(int killCount)
+    {
+        int current = userDataCash.KillCount + killCount;
+        Dictionary<string, object> data = new()
+        {
+            { "KillCount",  current }
+        };
+        await userRef.UpdateAsync(data);
+        userDataCash.KillCount = current;
+        Debug.Log("killcount cash: " + userDataCash.KillCount + "に更新");
+        Debug.Log("killcount store" + current + "に更新");
+    }
+
+    public static async Task IncrementDeathCount()
+    {
+        int current = userDataCash.DeathCount;
+        Dictionary<string, object> data = new()
+        {
+            { "DeathCount", current++ }
+        };
+        await userRef.UpdateAsync(data);
+        userDataCash.DeathCount++;
+    }
+
+    public static async Task IncrementVictoryCount()
+    {
+        int current = userDataCash.VictoryCount;
+        Dictionary<string, object> data = new()
+        {
+            { "VictoryCount", current++ }
+        };
+        await userRef.UpdateAsync(data);
+        userDataCash.VictoryCount++;
+    }
+
+    public static async Task IncrementGameMatchCount()
+    {
+        int current = userDataCash.GameMathcCount;
+        Dictionary<string, object> data = new()
+        {
+            { "GameMatchCount", current++ }
+        };
+        await userRef.UpdateAsync(data);
+        userDataCash.GameMathcCount++;
     }
 
     public static async Task<UserData> GetUserDataAsync()
@@ -48,6 +93,11 @@ public class FireStoreModel
             Debug.Log($"CreatedData: {result.CreatedDate}");
             Debug.Log($"LastLogin: {result.LastLogin}");
             Debug.Log($"ResorceVersion: {result.ResorceVersion}");
+            Debug.Log($"Avatar: {result.Avatar }");
+            Debug.Log($"KillCount: {result.KillCount }");
+            Debug.Log($"DeathCount: {result.DeathCount }");
+            Debug.Log($"GameMatchCount: {result.GameMathcCount }");
+            Debug.Log($"Victory: {result.VictoryCount }");
         }
         else
         {
