@@ -1796,6 +1796,7 @@ MonoBehaviour:
   configPanel: {fileID: 539872469}
   configButton: {fileID: 1415193263}
   bottomButtons: {fileID: 1253312487}
+  shopButton: {fileID: 1124695370}
 --- !u!4 &539872468
 Transform:
   m_ObjectHideFlags: 0

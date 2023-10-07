@@ -17,6 +17,8 @@ public class StartSceneVeiw : MonoBehaviour
 
     public GameObject bottomButtons;
 
+    public Button shopButton;
+
     // Update is called once per frame
     void Update()
     {

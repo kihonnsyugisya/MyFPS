@@ -15,5 +15,10 @@ public class StartSceneModel : MonoBehaviour
         PhotonNetwork.LoadLevel("GameScene");
     }
 
+    public void MoveToShopScene()
+    {
+        SceneManager.LoadSceneAsync("ShopScene");
+    }
+
 
 }

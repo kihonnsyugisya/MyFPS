@@ -55,6 +55,10 @@ public class StartSenePresenter : MonoBehaviour
         
         model.photonManager.ConnectionMastarServer();
 
+        view.shopButton.onClick.AddListener(()=> {
+            model.MoveToShopScene();
+        });
+
 
     }
 
