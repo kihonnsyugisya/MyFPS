@@ -9,7 +9,7 @@ public class ShopScenePersenter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine(model.TakePictures(ResourceModel.avatars));
     }
 
     // Update is called once per frame
