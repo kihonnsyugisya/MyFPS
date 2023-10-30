@@ -25,7 +25,7 @@ public class ResourceModel : MonoBehaviourPunCallbacks, IPunPrefabPool
             if (s.name == prefabId)
             {
                 var go = Instantiate(s, position, rotation);
-                //go.SetActive(false);
+                go.SetActive(false);
                 Debug.Log("instantiate");
                 return go;
             }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ShopSceneModel : MonoBehaviour
@@ -12,10 +13,13 @@ public class ShopSceneModel : MonoBehaviour
     public Transform photoSpot;
     public Camera faceCamera;
 
+    public Transform avatarSpot;
+
     public GameObject contentTile;
     public GameObject meshTileContentParent;
 
     private　List<Sprite> sprites = new List<Sprite>();
+    private Transform currentSelectedAvatar;
 
     // Start is called before the first frame update
     void Start()
@@ -36,8 +40,6 @@ public class ShopSceneModel : MonoBehaviour
         //Loop through all skinned Mesh Renderers
         foreach (var skin in avatars)
         {
-            skin.GetComponent<CapsuleCollider>().enabled = false;
-            skin.GetComponent<Rigidbody>().useGravity = false;
             var avatar = Instantiate(skin, photoSpot.position, Quaternion.Euler(0, 180, 0), photoSpot);
             avatar.SetActive(false);
 
@@ -46,8 +48,6 @@ public class ShopSceneModel : MonoBehaviour
             yield return new WaitForEndOfFrame();
             //Turn on the face
             avatar.SetActive(true);
-
-
 
             //Wait until the end of the frame to do the rendering
             yield return new WaitForEndOfFrame();
@@ -76,16 +76,36 @@ public class ShopSceneModel : MonoBehaviour
             var newTile = Instantiate(contentTile, meshTileContentParent.transform);
             newTile.GetComponentsInChildren<Image>().First(x => x.name == "Face Sprite").sprite = newSprite;
             newTile.GetComponentInChildren<Text>().text = skinnedMesh.transform.name;
-            newTile.GetComponent<Button>().onClick.AddListener(() => SelectTile(skinnedMesh));
+            newTile.GetComponent<Button>().onClick.AddListener(() => SelectTile(avatar.transform));
         }
     }
 
-    private void SelectTile(SkinnedMeshRenderer skinnedMeshRenderer)
+    private void SelectTile(Transform avatar)
     {
+        if (currentSelectedAvatar)
+        {
+            currentSelectedAvatar.gameObject.SetActive(false);
+        }
+        avatar.position = avatarSpot.position;
+        currentSelectedAvatar = avatar;
+        currentSelectedAvatar.gameObject.SetActive(true);
+    }
 
+    public async Task MoveToStartSceneAsync()
+    {
+        if (currentSelectedAvatar)
+        {
+            if (FireStoreModel.userDataCash.Avatar != currentSelectedAvatar.name)
+            {
+                await FireStoreModel.UpdateAvatar(currentSelectedAvatar.name.Replace("(Clone)", ""));
+            }
+        }
+        SceneManager.LoadScene("StartScene");
     }
 
 }
+
+
 
 //facecameraのレンダーテクスチャーのアタッチがまちがってる？
 //    レンダーテクスチャーについてググる

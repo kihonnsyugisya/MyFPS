@@ -21,6 +21,15 @@ public class StartSenePresenter : MonoBehaviour
             }
         }).AddTo(this);
 
+        view.randomMatchButton.interactable = false;
+        model.photonManager.isConnectedMaster.Subscribe(value =>
+        {
+            if (value)
+            {
+                view.randomMatchButton.interactable = value;
+            }
+        }).AddTo(this);
+
         view.randomMatchButton.OnClickAsObservable()
             .TakeUntilDestroy(this)
             .ThrottleFirst(TimeSpan.FromMilliseconds(2000))

@@ -12,12 +12,13 @@ public class StartSceneModel : MonoBehaviour
 
     public void MoveToGameScene()
     {
+
         PhotonNetwork.LoadLevel("GameScene");
     }
 
     public void MoveToShopScene()
     {
-        SceneManager.LoadSceneAsync("ShopScene");
+        SceneManager.LoadScene("ShopScene");
     }
 
 

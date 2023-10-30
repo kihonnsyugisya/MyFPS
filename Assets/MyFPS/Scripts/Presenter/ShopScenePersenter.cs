@@ -9,6 +9,9 @@ public class ShopScenePersenter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        view.backButton.onClick.AddListener(async ()=> {
+            await model.MoveToStartSceneAsync();
+        });
         StartCoroutine(model.TakePictures(ResourceModel.avatars));
     }
 
