@@ -21,5 +21,16 @@ public class StartSceneModel : MonoBehaviour
         SceneManager.LoadScene("ShopScene");
     }
 
+    public int GetAvatarIndex()
+    {
+        for (int i = 0; i < ResourceModel.avatars.Count; i++)
+        {
+            if (ResourceModel.avatars[i].name == FireStoreModel.userDataCash.Avatar)
+            {
+                return i;
+            }
+        }
+        return 0;
+    }
 
 }

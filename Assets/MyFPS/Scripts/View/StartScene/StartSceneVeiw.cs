@@ -19,6 +19,8 @@ public class StartSceneVeiw : MonoBehaviour
 
     public Button shopButton;
 
+    public Transform avatarStage;
+
     // Update is called once per frame
     void Update()
     {
