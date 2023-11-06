@@ -12,8 +12,25 @@ public class StartSceneModel : MonoBehaviour
 
     public void MoveToGameScene()
     {
+
         PhotonNetwork.LoadLevel("GameScene");
     }
 
+    public void MoveToShopScene()
+    {
+        SceneManager.LoadScene("ShopScene");
+    }
+
+    public int GetAvatarIndex()
+    {
+        for (int i = 0; i < ResourceModel.avatars.Count; i++)
+        {
+            if (ResourceModel.avatars[i].name == FireStoreModel.userDataCash.Avatar)
+            {
+                return i;
+            }
+        }
+        return 0;
+    }
 
 }

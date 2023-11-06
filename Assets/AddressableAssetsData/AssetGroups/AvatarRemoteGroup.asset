@@ -36,7 +36,7 @@ MonoBehaviour:
     - Avatar
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b4470d05b906c644eb4cc807dea6ea7c
-    m_Address: 3RDPerson
+    m_Address: man_actionhero
     m_ReadOnly: 0
     m_SerializedLabels:
     - Avatar

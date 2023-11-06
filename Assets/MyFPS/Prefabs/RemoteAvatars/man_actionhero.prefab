@@ -5956,7 +5956,7 @@ GameObject:
   - component: {fileID: -2216750629651772227}
   - component: {fileID: 3572174664984345838}
   m_Layer: 0
-  m_Name: 3RD Person
+  m_Name: man_actionhero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

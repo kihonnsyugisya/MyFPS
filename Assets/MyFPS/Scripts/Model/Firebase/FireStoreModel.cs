@@ -28,6 +28,12 @@ public class FireStoreModel
         //userDataCash.LastLogin = now;
     }
 
+    public static async Task UpdateAvatar(string newName)
+    {
+        await userRef.UpdateAsync("Avatar", newName);
+        userDataCash.Avatar = newName;
+    }
+
     public static async Task UpdateNickName(string newName)
     {
         await userRef.UpdateAsync("NickName", newName);

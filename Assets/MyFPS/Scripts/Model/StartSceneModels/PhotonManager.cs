@@ -19,17 +19,25 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         DontDestroyOnLoad(this);
     }
 
-
     public void ConnectionMastarServer()
     {
         if (PhotonNetwork.IsConnected) return;
+        Debug.Log("connection master server");
         PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
     {
-        isConnectedMaster.Value = true;        
+        isConnectedMaster.Value = true;
+        Debug.Log("on connected to master !!!");
     }
+
+    // Photonのサーバーから切断された時に呼ばれるコールバック
+    public override void OnDisconnected(DisconnectCause cause)
+    {     
+        Debug.Log($"サーバーとの接続が切断されました: {cause.ToString()}");
+    }
+
 
     public void GoToRandomMatchRoom()
     {
@@ -41,14 +49,25 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         isConnectedRandomRoom.Value = true;
     }
 
+    //public override void OnJoinRandomFailed(short returnCode, string message)
+    //{
+    //    Debug.Log("on join room field");
+    //    RoomOptions roomOptions = new RoomOptions();
+    //    roomOptions.MaxPlayers = roomMaxPlayer;
+    //    roomOptions.IsOpen = roomOptions.PublishUserId = roomOptions.IsVisible = true;
+    //    PhotonNetwork.CreateRoom(null,roomOptions,null);
+    //    Debug.Log("make room");
+    //}
+
+
+    // ランダムで参加できるルームが存在しないなら、新規でルームを作成する
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("on join room field");
-        RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = roomMaxPlayer;
-        roomOptions.IsOpen = roomOptions.PublishUserId = roomOptions.IsVisible = true;
-        PhotonNetwork.CreateRoom(null,roomOptions,null);
-        Debug.Log("make room");
+        // ルームの参加人数を2人に設定する
+        var roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 2;
+
+        PhotonNetwork.CreateRoom(null, roomOptions);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

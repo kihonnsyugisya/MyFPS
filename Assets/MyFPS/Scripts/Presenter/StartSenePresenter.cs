@@ -11,6 +11,9 @@ public class StartSenePresenter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        var avatar = Instantiate(ResourceModel.avatars[model.GetAvatarIndex()],view.avatarStage);
+        avatar.transform.localPosition = Vector3.up;
+
         view.SetNickName(FireStoreModel.userDataCash.NickName);
 
         model.photonManager.isConnectedRandomRoom.Subscribe(value => {
@@ -20,6 +23,15 @@ public class StartSenePresenter : MonoBehaviour
                 model.MoveToGameScene();
             }
         }).AddTo(this);
+
+        //view.randomMatchButton.interactable = false;
+        //model.photonManager.isConnectedMaster.Subscribe(value =>
+        //{
+        //    if (value)
+        //    {
+        //        view.randomMatchButton.interactable = value;
+        //    }
+        //}).AddTo(this);
 
         view.randomMatchButton.OnClickAsObservable()
             .TakeUntilDestroy(this)
@@ -54,6 +66,10 @@ public class StartSenePresenter : MonoBehaviour
         });
         
         model.photonManager.ConnectionMastarServer();
+
+        view.shopButton.onClick.AddListener(()=> {
+            model.MoveToShopScene();
+        });
 
 
     }

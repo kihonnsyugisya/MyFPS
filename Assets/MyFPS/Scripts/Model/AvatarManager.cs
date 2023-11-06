@@ -23,9 +23,10 @@ public class AvatarManager : MonoBehaviourPunCallbacks
     {
         foreach (Transform point in initSpawnPointsObj) initSpawnPoints.Add(point);
         foreach (Transform point in nextSpawnPointsObj) nextSpawnPoints.Add(point);
-        //avatarName = FireStoreModel.userDataCash.Avatar;
 
-        avatarName = ResourceModel.avatars[Random.Range(0,ResourceModel.avatars.Count)].name;
+        //avatarName = ResourceModel.avatars[Random.Range(0,ResourceModel.avatars.Count)].name;
+        avatarName = FireStoreModel.userDataCash.Avatar;
+
 
         myAvatar = PhotonNetwork.Instantiate(avatarName, initSpawnPoints[Random.Range(0, initSpawnPoints.Count)].position, Quaternion.identity);
         myViewID = myAvatar.GetPhotonView().ViewID;
